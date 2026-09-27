@@ -12,12 +12,24 @@ body{
   padding:20px;
   background:#111;
   color:white;
-  font-family:Arial;
+  font-family:Arial,sans-serif;
 }
 
 .container{
-  max-width:700px;
+  max-width:750px;
   margin:auto;
+}
+
+h1{
+  text-align:center;
+  color:#ffb000;
+}
+
+.box{
+  background:#1d1d1d;
+  padding:18px;
+  border-radius:12px;
+  margin-top:18px;
 }
 
 textarea{
@@ -34,21 +46,45 @@ textarea{
 
 button{
   width:100%;
-  padding:16px;
-  margin-top:15px;
+  padding:14px;
+  margin-top:12px;
   background:#ff9800;
   color:#111;
-  border:none;
+  border:0;
   border-radius:10px;
-  font-size:18px;
+  font-size:17px;
   font-weight:bold;
 }
 
-#result{
-  margin-top:20px;
+.secondary{
+  background:#444;
+  color:white;
+}
+
+.scene{
+  background:#151515;
   padding:15px;
-  background:#222;
+  margin-top:15px;
   border-radius:10px;
+  border-left:4px solid #ff9800;
+}
+
+.prompt{
+  background:#222;
+  padding:12px;
+  border-radius:8px;
+  margin-top:10px;
+  line-height:1.5;
+}
+
+.copy{
+  background:#555;
+  color:white;
+  font-size:15px;
+}
+
+.small{
+  color:#aaa;
 }
 </style>
 </head>
@@ -59,54 +95,144 @@ button{
 
 <h1>🎬 GUPT BHARATVARSH AI</h1>
 
-<h3>अपनी कहानी लिखें</h3>
+<div class="box">
+
+<h2>📝 Story to Video Scenes</h2>
+
+<p class="small">
+अपनी पूरी कहानी यहाँ लिखें।
+</p>
 
 <textarea id="story"
-placeholder="यहाँ अपनी कहानी लिखें..."></textarea>
+placeholder="उदाहरण: बरमूडा ट्रायंगल में एक पुराना जहाज समुद्र के बीच यात्रा कर रहा था..."></textarea>
 
-<button id="generate">Generate Scenes</button>
+<button id="generate">
+🎬 Generate Scenes
+</button>
 
-<div id="result">
-अभी कोई scene नहीं बना है।
+<button id="newProject" class="secondary">
+🔄 New Project
+</button>
+
 </div>
+
+<div id="result"></div>
 
 </div>
 
 <script>
 
-document.getElementById("generate").addEventListener("click", function(){
+const storyBox = document.getElementById("story");
+const result = document.getElementById("result");
+const generateButton = document.getElementById("generate");
+const newProjectButton = document.getElementById("newProject");
 
-let story = document.getElementById("story").value.trim();
+function makePrompt(sentence,index){
+
+return `Cinematic documentary scene for a Hindi mystery documentary.
+
+Scene ${index+1}:
+
+${sentence}
+
+Visual style:
+ultra realistic cinematic documentary,
+dramatic atmosphere,
+realistic environment,
+detailed characters and objects,
+natural lighting,
+volumetric light,
+film look,
+high detail,
+16:9 widescreen,
+8K quality,
+no text,
+no subtitles,
+no watermark.`;
+
+}
+
+generateButton.addEventListener("click",function(){
+
+let story = storyBox.value.trim();
 
 if(story === ""){
-alert("पहले कहानी लिखें!");
+alert("पहले अपनी कहानी लिखें!");
 return;
 }
 
-let sentences = story.split(/[।.!?]+/).filter(function(x){
-return x.trim() !== "";
-});
+let sentences = story
+.split(/[।.!?]+/)
+.map(x => x.trim())
+.filter(x => x !== "");
 
-let html = "<h2>🎥 Scenes</h2>";
+if(sentences.length === 0){
+alert("कहानी सही तरीके से लिखें।");
+return;
+}
+
+result.innerHTML =
+'<div class="box"><h2>🎥 Generated Scenes</h2></div>';
 
 sentences.forEach(function(sentence,index){
 
-html += `
-<div style="
-background:#111;
-padding:15px;
-margin-top:10px;
-border-radius:10px;
-">
-<h3>Scene ${index+1}</h3>
-<p>${sentence.trim()}</p>
-<p>🎨 AI Image Prompt: Cinematic documentary scene, ultra realistic, dramatic lighting, 16:9, no text, no watermark.</p>
+let prompt = makePrompt(sentence,index);
+
+let scene = document.createElement("div");
+
+scene.className = "scene";
+
+scene.innerHTML = `
+<h3>🎬 Scene ${index+1}</h3>
+
+<p>${sentence}</p>
+
+<h4>🖼️ AI Image Prompt</h4>
+
+<div class="prompt" id="prompt-${index}">
+${prompt}
 </div>
+
+<button class="copy" onclick="copyPrompt(${index})">
+📋 Copy Prompt
+</button>
 `;
+
+result.appendChild(scene);
 
 });
 
-document.getElementById("result").innerHTML = html;
+});
+
+function copyPrompt(index){
+
+let text =
+document.getElementById("prompt-"+index).innerText;
+
+navigator.clipboard.writeText(text)
+.then(function(){
+
+alert("✅ Prompt copied!");
+
+})
+.catch(function(){
+
+alert("Prompt copy नहीं हुआ। Text को manually copy करें।");
+
+});
+
+}
+
+newProjectButton.addEventListener("click",function(){
+
+storyBox.value = "";
+
+result.innerHTML = "";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 });
 
