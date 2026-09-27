@@ -37,7 +37,6 @@
       border-radius: 10px;
       font-size: 17px;
       font-weight: bold;
-      cursor: pointer;
     }
 
     #generate {
@@ -50,12 +49,21 @@
       color: white;
     }
 
+    #download:disabled {
+      opacity: 0.5;
+    }
+
     #status {
       margin-top: 15px;
       padding: 12px;
       background: #222;
       border-radius: 8px;
       text-align: center;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -64,15 +72,24 @@
 
 <h1>🎬 GUPT BHARATVARSH AI</h1>
 
-<textarea id="story" placeholder="अपनी हिंदी कहानी यहाँ लिखें..."></textarea>
+<textarea
+  id="story"
+  placeholder="अपनी हिंदी कहानी यहाँ लिखें..."
+></textarea>
 
-<button id="generate">🎙️ Generate Hindi AI Voice</button>
+<button id="generate">
+  🎙️ Generate Hindi AI Voice
+</button>
 
-<button id="download" disabled>💾 Download WAV</button>
+<button id="download" disabled>
+  💾 Download WAV
+</button>
 
-<div id="status">Voice तैयार है</div>
+<div id="status">
+  🟡 Voice शुरू करने के लिए Generate दबाएँ
+</div>
 
-<audio id="audio" controls style="width:100%; margin-top:15px;"></audio>
+<audio id="audio" controls></audio>
 
 <script type="module">
 
@@ -82,7 +99,7 @@ import {
   HuggingFaceVoiceProvider
 } from "piper-tts-web";
 
-let engine;
+let engine = null;
 let lastAudio = null;
 
 const status = document.getElementById("status");
@@ -91,88 +108,141 @@ const downloadButton = document.getElementById("download");
 
 async function setupVoice() {
 
-  status.textContent = "🔄 Hindi AI Voice तैयार हो रही है...";
+  try {
 
-  const voiceProvider = new HuggingFaceVoiceProvider();
+    status.textContent =
+      "🔄 Hindi AI Voice तैयार हो रही है...";
 
-  engine = new PiperWebWorkerEngine({
-    onnxRuntime: new OnnxWebGPUWorkerRuntime(),
-    voiceProvider: voiceProvider
-  });
+    const voiceProvider =
+      new HuggingFaceVoiceProvider();
 
-  status.textContent = "✅ Hindi AI Voice तैयार है";
+    engine = new PiperWebWorkerEngine({
+      onnxRuntime:
+        new OnnxWebGPUWorkerRuntime(),
+
+      voiceProvider:
+        voiceProvider
+    });
+
+    status.textContent =
+      "✅ Voice तैयार है — Generate दबाएँ";
+
+  } catch (error) {
+
+    console.error(error);
+
+    status.textContent =
+      "❌ Voice engine शुरू नहीं हुआ";
+  }
 }
+
 
 async function generateVoice() {
 
-  const text = document.getElementById("story").value.trim();
+  const text =
+    document.getElementById("story").value.trim();
 
   if (!text) {
+
     alert("पहले कहानी लिखें।");
     return;
   }
 
   try {
 
-    status.textContent = "🎙️ Voice generate हो रही है... पहली बार थोड़ा समय लग सकता है।";
+    if (!engine) {
+      await setupVoice();
+    }
 
-    const response = await engine.generate(
-      text,
-      "hi_IN-pratham-medium",
-      0
-    );
+    status.textContent =
+      "⏳ Hindi AI voice बन रही है... पहली बार थोड़ा समय लग सकता है।";
+
+    const response =
+      await engine.generate(
+        text,
+        "hi_IN-pratham-medium",
+        0
+      );
 
     lastAudio = response.audio;
 
-    const blob = new Blob([lastAudio], {
-      type: "audio/wav"
-    });
+    const blob =
+      new Blob(
+        [lastAudio],
+        { type: "audio/wav" }
+      );
 
-    const url = URL.createObjectURL(blob);
+    const url =
+      URL.createObjectURL(blob);
 
     audio.src = url;
-    audio.play();
+
+    audio.load();
+
+    await audio.play();
 
     downloadButton.disabled = false;
 
-    status.textContent = "✅ Voice तैयार है";
+    status.textContent =
+      "✅ Voice तैयार है";
 
   } catch (error) {
 
     console.error(error);
 
-    status.textContent = "❌ Voice बनाने में समस्या हुई";
+    status.textContent =
+      "❌ Voice generate नहीं हुई";
 
-    alert("Voice generate नहीं हो पाई। Console में error देखें।");
+    alert(
+      "Voice generate नहीं हुई। पहली बार Hindi voice model download होने में थोड़ा समय लग सकता है।"
+    );
   }
 }
 
-downloadButton.addEventListener("click", function() {
 
-  if (!lastAudio) return;
+downloadButton.addEventListener(
+  "click",
+  function () {
 
-  const blob = new Blob([lastAudio], {
-    type: "audio/wav"
-  });
+    if (!lastAudio) return;
 
-  const url = URL.createObjectURL(blob);
+    const blob =
+      new Blob(
+        [lastAudio],
+        { type: "audio/wav" }
+      );
 
-  const a = document.createElement("a");
+    const url =
+      URL.createObjectURL(blob);
 
-  a.href = url;
-  a.download = "gupt-bharatvarsh-voice.wav";
+    const a =
+      document.createElement("a");
 
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+    a.href = url;
 
-  URL.revokeObjectURL(url);
+    a.download =
+      "gupt-bharatvarsh-voice.wav";
 
-});
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    setTimeout(
+      () => URL.revokeObjectURL(url),
+      1000
+    );
+  }
+);
+
 
 document
   .getElementById("generate")
-  .addEventListener("click", generateVoice);
+  .addEventListener(
+    "click",
+    generateVoice
+  );
 
 setupVoice();
 
