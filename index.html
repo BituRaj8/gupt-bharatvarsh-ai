@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gupt Bharatvarsh AI Video Maker</title>
+
+<title>Gupt Bharatvarsh AI</title>
 
 <style>
 body{
   margin:0;
   padding:20px;
-  background:#111827;
+  background:#111;
   color:white;
-  font-family:Arial,sans-serif;
+  font-family:Arial;
 }
 
 .container{
@@ -19,53 +20,35 @@ body{
   margin:auto;
 }
 
-h1{
-  text-align:center;
-  color:#f59e0b;
-}
-
-.box{
-  background:#1f2937;
-  padding:18px;
-  border-radius:15px;
-  margin-top:20px;
-}
-
 textarea{
   width:100%;
   height:180px;
-  box-sizing:border-box;
   padding:15px;
-  border-radius:10px;
-  border:1px solid #4b5563;
-  background:#111827;
+  box-sizing:border-box;
+  background:#222;
   color:white;
+  border:1px solid #555;
+  border-radius:10px;
   font-size:16px;
 }
 
 button{
   width:100%;
-  padding:15px;
+  padding:16px;
   margin-top:15px;
-  border:0;
-  border-radius:10px;
-  background:#f59e0b;
+  background:#ff9800;
   color:#111;
+  border:none;
+  border-radius:10px;
   font-size:18px;
   font-weight:bold;
 }
 
-.scene{
-  background:#111827;
-  margin-top:15px;
+#result{
+  margin-top:20px;
   padding:15px;
+  background:#222;
   border-radius:10px;
-  border-left:4px solid #f59e0b;
-}
-
-.small{
-  color:#9ca3af;
-  font-size:14px;
 }
 </style>
 </head>
@@ -76,38 +59,58 @@ button{
 
 <h1>🎬 GUPT BHARATVARSH AI</h1>
 
-<div class="box">
-
-<h2>Story to Scenes</h2>
-
-<p class="small">
-अपनी कहानी नीचे लिखें और Generate Scenes दबाएँ।
-</p>
+<h3>अपनी कहानी लिखें</h3>
 
 <textarea id="story"
-placeholder="उदाहरण: बरमूडा ट्रायंगल में एक जहाज अचानक गायब हो गया..."></textarea>
+placeholder="यहाँ अपनी कहानी लिखें..."></textarea>
 
-<button onclick="generateScenes()">
-Generate Scenes
-</button>
+<button id="generate">Generate Scenes</button>
 
+<div id="result">
+अभी कोई scene नहीं बना है।
 </div>
-
-<div id="result"></div>
 
 </div>
 
 <script>
 
-function generateScenes(){
+document.getElementById("generate").addEventListener("click", function(){
 
 let story = document.getElementById("story").value.trim();
 
 if(story === ""){
-alert("पहले अपनी कहानी लिखें।");
+alert("पहले कहानी लिखें!");
 return;
 }
 
-let sentences = story
-.split(/[।.!?]+/)
-.filter
+let sentences = story.split(/[।.!?]+/).filter(function(x){
+return x.trim() !== "";
+});
+
+let html = "<h2>🎥 Scenes</h2>";
+
+sentences.forEach(function(sentence,index){
+
+html += `
+<div style="
+background:#111;
+padding:15px;
+margin-top:10px;
+border-radius:10px;
+">
+<h3>Scene ${index+1}</h3>
+<p>${sentence.trim()}</p>
+<p>🎨 AI Image Prompt: Cinematic documentary scene, ultra realistic, dramatic lighting, 16:9, no text, no watermark.</p>
+</div>
+`;
+
+});
+
+document.getElementById("result").innerHTML = html;
+
+});
+
+</script>
+
+</body>
+</html>
