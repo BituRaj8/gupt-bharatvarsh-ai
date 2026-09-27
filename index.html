@@ -70,6 +70,10 @@ button:active{
  transform:scale(.98);
 }
 
+button:disabled{
+ opacity:.5;
+}
+
 .secondary{
  background:#333;
  color:white;
@@ -131,6 +135,19 @@ audio{
  color:#888;
  font-size:13px;
  margin-top:8px;
+ line-height:1.5;
+}
+
+.loading{
+ color:#ff9800;
+}
+
+.success{
+ color:#4caf50;
+}
+
+.error{
+ color:#ff5252;
 }
 </style>
 </head>
@@ -144,6 +161,7 @@ audio{
 <div class="subtitle">
 Free AI Documentary Video Maker
 </div>
+
 
 <div class="box">
 
@@ -171,32 +189,41 @@ placeholder="अपनी पूरी कहानी यहाँ लिखे
 <h2>🎙️ Hindi AI Voice</h2>
 
 <select id="voiceSelect">
-<option>Voice load हो रही है...</option>
+<option value="hi_IN-pratham-medium">🎙️ Pratham — Hindi Male</option>
+<option value="hi_IN-rohan-medium">🎙️ Rohan — Hindi Male</option>
+<option value="hi_IN-priyamvada-medium">🎙️ Priyamvada — Hindi Female</option>
 </select>
 
-<button onclick="generateVoice()">
+
+<button id="generateVoiceBtn" onclick="generateVoice()">
 🔊 Generate Hindi AI Voice
 </button>
+
 
 <button class="secondary" onclick="stopVoice()">
 ⏹️ Stop Voice
 </button>
 
+
 <div id="voiceStatus" class="status">
-Voice तैयार है।
+Piper Hindi AI Voice तैयार हो रही है...
 </div>
 
+
 <audio id="audioPlayer" controls></audio>
+
 
 <button id="downloadBtn"
 class="secondary"
 style="display:none"
 onclick="downloadAudio()">
-⬇️ Download Voice
+⬇️ Download Voice WAV
 </button>
 
+
 <div class="small">
-पहली बार browser में उपलब्ध Hindi voice load होने में थोड़ा समय लग सकता है।
+पहली बार voice model लगभग 60–65 MB डाउनलोड हो सकता है।
+एक बार load होने के बाद browser में locally voice generate होगी।
 </div>
 
 </div>
@@ -207,10 +234,59 @@ onclick="downloadAudio()">
 </div>
 
 
-<script>
+<script type="module">
 
+import {
+  PiperWebEngine,
+  HuggingFaceVoiceProvider
+} from "piper-tts-web";
+
+
+let engine = null;
 let currentAudioURL = null;
 let currentAudioBlob = null;
+let currentAudio = null;
+
+
+/* =========================
+   PIPER INITIALIZATION
+========================= */
+
+async function initializePiper(){
+
+  const status =
+  document.getElementById("voiceStatus");
+
+  try{
+
+    status.className="status loading";
+
+    status.innerText =
+    "⏳ Hindi AI Voice engine तैयार हो रहा है...";
+
+    /*
+      Piper locally browser में चलता है।
+    */
+
+    engine = new PiperWebEngine();
+
+    status.className="status success";
+
+    status.innerText =
+    "✅ Hindi AI Voice तैयार है।";
+
+  }catch(error){
+
+    console.error(error);
+
+    status.className="status error";
+
+    status.innerText =
+    "❌ Voice engine शुरू नहीं हो पाया।";
+
+  }
+
+}
 
 
 /* =========================
@@ -243,10 +319,9 @@ function generateScenes(){
  let list = sentences;
 
  if(list.length === 0){
-
    list = [story];
-
  }
+
 
  list.forEach((text,index)=>{
 
@@ -258,10 +333,12 @@ function generateScenes(){
    + "cinematic composition, 16:9, 8K, "
    + "no text, no subtitles, no watermark.";
 
+
    const card =
    document.createElement("div");
 
    card.className="card";
+
 
    card.innerHTML=`
 
@@ -281,9 +358,11 @@ function generateScenes(){
 
    `;
 
+
    sceneBox.appendChild(card);
 
  });
+
 
  document.getElementById("voiceStatus").innerText =
  "Scenes तैयार हो गए। अब Voice Generate कर सकते हो।";
@@ -295,7 +374,7 @@ function generateScenes(){
    COPY PROMPT
 ========================= */
 
-function copyPrompt(button){
+window.copyPrompt=function(button){
 
  const prompt =
  button.previousElementSibling.innerText;
@@ -303,219 +382,4 @@ function copyPrompt(button){
  navigator.clipboard.writeText(prompt)
  .then(()=>{
 
-   button.innerText="✅ Copied";
-
-   setTimeout(()=>{
-     button.innerText="📋 Copy Prompt";
-   },1500);
-
- });
-
-}
-
-
-/* =========================
-   SAFE HTML
-========================= */
-
-function escapeHTML(text){
-
- return text
- .replace(/&/g,"&amp;")
- .replace(/</g,"&lt;")
- .replace(/>/g,"&gt;")
- .replace(/"/g,"&quot;")
- .replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================
-   VOICE LOAD
-========================= */
-
-function loadVoices(){
-
- const select =
- document.getElementById("voiceSelect");
-
- const voices =
- speechSynthesis.getVoices();
-
- select.innerHTML="";
-
- const hindiVoices =
- voices.filter(v =>
-   v.lang &&
-   v.lang.toLowerCase().startsWith("hi")
- );
-
- const finalVoices =
- hindiVoices.length ? hindiVoices : voices;
-
- finalVoices.forEach((voice,index)=>{
-
-   const option =
-   document.createElement("option");
-
-   option.value=index;
-
-   option.textContent =
-   voice.name + " — " + voice.lang;
-
-   select.appendChild(option);
-
- });
-
- if(finalVoices.length){
-
-   document.getElementById("voiceStatus").innerText =
-   "Hindi voice तैयार है।";
-
- }else{
-
-   document.getElementById("voiceStatus").innerText =
-   "इस browser में voice उपलब्ध नहीं मिली।";
-
- }
-
-}
-
-
-speechSynthesis.onvoiceschanged =
-loadVoices;
-
-loadVoices();
-
-
-/* =========================
-   GENERATE VOICE
-========================= */
-
-function generateVoice(){
-
- const text =
- document.getElementById("story")
- .value
- .trim();
-
- if(!text){
-
-   alert("पहले कहानी लिखो।");
-   return;
-
- }
-
- speechSynthesis.cancel();
-
- const voices =
- speechSynthesis.getVoices();
-
- const hindi =
- voices.filter(v =>
-   v.lang &&
-   v.lang.toLowerCase().startsWith("hi")
- );
-
- let voice = hindi[0];
-
- if(!voice){
-
-   alert(
-    "इस फोन/browser में Hindi AI voice उपलब्ध नहीं है।"
-   );
-
-   return;
-
- }
-
- const utterance =
- new SpeechSynthesisUtterance(text);
-
- utterance.voice=voice;
-
- utterance.lang="hi-IN";
-
- /* documentary style */
-
- utterance.rate=0.88;
-
- utterance.pitch=0.72;
-
- utterance.volume=1;
-
- document.getElementById("voiceStatus").innerText =
- "🎙️ Hindi documentary voice चल रही है...";
-
- utterance.onend=function(){
-
-   document.getElementById("voiceStatus").innerText =
-   "✅ Voice पूरी हो गई।";
-
- };
-
- utterance.onerror=function(){
-
-   document.getElementById("voiceStatus").innerText =
-   "❌ Voice generate नहीं हो पाई।";
-
- };
-
- speechSynthesis.speak(utterance);
-
-}
-
-
-/* =========================
-   STOP
-========================= */
-
-function stopVoice(){
-
- speechSynthesis.cancel();
-
- document.getElementById("voiceStatus").innerText =
- "⏹️ Voice रोक दी गई।";
-
-}
-
-
-/* =========================
-   NEW PROJECT
-========================= */
-
-function newProject(){
-
- document.getElementById("story").value="";
-
- document.getElementById("scenes").innerHTML="";
-
- speechSynthesis.cancel();
-
- document.getElementById("audioPlayer").src="";
-
- document.getElementById("downloadBtn")
- .style.display="none";
-
- document.getElementById("voiceStatus").innerText =
- "नया project शुरू करें।";
-
-}
-
-
-/* =========================
-   DOWNLOAD
-========================= */
-
-function downloadAudio(){
-
- alert(
- "Browser की speechSynthesis voice को WAV file में सीधे download करना सभी phones में संभव नहीं है।"
- );
-
-}
-
-</script>
-
-</body>
-</html>
+   button.innerText="✅ Copied
