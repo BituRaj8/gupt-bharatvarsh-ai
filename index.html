@@ -2,139 +2,135 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>GUPT BHARATVARSH AI</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  padding:18px;
-  background:#0b0b0b;
-  color:white;
-  font-family:Arial,sans-serif;
+ margin:0;
+ padding:15px;
+ background:#090909;
+ color:#fff;
+ font-family:Arial,sans-serif;
 }
 
 .container{
-  max-width:750px;
-  margin:auto;
+ max-width:750px;
+ margin:auto;
 }
 
 h1{
-  text-align:center;
-  color:#ff9800;
-  font-size:28px;
-  margin-bottom:8px;
+ text-align:center;
+ color:#ff9800;
+ font-size:28px;
+ margin-bottom:5px;
 }
 
 .subtitle{
-  text-align:center;
-  color:#aaa;
-  margin-bottom:20px;
+ text-align:center;
+ color:#aaa;
+ margin-bottom:20px;
 }
 
 .box{
-  background:#151515;
-  padding:16px;
-  border-radius:12px;
-  margin-top:18px;
+ background:#151515;
+ padding:15px;
+ border-radius:12px;
+ margin-top:18px;
 }
 
 textarea{
-  width:100%;
-  height:190px;
-  padding:15px;
-  box-sizing:border-box;
-  background:#222;
-  color:white;
-  border:1px solid #555;
-  border-radius:10px;
-  font-size:16px;
-  line-height:1.5;
+ width:100%;
+ height:190px;
+ padding:15px;
+ background:#222;
+ color:white;
+ border:1px solid #555;
+ border-radius:10px;
+ font-size:16px;
+ line-height:1.5;
+ resize:vertical;
 }
 
 button{
-  width:100%;
-  padding:14px;
-  margin-top:12px;
-  background:#ff9800;
-  color:#111;
-  border:0;
-  border-radius:10px;
-  font-size:17px;
-  font-weight:bold;
+ width:100%;
+ padding:14px;
+ margin-top:12px;
+ background:#ff9800;
+ color:#111;
+ border:0;
+ border-radius:10px;
+ font-size:17px;
+ font-weight:bold;
 }
 
 button:active{
-  transform:scale(.98);
+ transform:scale(.98);
 }
 
 .secondary{
-  background:#333;
-  color:white;
+ background:#333;
+ color:white;
 }
 
-.voice{
-  background:#111;
-  border:1px solid #333;
-  padding:15px;
-  border-radius:10px;
-  margin-top:15px;
+.card{
+ background:#111;
+ border:1px solid #333;
+ padding:15px;
+ border-radius:10px;
+ margin-top:15px;
 }
 
-.voice h2{
-  color:#ff9800;
-  margin-top:0;
-  font-size:21px;
-}
-
-.status{
-  color:#aaa;
-  font-size:14px;
-  line-height:1.5;
-  margin-top:10px;
-}
-
-.scene{
-  background:#151515;
-  padding:15px;
-  margin-top:15px;
-  border-radius:10px;
-  border-left:4px solid #ff9800;
-}
-
-.scene h3{
-  margin-top:0;
-  color:#ff9800;
+.card h3{
+ color:#ff9800;
+ margin-top:0;
 }
 
 .prompt{
-  background:#222;
-  padding:12px;
-  border-radius:8px;
-  line-height:1.5;
-  margin-top:10px;
-  color:#eee;
+ background:#222;
+ padding:12px;
+ border-radius:8px;
+ color:#ddd;
+ line-height:1.5;
+ word-break:break-word;
 }
 
-.copy{
-  background:#444;
-  color:white;
-  font-size:15px;
+.status{
+ color:#aaa;
+ font-size:14px;
+ margin-top:10px;
+ line-height:1.5;
+}
+
+.voiceBox{
+ background:#111;
+ border:1px solid #333;
+ padding:15px;
+ border-radius:10px;
+ margin-top:15px;
+}
+
+select{
+ width:100%;
+ padding:12px;
+ background:#222;
+ color:white;
+ border:1px solid #555;
+ border-radius:8px;
+ font-size:16px;
+}
+
+audio{
+ width:100%;
+ margin-top:12px;
 }
 
 .small{
-  font-size:13px;
-  color:#888;
-  margin-top:8px;
-}
-
-.hidden{
-  display:none;
+ color:#888;
+ font-size:13px;
+ margin-top:8px;
 }
 </style>
 </head>
@@ -146,12 +142,12 @@ button:active{
 <h1>GUPT BHARATVARSH AI</h1>
 
 <div class="subtitle">
-AI Documentary Video Maker
+Free AI Documentary Video Maker
 </div>
 
 <div class="box">
 
-<h2>📝 अपनी Story डालें</h2>
+<h2>📝 Story डालें</h2>
 
 <textarea id="story"
 placeholder="अपनी पूरी कहानी यहाँ लिखें...
@@ -170,39 +166,37 @@ placeholder="अपनी पूरी कहानी यहाँ लिखे
 </div>
 
 
-<div class="box">
-
-<div class="voice">
+<div id="voiceBox" class="voiceBox">
 
 <h2>🎙️ Hindi AI Voice</h2>
 
-<p>
-Deep documentary-style Hindi voice
-</p>
-
-<textarea id="voiceText"
-placeholder="जिस text को AI voice में बदलना है, वह यहाँ लिखें..."></textarea>
+<select id="voiceSelect">
+<option>Voice load हो रही है...</option>
+</select>
 
 <button onclick="generateVoice()">
-🎙️ Generate Hindi AI Voice
+🔊 Generate Hindi AI Voice
 </button>
 
-<button class="secondary" onclick="playVoice()">
-▶️ Play Voice
-</button>
-
-<button class="secondary" onclick="downloadVoice()">
-💾 Download Voice
+<button class="secondary" onclick="stopVoice()">
+⏹️ Stop Voice
 </button>
 
 <div id="voiceStatus" class="status">
-Voice तैयार करने के लिए ऊपर text डालें।
+Voice तैयार है।
 </div>
 
-<audio id="audioPlayer" controls
-style="width:100%;margin-top:12px;display:none;">
-</audio>
+<audio id="audioPlayer" controls></audio>
 
+<button id="downloadBtn"
+class="secondary"
+style="display:none"
+onclick="downloadAudio()">
+⬇️ Download Voice
+</button>
+
+<div class="small">
+पहली बार browser में उपलब्ध Hindi voice load होने में थोड़ा समय लग सकता है।
 </div>
 
 </div>
@@ -213,140 +207,275 @@ style="width:100%;margin-top:12px;display:none;">
 </div>
 
 
-<script type="module">
+<script>
 
-let tts = null;
-let ttsLanguage = null;
-let currentAudioBlob = null;
 let currentAudioURL = null;
+let currentAudioBlob = null;
 
 
 /* =========================
    SCENE GENERATOR
 ========================= */
 
-function splitStory(text){
+function generateScenes(){
 
-  let parts = text
-    .replace(/\n+/g," ")
-    .split(/(?<=[।.!?])\s+/)
-    .map(x => x.trim())
-    .filter(x => x.length > 20);
+ const story =
+ document.getElementById("story").value.trim();
 
-  if(parts.length === 0){
-    parts = [text.trim()];
-  }
+ if(!story){
 
-  return parts;
+   alert("पहले अपनी कहानी लिखो।");
+   return;
+
+ }
+
+ const sceneBox =
+ document.getElementById("scenes");
+
+ sceneBox.innerHTML = "";
+
+ const sentences =
+ story
+ .split(/[।!?]\s+/)
+ .map(x=>x.trim())
+ .filter(x=>x.length>5);
+
+ let list = sentences;
+
+ if(list.length === 0){
+
+   list = [story];
+
+ }
+
+ list.forEach((text,index)=>{
+
+   const prompt =
+   "Cinematic documentary scene about: "
+   + text
+   + ", ultra realistic, dramatic lighting, "
+   + "mysterious atmosphere, realistic environment, "
+   + "cinematic composition, 16:9, 8K, "
+   + "no text, no subtitles, no watermark.";
+
+   const card =
+   document.createElement("div");
+
+   card.className="card";
+
+   card.innerHTML=`
+
+   <h3>🎬 Scene ${index+1}</h3>
+
+   <p>${escapeHTML(text)}</p>
+
+   <h4>🖼️ AI Image Prompt</h4>
+
+   <div class="prompt">
+   ${escapeHTML(prompt)}
+   </div>
+
+   <button onclick="copyPrompt(this)">
+   📋 Copy Prompt
+   </button>
+
+   `;
+
+   sceneBox.appendChild(card);
+
+ });
+
+ document.getElementById("voiceStatus").innerText =
+ "Scenes तैयार हो गए। अब Voice Generate कर सकते हो।";
+
 }
 
 
-window.generateScenes = function(){
+/* =========================
+   COPY PROMPT
+========================= */
 
-  const story =
-    document.getElementById("story").value.trim();
+function copyPrompt(button){
 
-  if(!story){
-    alert("पहले Story डालो भाई।");
-    return;
-  }
+ const prompt =
+ button.previousElementSibling.innerText;
 
-  const sentences = splitStory(story);
+ navigator.clipboard.writeText(prompt)
+ .then(()=>{
 
-  const scenesBox =
-    document.getElementById("scenes");
+   button.innerText="✅ Copied";
 
-  scenesBox.innerHTML = "";
+   setTimeout(()=>{
+     button.innerText="📋 Copy Prompt";
+   },1500);
 
-  sentences.forEach((sentence,index)=>{
+ });
 
-    const prompt =
-`Cinematic documentary scene showing: ${sentence}
-
-Ultra realistic cinematic documentary style,
-dramatic natural lighting,
-high detail,
-realistic environment,
-realistic people and objects,
-deep atmosphere,
-professional documentary photography,
-16:9 widescreen,
-8K quality,
-no text,
-no subtitles,
-no logo,
-no watermark.`;
-
-    const div =
-      document.createElement("div");
-
-    div.className = "scene";
-
-    div.innerHTML = `
-
-      <h3>🎬 Scene ${index+1}</h3>
-
-      <div>
-        <b>Story:</b><br>
-        ${escapeHTML(sentence)}
-      </div>
-
-      <div class="prompt">
-        <b>🖼️ AI Image Prompt</b><br><br>
-        ${escapeHTML(prompt)}
-      </div>
-
-      <button class="copy"
-      onclick="copyPrompt(this)">
-      📋 Copy Prompt
-      </button>
-
-    `;
-
-    scenesBox.appendChild(div);
-
-  });
-
-  document.getElementById("voiceText").value =
-    story;
-
-};
+}
 
 
-window.copyPrompt = async function(button){
-
-  const prompt =
-    button.parentElement.querySelector(".prompt").innerText
-      .replace("🖼️ AI Image Prompt","")
-      .trim();
-
-  try{
-
-    await navigator.clipboard.writeText(prompt);
-
-    button.innerText = "✅ Copied";
-
-    setTimeout(()=>{
-      button.innerText = "📋 Copy Prompt";
-    },1500);
-
-  }catch(e){
-
-    alert("Copy नहीं हो पाया। Prompt को long press करके copy करो।");
-
-  }
-
-};
-
+/* =========================
+   SAFE HTML
+========================= */
 
 function escapeHTML(text){
 
-  return text
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+ return text
+ .replace(/&/g,"&amp;")
+ .replace(/</g,"&lt;")
+ .replace(/>/g,"&gt;")
+ .replace(/"/g,"&quot;")
+ .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   VOICE LOAD
+========================= */
+
+function loadVoices(){
+
+ const select =
+ document.getElementById("voiceSelect");
+
+ const voices =
+ speechSynthesis.getVoices();
+
+ select.innerHTML="";
+
+ const hindiVoices =
+ voices.filter(v =>
+   v.lang &&
+   v.lang.toLowerCase().startsWith("hi")
+ );
+
+ const finalVoices =
+ hindiVoices.length ? hindiVoices : voices;
+
+ finalVoices.forEach((voice,index)=>{
+
+   const option =
+   document.createElement("option");
+
+   option.value=index;
+
+   option.textContent =
+   voice.name + " — " + voice.lang;
+
+   select.appendChild(option);
+
+ });
+
+ if(finalVoices.length){
+
+   document.getElementById("voiceStatus").innerText =
+   "Hindi voice तैयार है।";
+
+ }else{
+
+   document.getElementById("voiceStatus").innerText =
+   "इस browser में voice उपलब्ध नहीं मिली।";
+
+ }
+
+}
+
+
+speechSynthesis.onvoiceschanged =
+loadVoices;
+
+loadVoices();
+
+
+/* =========================
+   GENERATE VOICE
+========================= */
+
+function generateVoice(){
+
+ const text =
+ document.getElementById("story")
+ .value
+ .trim();
+
+ if(!text){
+
+   alert("पहले कहानी लिखो।");
+   return;
+
+ }
+
+ speechSynthesis.cancel();
+
+ const voices =
+ speechSynthesis.getVoices();
+
+ const hindi =
+ voices.filter(v =>
+   v.lang &&
+   v.lang.toLowerCase().startsWith("hi")
+ );
+
+ let voice = hindi[0];
+
+ if(!voice){
+
+   alert(
+    "इस फोन/browser में Hindi AI voice उपलब्ध नहीं है।"
+   );
+
+   return;
+
+ }
+
+ const utterance =
+ new SpeechSynthesisUtterance(text);
+
+ utterance.voice=voice;
+
+ utterance.lang="hi-IN";
+
+ /* documentary style */
+
+ utterance.rate=0.88;
+
+ utterance.pitch=0.72;
+
+ utterance.volume=1;
+
+ document.getElementById("voiceStatus").innerText =
+ "🎙️ Hindi documentary voice चल रही है...";
+
+ utterance.onend=function(){
+
+   document.getElementById("voiceStatus").innerText =
+   "✅ Voice पूरी हो गई।";
+
+ };
+
+ utterance.onerror=function(){
+
+   document.getElementById("voiceStatus").innerText =
+   "❌ Voice generate नहीं हो पाई।";
+
+ };
+
+ speechSynthesis.speak(utterance);
+
+}
+
+
+/* =========================
+   STOP
+========================= */
+
+function stopVoice(){
+
+ speechSynthesis.cancel();
+
+ document.getElementById("voiceStatus").innerText =
+ "⏹️ Voice रोक दी गई।";
 
 }
 
@@ -355,342 +484,34 @@ function escapeHTML(text){
    NEW PROJECT
 ========================= */
 
-window.newProject = function(){
+function newProject(){
 
-  document.getElementById("story").value="";
-  document.getElementById("voiceText").value="";
-  document.getElementById("scenes").innerHTML="";
+ document.getElementById("story").value="";
 
-  document.getElementById("voiceStatus").innerText =
-    "नया project शुरू हो गया।";
+ document.getElementById("scenes").innerHTML="";
 
-  const audio =
-    document.getElementById("audioPlayer");
+ speechSynthesis.cancel();
 
-  audio.pause();
-  audio.removeAttribute("src");
-  audio.style.display="none";
+ document.getElementById("audioPlayer").src="";
 
-  currentAudioBlob=null;
-  currentAudioURL=null;
+ document.getElementById("downloadBtn")
+ .style.display="none";
 
-};
-
-
-/* =========================
-   INDIC TTS
-========================= */
-
-async function loadTTS(){
-
-  if(tts){
-    return;
-  }
-
-  const status =
-    document.getElementById("voiceStatus");
-
-  status.innerText =
-    "⏳ Hindi AI Voice engine load हो रहा है... पहली बार model download हो सकता है।";
-
-  try{
-
-    /*
-      Indic TTS browser package.
-      Hindi model = Piper Pratham.
-    */
-
-    const module =
-      await import(
-        "https://esm.sh/indic-tts?bundle"
-      );
-
-    const IndicTTS =
-      module.IndicTTS;
-
-    ttsLanguage =
-      module.Language;
-
-    tts =
-      new IndicTTS();
-
-    await tts.initialize({
-
-      onProgress:(progress)=>{
-
-        if(progress.total){
-
-          const percent =
-            Math.round(
-              (progress.loaded /
-               progress.total) * 100
-            );
-
-          status.innerText =
-            "⏳ Hindi AI Voice model डाउनलोड हो रहा है: "
-            + percent + "%";
-
-        }
-
-      }
-
-    });
-
-    status.innerText =
-      "✅ Hindi AI Voice तैयार है।";
-
-  }catch(error){
-
-    console.error(error);
-
-    tts=null;
-
-    status.innerText =
-      "⚠️ AI voice engine load नहीं हुआ। Browser voice fallback इस्तेमाल होगा।";
-
-  }
+ document.getElementById("voiceStatus").innerText =
+ "नया project शुरू करें।";
 
 }
-
-
-/* =========================
-   GENERATE VOICE
-========================= */
-
-window.generateVoice = async function(){
-
-  const text =
-    document.getElementById("voiceText")
-      .value.trim();
-
-  if(!text){
-
-    alert("पहले voice text डालो।");
-
-    return;
-
-  }
-
-  const status =
-    document.getElementById("voiceStatus");
-
-  status.innerText =
-    "⏳ Voice तैयार हो रही है...";
-
-  /*
-    पहले local Indic TTS try करेंगे
-  */
-
-  try{
-
-    await loadTTS();
-
-    if(tts && ttsLanguage){
-
-      const result =
-        await tts.speak({
-
-          text:text,
-
-          language:ttsLanguage.Hindi,
-
-          speed:0.92
-
-        });
-
-      /*
-        Indic TTS result को सीधे play करते हैं.
-      */
-
-      await result.play();
-
-      status.innerText =
-        "✅ Hindi AI Voice चल रही है।";
-
-      return;
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "Indic TTS error:",
-      error
-    );
-
-  }
-
-
-  /*
-    Fallback:
-    Android/Chrome की built-in Hindi voice.
-  */
-
-  if("speechSynthesis" in window){
-
-    speechSynthesis.cancel();
-
-    const utterance =
-      new SpeechSynthesisUtterance(text);
-
-    utterance.lang="hi-IN";
-
-    utterance.rate=0.90;
-
-    utterance.pitch=0.80;
-
-    const voices =
-      speechSynthesis.getVoices();
-
-    const hindiVoice =
-      voices.find(v =>
-        v.lang &&
-        v.lang.toLowerCase()
-          .startsWith("hi")
-      );
-
-    if(hindiVoice){
-      utterance.voice=hindiVoice;
-    }
-
-    utterance.onstart=()=>{
-      status.innerText =
-        "🔊 Hindi voice चल रही है...";
-    };
-
-    utterance.onend=()=>{
-      status.innerText =
-        "✅ Voice पूरी हो गई।";
-    };
-
-    utterance.onerror=()=>{
-      status.innerText =
-        "❌ Browser voice भी शुरू नहीं हो सकी।";
-    };
-
-    speechSynthesis.speak(
-      utterance
-    );
-
-  }else{
-
-    status.innerText =
-      "❌ इस browser में voice support नहीं है।";
-
-  }
-
-};
-
-
-/* =========================
-   PLAY VOICE
-========================= */
-
-window.playVoice = function(){
-
-  const text =
-    document.getElementById("voiceText")
-      .value.trim();
-
-  if(!text){
-
-    alert("पहले voice text डालो।");
-
-    return;
-
-  }
-
-  if("speechSynthesis" in window){
-
-    speechSynthesis.cancel();
-
-    const utterance =
-      new SpeechSynthesisUtterance(text);
-
-    utterance.lang="hi-IN";
-
-    utterance.rate=0.90;
-
-    utterance.pitch=0.80;
-
-    const voices =
-      speechSynthesis.getVoices();
-
-    const hindiVoice =
-      voices.find(v =>
-        v.lang &&
-        v.lang.toLowerCase()
-          .startsWith("hi")
-      );
-
-    if(hindiVoice){
-      utterance.voice=hindiVoice;
-    }
-
-    speechSynthesis.speak(
-      utterance
-    );
-
-    document.getElementById(
-      "voiceStatus"
-    ).innerText =
-      "🔊 Voice चल रही है...";
-
-  }
-
-};
 
 
 /* =========================
    DOWNLOAD
 ========================= */
 
-window.downloadVoice = function(){
+function downloadAudio(){
 
-  if(!currentAudioBlob){
-
-    alert(
-      "अभी downloadable AI audio उपलब्ध नहीं है। पहले Generate Hindi AI Voice चलाओ।"
-    );
-
-    return;
-
-  }
-
-  if(!currentAudioURL){
-
-    currentAudioURL =
-      URL.createObjectURL(
-        currentAudioBlob
-      );
-
-  }
-
-  const a =
-    document.createElement("a");
-
-  a.href=currentAudioURL;
-
-  a.download=
-    "gupt-bharatvarsh-voice.wav";
-
-  document.body.appendChild(a);
-
-  a.click();
-
-  a.remove();
-
-};
-
-
-/* =========================
-   MOBILE VOICE LOAD
-========================= */
-
-if("speechSynthesis" in window){
-
-  speechSynthesis.onvoiceschanged =
-    function(){};
+ alert(
+ "Browser की speechSynthesis voice को WAV file में सीधे download करना सभी phones में संभव नहीं है।"
+ );
 
 }
 
