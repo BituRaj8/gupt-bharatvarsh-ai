@@ -1,385 +1,182 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GUPT BHARATVARSH AI</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUPT BHARATVARSH AI</title>
 
-<style>
-*{box-sizing:border-box}
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
 
-body{
- margin:0;
- padding:15px;
- background:#090909;
- color:#fff;
- font-family:Arial,sans-serif;
-}
+    h1 {
+      text-align: center;
+    }
 
-.container{
- max-width:750px;
- margin:auto;
-}
+    textarea {
+      width: 100%;
+      height: 250px;
+      box-sizing: border-box;
+      padding: 15px;
+      font-size: 17px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 15px;
+    }
 
-h1{
- text-align:center;
- color:#ff9800;
- font-size:28px;
- margin-bottom:5px;
-}
+    button {
+      width: 100%;
+      padding: 15px;
+      margin: 6px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.subtitle{
- text-align:center;
- color:#aaa;
- margin-bottom:20px;
-}
+    #generate {
+      background: #e63946;
+      color: white;
+    }
 
-.box{
- background:#151515;
- padding:15px;
- border-radius:12px;
- margin-top:18px;
-}
+    #download {
+      background: #2a9d8f;
+      color: white;
+    }
 
-textarea{
- width:100%;
- height:190px;
- padding:15px;
- background:#222;
- color:white;
- border:1px solid #555;
- border-radius:10px;
- font-size:16px;
- line-height:1.5;
- resize:vertical;
-}
-
-button{
- width:100%;
- padding:14px;
- margin-top:12px;
- background:#ff9800;
- color:#111;
- border:0;
- border-radius:10px;
- font-size:17px;
- font-weight:bold;
-}
-
-button:active{
- transform:scale(.98);
-}
-
-button:disabled{
- opacity:.5;
-}
-
-.secondary{
- background:#333;
- color:white;
-}
-
-.card{
- background:#111;
- border:1px solid #333;
- padding:15px;
- border-radius:10px;
- margin-top:15px;
-}
-
-.card h3{
- color:#ff9800;
- margin-top:0;
-}
-
-.prompt{
- background:#222;
- padding:12px;
- border-radius:8px;
- color:#ddd;
- line-height:1.5;
- word-break:break-word;
-}
-
-.status{
- color:#aaa;
- font-size:14px;
- margin-top:10px;
- line-height:1.5;
-}
-
-.voiceBox{
- background:#111;
- border:1px solid #333;
- padding:15px;
- border-radius:10px;
- margin-top:15px;
-}
-
-select{
- width:100%;
- padding:12px;
- background:#222;
- color:white;
- border:1px solid #555;
- border-radius:8px;
- font-size:16px;
-}
-
-audio{
- width:100%;
- margin-top:12px;
-}
-
-.small{
- color:#888;
- font-size:13px;
- margin-top:8px;
- line-height:1.5;
-}
-
-.loading{
- color:#ff9800;
-}
-
-.success{
- color:#4caf50;
-}
-
-.error{
- color:#ff5252;
-}
-</style>
+    #status {
+      margin-top: 15px;
+      padding: 12px;
+      background: #222;
+      border-radius: 8px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container">
+<h1>🎬 GUPT BHARATVARSH AI</h1>
 
-<h1>GUPT BHARATVARSH AI</h1>
+<textarea id="story" placeholder="अपनी हिंदी कहानी यहाँ लिखें..."></textarea>
 
-<div class="subtitle">
-Free AI Documentary Video Maker
-</div>
+<button id="generate">🎙️ Generate Hindi AI Voice</button>
 
+<button id="download" disabled>💾 Download WAV</button>
 
-<div class="box">
+<div id="status">Voice तैयार है</div>
 
-<h2>📝 Story डालें</h2>
-
-<textarea id="story"
-placeholder="अपनी पूरी कहानी यहाँ लिखें...
-
-उदाहरण:
-बरमूडा ट्रायंगल दुनिया की सबसे रहस्यमयी जगहों में से एक है..."></textarea>
-
-<button onclick="generateScenes()">
-🎬 Generate Scenes
-</button>
-
-<button class="secondary" onclick="newProject()">
-🆕 New Project
-</button>
-
-</div>
-
-
-<div id="voiceBox" class="voiceBox">
-
-<h2>🎙️ Hindi AI Voice</h2>
-
-<select id="voiceSelect">
-<option value="hi_IN-pratham-medium">🎙️ Pratham — Hindi Male</option>
-<option value="hi_IN-rohan-medium">🎙️ Rohan — Hindi Male</option>
-<option value="hi_IN-priyamvada-medium">🎙️ Priyamvada — Hindi Female</option>
-</select>
-
-
-<button id="generateVoiceBtn" onclick="generateVoice()">
-🔊 Generate Hindi AI Voice
-</button>
-
-
-<button class="secondary" onclick="stopVoice()">
-⏹️ Stop Voice
-</button>
-
-
-<div id="voiceStatus" class="status">
-Piper Hindi AI Voice तैयार हो रही है...
-</div>
-
-
-<audio id="audioPlayer" controls></audio>
-
-
-<button id="downloadBtn"
-class="secondary"
-style="display:none"
-onclick="downloadAudio()">
-⬇️ Download Voice WAV
-</button>
-
-
-<div class="small">
-पहली बार voice model लगभग 60–65 MB डाउनलोड हो सकता है।
-एक बार load होने के बाद browser में locally voice generate होगी।
-</div>
-
-</div>
-
-
-<div id="scenes"></div>
-
-</div>
-
+<audio id="audio" controls style="width:100%; margin-top:15px;"></audio>
 
 <script type="module">
 
 import {
-  PiperWebEngine,
+  PiperWebWorkerEngine,
+  OnnxWebGPUWorkerRuntime,
   HuggingFaceVoiceProvider
 } from "piper-tts-web";
 
+let engine;
+let lastAudio = null;
 
-let engine = null;
-let currentAudioURL = null;
-let currentAudioBlob = null;
-let currentAudio = null;
+const status = document.getElementById("status");
+const audio = document.getElementById("audio");
+const downloadButton = document.getElementById("download");
 
+async function setupVoice() {
 
-/* =========================
-   PIPER INITIALIZATION
-========================= */
+  status.textContent = "🔄 Hindi AI Voice तैयार हो रही है...";
 
-async function initializePiper(){
+  const voiceProvider = new HuggingFaceVoiceProvider();
 
-  const status =
-  document.getElementById("voiceStatus");
+  engine = new PiperWebWorkerEngine({
+    onnxRuntime: new OnnxWebGPUWorkerRuntime(),
+    voiceProvider: voiceProvider
+  });
 
-  try{
+  status.textContent = "✅ Hindi AI Voice तैयार है";
+}
 
-    status.className="status loading";
+async function generateVoice() {
 
-    status.innerText =
-    "⏳ Hindi AI Voice engine तैयार हो रहा है...";
+  const text = document.getElementById("story").value.trim();
 
-    /*
-      Piper locally browser में चलता है।
-    */
+  if (!text) {
+    alert("पहले कहानी लिखें।");
+    return;
+  }
 
-    engine = new PiperWebEngine();
+  try {
 
-    status.className="status success";
+    status.textContent = "🎙️ Voice generate हो रही है... पहली बार थोड़ा समय लग सकता है।";
 
-    status.innerText =
-    "✅ Hindi AI Voice तैयार है।";
+    const response = await engine.generate(
+      text,
+      "hi_IN-pratham-medium",
+      0
+    );
 
-  }catch(error){
+    lastAudio = response.audio;
+
+    const blob = new Blob([lastAudio], {
+      type: "audio/wav"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    audio.src = url;
+    audio.play();
+
+    downloadButton.disabled = false;
+
+    status.textContent = "✅ Voice तैयार है";
+
+  } catch (error) {
 
     console.error(error);
 
-    status.className="status error";
+    status.textContent = "❌ Voice बनाने में समस्या हुई";
 
-    status.innerText =
-    "❌ Voice engine शुरू नहीं हो पाया।";
-
+    alert("Voice generate नहीं हो पाई। Console में error देखें।");
   }
-
 }
 
+downloadButton.addEventListener("click", function() {
 
-/* =========================
-   SCENE GENERATOR
-========================= */
+  if (!lastAudio) return;
 
-function generateScenes(){
+  const blob = new Blob([lastAudio], {
+    type: "audio/wav"
+  });
 
- const story =
- document.getElementById("story").value.trim();
+  const url = URL.createObjectURL(blob);
 
- if(!story){
+  const a = document.createElement("a");
 
-   alert("पहले अपनी कहानी लिखो।");
-   return;
+  a.href = url;
+  a.download = "gupt-bharatvarsh-voice.wav";
 
- }
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
 
- const sceneBox =
- document.getElementById("scenes");
+  URL.revokeObjectURL(url);
 
- sceneBox.innerHTML = "";
+});
 
- const sentences =
- story
- .split(/[।!?]\s+/)
- .map(x=>x.trim())
- .filter(x=>x.length>5);
+document
+  .getElementById("generate")
+  .addEventListener("click", generateVoice);
 
- let list = sentences;
+setupVoice();
 
- if(list.length === 0){
-   list = [story];
- }
+</script>
 
-
- list.forEach((text,index)=>{
-
-   const prompt =
-   "Cinematic documentary scene about: "
-   + text
-   + ", ultra realistic, dramatic lighting, "
-   + "mysterious atmosphere, realistic environment, "
-   + "cinematic composition, 16:9, 8K, "
-   + "no text, no subtitles, no watermark.";
-
-
-   const card =
-   document.createElement("div");
-
-   card.className="card";
-
-
-   card.innerHTML=`
-
-   <h3>🎬 Scene ${index+1}</h3>
-
-   <p>${escapeHTML(text)}</p>
-
-   <h4>🖼️ AI Image Prompt</h4>
-
-   <div class="prompt">
-   ${escapeHTML(prompt)}
-   </div>
-
-   <button onclick="copyPrompt(this)">
-   📋 Copy Prompt
-   </button>
-
-   `;
-
-
-   sceneBox.appendChild(card);
-
- });
-
-
- document.getElementById("voiceStatus").innerText =
- "Scenes तैयार हो गए। अब Voice Generate कर सकते हो।";
-
-}
-
-
-/* =========================
-   COPY PROMPT
-========================= */
-
-window.copyPrompt=function(button){
-
- const prompt =
- button.previousElementSibling.innerText;
-
- navigator.clipboard.writeText(prompt)
- .then(()=>{
-
-   button.innerText="✅ Copied
+</body>
+</html>
