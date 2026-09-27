@@ -1,33 +1,45 @@
-
-
 <!DOCTYPE html>
-<html>
+<html lang="hi">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My AI Video Maker</title>
+<title>Gupt Bharatvarsh AI Video Maker</title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#111;
-  color:white;
   padding:20px;
+  background:#111827;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
 }
 
 h1{
   text-align:center;
+  color:#f59e0b;
+}
+
+.box{
+  background:#1f2937;
+  padding:18px;
+  border-radius:15px;
+  margin-top:20px;
 }
 
 textarea{
   width:100%;
   height:180px;
-  background:#222;
-  color:white;
-  border:1px solid #555;
-  border-radius:10px;
-  padding:12px;
   box-sizing:border-box;
+  padding:15px;
+  border-radius:10px;
+  border:1px solid #4b5563;
+  background:#111827;
+  color:white;
   font-size:16px;
 }
 
@@ -37,49 +49,65 @@ button{
   margin-top:15px;
   border:0;
   border-radius:10px;
-  background:#6c5ce7;
-  color:white;
+  background:#f59e0b;
+  color:#111;
   font-size:18px;
+  font-weight:bold;
 }
 
-#result{
-  margin-top:20px;
-  background:#222;
+.scene{
+  background:#111827;
+  margin-top:15px;
   padding:15px;
   border-radius:10px;
-  min-height:100px;
+  border-left:4px solid #f59e0b;
+}
+
+.small{
+  color:#9ca3af;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>🎬 My AI Video Maker</h1>
+<div class="container">
 
-<textarea id="story" placeholder="अपनी कहानी यहाँ लिखें..."></textarea>
+<h1>🎬 GUPT BHARATVARSH AI</h1>
 
-<button onclick="generate()">Generate Video</button>
+<div class="box">
 
-<div id="result">
-  आपकी वीडियो यहाँ तैयार होगी...
+<h2>Story to Scenes</h2>
+
+<p class="small">
+अपनी कहानी नीचे लिखें और Generate Scenes दबाएँ।
+</p>
+
+<textarea id="story"
+placeholder="उदाहरण: बरमूडा ट्रायंगल में एक जहाज अचानक गायब हो गया..."></textarea>
+
+<button onclick="generateScenes()">
+Generate Scenes
+</button>
+
+</div>
+
+<div id="result"></div>
+
 </div>
 
 <script>
-function generate(){
 
-  let story = document.getElementById("story").value;
+function generateScenes(){
 
-  if(story.trim()==""){
-    alert("पहले कहानी लिखें");
-    return;
-  }
+let story = document.getElementById("story").value.trim();
 
-  document.getElementById("result").innerHTML =
-  "<h2>🎬 Video Project Ready</h2>" +
-  "<p>आपकी कहानी सफलतापूर्वक तैयार है।</p>" +
-  "<p>अगले चरण में इसमें AI Images, Voice और Video Generation जोड़ा जाएगा।</p>";
+if(story === ""){
+alert("पहले अपनी कहानी लिखें।");
+return;
 }
-</script>
 
-</body>
-</html>
+let sentences = story
+.split(/[।.!?]+/)
+.filter
