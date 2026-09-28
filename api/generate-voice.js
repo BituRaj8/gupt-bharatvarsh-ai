@@ -1,123 +1,316 @@
 module.exports = async (req, res) => {
-  // CORS
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // ==============================
+  // CORS
+  // ==============================
+
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "*"
+  );
+
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "POST, OPTIONS"
+  );
+
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type"
+  );
+
+
+  // ==============================
   // OPTIONS
+  // ==============================
+
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
 
-  // Only POST
+
+  // ==============================
+  // ONLY POST
+  // ==============================
+
   if (req.method !== "POST") {
+
     return res.status(405).json({
       error: "Only POST request is allowed"
     });
+
   }
 
+
   try {
-    const body = req.body || {};
 
-    const text = typeof body.text === "string"
-      ? body.text.trim()
-      : "";
+    // ==============================
+    // READ BODY
+    // ==============================
 
-    const voiceId = typeof body.voiceId === "string"
-      ? body.voiceId.trim()
-      : "";
+    let body = req.body || {};
 
-    // Check text
+    if (typeof body === "string") {
+
+      try {
+        body = JSON.parse(body);
+      } catch (e) {
+        body = {};
+      }
+
+    }
+
+
+    const text =
+      typeof body.text === "string"
+        ? body.text.trim()
+        : "";
+
+
+    const voiceId =
+      typeof body.voiceId === "string"
+        ? body.voiceId.trim()
+        : "";
+
+
+    // ==============================
+    // CHECK TEXT
+    // ==============================
+
     if (!text) {
+
       return res.status(400).json({
         error: "Text is required",
         code: "TEXT_MISSING"
       });
+
     }
 
-    // Check API key
-    const apiKey = process.env.ELEVENLABS_API_KEY;
+
+    // ==============================
+    // CHECK API KEY
+    // ==============================
+
+    const apiKey =
+      process.env.ELEVENLABS_API_KEY;
+
 
     if (!apiKey || !apiKey.trim()) {
+
       return res.status(500).json({
-        error: "ELEVENLABS_API_KEY is missing in Vercel",
-        code: "API_KEY_MISSING"
+        error:
+          "ELEVENLABS_API_KEY is missing in Vercel",
+        code:
+          "API_KEY_MISSING"
       });
+
     }
 
-    // Verified ElevenLabs documentation example voice:
-    // George
+
+    // ==============================
+    // DEFAULT VOICE
+    // ==============================
+
     const selectedVoice =
-      voiceId || "JBFqnCBsd6RMkjVDRZzb";
+      voiceId ||
+      "JBFqnCBsd6RMkjVDRZzb";
 
-    // ElevenLabs TTS
-    const elevenResponse = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${selectedVoice}`,
-      {
-        method: "POST",
 
-        headers: {
-          "xi-api-key": apiKey.trim(),
-          "Content-Type": "application/json",
-          "Accept": "audio/mpeg"
-        },
+    // ==============================
+    // ELEVENLABS REQUEST
+    // ==============================
 
-        body: JSON.stringify({
-          text: text,
+    const elevenResponse =
+      await fetch(
+        `https://api.elevenlabs.io/v1/text-to-speech/${selectedVoice}`,
+        {
 
-          model_id: "eleven_multilingual_v2",
+          method: "POST",
 
-          voice_settings: {
-            stability: 0.45,
-            similarity_boost: 0.80,
-            style: 0.20,
-            use_speaker_boost: true
-          }
-        })
-      }
-    );
+          headers: {
 
-    // ElevenLabs error
+            "xi-api-key":
+              apiKey.trim(),
+
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "audio/mpeg"
+
+          },
+
+          body: JSON.stringify({
+
+            text: text,
+
+            model_id:
+              "eleven_multilingual_v2",
+
+            voice_settings: {
+
+              stability: 0.5,
+
+              similarity_boost: 0.75
+
+            }
+
+          })
+
+        }
+      );
+
+
+    // ==============================
+    // ELEVENLABS ERROR
+    // ==============================
+
     if (!elevenResponse.ok) {
 
-      const errorText = await elevenResponse.text();
+      const rawError =
+        await elevenResponse.text();
 
-      let parsedError = null;
+
+      let errorMessage =
+        rawError ||
+        "Unknown ElevenLabs error";
+
 
       try {
-        parsedError = JSON.parse(errorText);
-      } catch (e) {
-        parsedError = null;
+
+        const parsed =
+          JSON.parse(rawError);
+
+
+        /*
+          ElevenLabs कभी detail को
+          object के रूप में भेज सकता है।
+        */
+
+        if (
+          parsed &&
+          parsed.detail
+        ) {
+
+          if (
+            typeof parsed.detail ===
+            "string"
+          ) {
+
+            errorMessage =
+              parsed.detail;
+
+          }
+
+          else if (
+            typeof parsed.detail ===
+            "object"
+          ) {
+
+            errorMessage =
+              parsed.detail.message ||
+              parsed.detail.status ||
+              JSON.stringify(
+                parsed.detail
+              );
+
+          }
+
+        }
+
+        else if (
+          parsed &&
+          parsed.message
+        ) {
+
+          errorMessage =
+            typeof parsed.message ===
+            "string"
+              ? parsed.message
+              : JSON.stringify(
+                  parsed.message
+                );
+
+        }
+
+        else {
+
+          errorMessage =
+            JSON.stringify(parsed);
+
+        }
+
+      }
+      catch (e) {
+
+        /*
+          अगर JSON नहीं है,
+          तो raw error दिखाएँ
+        */
+
+        errorMessage =
+          rawError ||
+          "Unknown ElevenLabs error";
+
       }
 
-      return res.status(elevenResponse.status).json({
-        error: "ElevenLabs error",
-        status: elevenResponse.status,
-        code:
-          parsedError?.detail?.status ||
-          parsedError?.detail?.code ||
-          "ELEVENLABS_ERROR",
+
+      return res.status(
+        elevenResponse.status
+      ).json({
+
+        error:
+          "ElevenLabs error",
+
+        status:
+          elevenResponse.status,
+
         details:
-          parsedError?.detail?.message ||
-          errorText ||
-          "Unknown ElevenLabs error"
+          errorMessage,
+
+        voiceId:
+          selectedVoice
+
       });
+
     }
 
-    // Convert audio
-    const audioBuffer = Buffer.from(
-      await elevenResponse.arrayBuffer()
-    );
 
-    if (!audioBuffer || audioBuffer.length === 0) {
+    // ==============================
+    // AUDIO
+    // ==============================
+
+    const audioArrayBuffer =
+      await elevenResponse.arrayBuffer();
+
+
+    if (
+      !audioArrayBuffer ||
+      audioArrayBuffer.byteLength === 0
+    ) {
+
       return res.status(500).json({
-        error: "ElevenLabs returned empty audio",
-        code: "EMPTY_AUDIO"
+
+        error:
+          "ElevenLabs returned empty audio",
+
+        code:
+          "EMPTY_AUDIO"
+
       });
+
     }
 
-    // Audio response
-    res.statusCode = 200;
+
+    const audioBuffer =
+      Buffer.from(
+        audioArrayBuffer
+      );
+
+
+    // ==============================
+    // AUDIO RESPONSE
+    // ==============================
 
     res.setHeader(
       "Content-Type",
@@ -134,19 +327,73 @@ module.exports = async (req, res) => {
       "no-store, no-cache, must-revalidate"
     );
 
-    return res.end(audioBuffer);
 
-  } catch (error) {
+    return res.status(200).send(
+      audioBuffer
+    );
+
+
+  }
+
+  catch (error) {
 
     console.error(
       "GUPT BHARATVARSH VOICE ERROR:",
       error
     );
 
+
+    let message =
+      "Unknown server error";
+
+
+    if (
+      error &&
+      typeof error.message ===
+      "string"
+    ) {
+
+      message =
+        error.message;
+
+    }
+
+    else if (
+      error &&
+      typeof error ===
+      "object"
+    ) {
+
+      try {
+
+        message =
+          JSON.stringify(
+            error
+          );
+
+      } catch (e) {
+
+        message =
+          String(error);
+
+      }
+
+    }
+
+
     return res.status(500).json({
-      error: "Voice generation failed",
-      code: "SERVER_ERROR",
-      details: error?.message || "Unknown server error"
+
+      error:
+        "Voice generation failed",
+
+      code:
+        "SERVER_ERROR",
+
+      details:
+        message
+
     });
+
   }
+
 };
