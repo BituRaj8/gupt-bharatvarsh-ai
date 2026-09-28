@@ -1,0 +1,43 @@
+name: ElevenLabs Voice Generator
+
+on:
+  workflow_dispatch:
+    inputs:
+      text:
+        description: "Text to convert to voice"
+        required: true
+        type: string
+      voice_id:
+        description: "ElevenLabs Voice ID"
+        required: true
+        default: "JBFqnCBsd6RMkjVDRZzb"
+        type: string
+
+jobs:
+  generate-voice:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate ElevenLabs Voice
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: |
+          curl -X POST \
+            "https://api.elevenlabs.io/v1/text-to-speech/${{ inputs.voice_id }}" \
+            -H "xi-api-key: $ELEVENLABS_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "text": "${{ inputs.text }}",
+              "model_id": "eleven_multilingual_v2",
+              "voice_settings": {
+                "stability": 0.5,
+                "similarity_boost": 0.75
+              }
+            }' \
+            --output voice.mp3
+
+      - name: Upload Voice File
+        uses: actions/upload-artifact@v4
+        with:
+          name: elevenlabs-voice
+          path: voice.mp3
