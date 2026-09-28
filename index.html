@@ -209,6 +209,7 @@ padding:8px 12px;
 font-size:13px;
 background:#292929;
 color:#fff;
+margin-top:10px;
 }
 
 .render{
@@ -229,6 +230,11 @@ display:flex;
 align-items:center;
 justify-content:center;
 color:#777;
+}
+
+.audio-player{
+width:100%;
+margin-top:12px;
 }
 
 @media(max-width:600px){
@@ -425,21 +431,28 @@ Ready
 
 <div id="audioCard" class="card hidden">
 
-<h3>🎙️ Audio Generation</h3>
+<h3>🎙️ ElevenLabs Audio</h3>
 
 <div class="statusbox">
 
 <b>ElevenLabs Voice</b>
 
 <span id="audioStatus">
-Waiting for ElevenLabs connection...
+Waiting...
 </span>
 
 </div>
 
 <button class="secondary" onclick="generateAudio()">
-🔊 Generate Audio
+🔊 Generate ElevenLabs Audio
 </button>
+
+<audio
+id="audioPlayer"
+class="audio-player"
+controls
+style="display:none">
+</audio>
 
 </div>
 
@@ -481,9 +494,25 @@ let projectData = {};
 let generatedScenes = [];
 
 
-/* -------------------------
+/* =========================
+   BACKEND CONFIGURATION
+   ========================= */
+
+/*
+IMPORTANT:
+यहाँ अभी अपना backend URL नहीं डालना है।
+
+Backend बनने के बाद:
+YOUR_BACKEND_URL
+को उसके URL से replace करेंगे।
+*/
+
+const BACKEND_URL = "YOUR_BACKEND_URL";
+
+
+/* =========================
    SCRIPT SPLITTER
-------------------------- */
+   ========================= */
 
 function splitScript(text){
 
@@ -506,9 +535,9 @@ return parts;
 }
 
 
-/* -------------------------
+/* =========================
    PROMPT GENERATOR
-------------------------- */
+   ========================= */
 
 function createPrompt(sceneText,style){
 
@@ -575,9 +604,9 @@ return base;
 }
 
 
-/* -------------------------
+/* =========================
    GENERATE PROJECT
-------------------------- */
+   ========================= */
 
 function generateProject(){
 
@@ -615,11 +644,6 @@ Math.ceil(videoLength / duration);
 const scriptParts =
 splitScript(script);
 
-
-/*
-हम script को scenes में distribute करते हैं
-*/
-
 generatedScenes = [];
 
 for(let i=0;i<scenesCount;i++){
@@ -640,17 +664,13 @@ text = "Documentary scene " + (i+1);
 generatedScenes.push({
 
 number:i+1,
-
 text:text,
-
 prompt:createPrompt(text,style),
-
 duration:duration
 
 });
 
 }
-
 
 projectData = {
 
@@ -663,7 +683,6 @@ scenes:generatedScenes
 
 };
 
-
 document.getElementById("projectInfo")
 .classList.remove("hidden");
 
@@ -675,7 +694,6 @@ document.getElementById("audioCard")
 
 document.getElementById("videoCard")
 .classList.remove("hidden");
-
 
 document.getElementById("sceneCount")
 .innerText =
@@ -690,9 +708,7 @@ document.getElementById("voiceInfo")
 .innerText =
 voice;
 
-
 renderScenes();
-
 
 const status =
 document.getElementById("status");
@@ -705,7 +721,6 @@ status.innerText =
 
 progress.style.width="25%";
 
-
 setTimeout(()=>{
 
 progress.style.width="55%";
@@ -715,16 +730,14 @@ status.innerText =
 
 },600);
 
-
 setTimeout(()=>{
 
 progress.style.width="80%";
 
 status.innerText =
-"🎙️ Audio pipeline तैयार हो रही है...";
+"🎙️ ElevenLabs audio pipeline तैयार हो रही है...";
 
 },1200);
-
 
 setTimeout(()=>{
 
@@ -738,9 +751,9 @@ status.innerText =
 }
 
 
-/* -------------------------
+/* =========================
    SHOW SCENES
-------------------------- */
+   ========================= */
 
 function renderScenes(){
 
@@ -794,9 +807,9 @@ container.appendChild(div);
 }
 
 
-/* -------------------------
+/* =========================
    COPY PROMPT
-------------------------- */
+   ========================= */
 
 function copyPrompt(index){
 
@@ -809,31 +822,110 @@ alert("Prompt copy हो गया।");
 }
 
 
-/* -------------------------
-   AUDIO
-------------------------- */
+/* =========================
+   ELEVENLABS AUDIO
+   ========================= */
 
-function generateAudio(){
+async function generateAudio(){
 
 const status =
 document.getElementById("audioStatus");
 
+const player =
+document.getElementById("audioPlayer");
+
+if(!projectData.script){
+
 status.innerText =
-"⏳ Audio generation system तैयार किया जा रहा है...";
+"⚠️ पहले Generate Documentary दबाइए।";
 
-setTimeout(()=>{
+return;
+
+}
+
+if(BACKEND_URL === "YOUR_BACKEND_URL"){
 
 status.innerText =
-"⚠️ ElevenLabs API connection अभी बाकी है।";
+"⚠️ ElevenLabs backend अभी connect करना बाकी है।";
 
-},1200);
+return;
+
+}
+
+status.innerText =
+"⏳ ElevenLabs voice generate हो रही है...";
+
+try{
+
+const selectedVoice =
+document.getElementById("voice").value;
+
+const response =
+await fetch(
+BACKEND_URL + "/generate-voice",
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+text:projectData.script,
+
+voice:selectedVoice
+
+})
+
+});
+
+if(!response.ok){
+
+throw new Error(
+"Server error: " + response.status
+);
+
+}
+
+const data =
+await response.json();
+
+if(!data.audio){
+
+throw new Error(
+"Audio file नहीं मिली।"
+);
+
+}
+
+player.src =
+data.audio;
+
+player.style.display =
+"block";
+
+player.load();
+
+status.innerText =
+"✅ ElevenLabs voice तैयार है।";
+
+}catch(error){
+
+console.error(error);
+
+status.innerText =
+"❌ Voice error: " +
+error.message;
+
+}
 
 }
 
 
-/* -------------------------
+/* =========================
    VIDEO
-------------------------- */
+   ========================= */
 
 function renderVideo(){
 
@@ -865,10 +957,10 @@ p=100;
 clearInterval(timer);
 
 status.innerText =
-"⚠️ Actual AI video rendering backend अभी connect नहीं है।";
+"⚠️ Video renderer backend अभी connect नहीं है।";
 
 preview.innerText =
-"Video Renderer तैयार है — अब AI video API + ElevenLabs backend जोड़ना बाकी है.";
+"Scenes और ElevenLabs audio तैयार हैं। अब AI video rendering backend जोड़ना बाकी है.";
 
 }
 
@@ -879,9 +971,9 @@ progress.style.width=p+"%";
 }
 
 
-/* -------------------------
+/* =========================
    SAFE HTML
-------------------------- */
+   ========================= */
 
 function escapeHTML(text){
 
