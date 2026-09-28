@@ -7,45 +7,40 @@
 <title>GUPT BHARATVARSH AI</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
 margin:0;
 padding:20px;
 background:#111;
 color:white;
-font-family:Arial,sans-serif;
+font-family:Arial,sans-serif
 }
 
 h1{
 text-align:center;
-margin-bottom:25px;
+margin-bottom:25px
 }
 
 .box{
 background:#1b1b1b;
 padding:18px;
 border-radius:12px;
-margin-bottom:20px;
+margin-bottom:20px
 }
 
-textarea,
-input,
-select{
+textarea,input,select{
 width:100%;
 padding:14px;
 font-size:16px;
 border:0;
 border-radius:10px;
-margin:8px 0 15px;
+margin:8px 0 15px
 }
 
 textarea{
 height:220px;
-resize:vertical;
+resize:vertical
 }
 
 button{
@@ -56,56 +51,54 @@ border:0;
 border-radius:10px;
 font-size:17px;
 font-weight:bold;
-cursor:pointer;
+cursor:pointer
 }
 
-button:disabled{
-opacity:.5;
-}
+button:disabled{opacity:.5}
 
 #generateButton{
 background:#457b9d;
-color:white;
+color:white
 }
 
 #connectPollinations{
 background:#ffb703;
-color:#111;
+color:#111
 }
 
 .generateImageButton{
 background:#06d6a0;
-color:#111;
+color:#111
 }
 
 .downloadImageButton{
 background:#2a9d8f;
-color:white;
+color:white
 }
 
 #saveKeyButton{
 background:#f4a261;
-color:#111;
+color:#111
 }
 
 #loadVoices{
 background:#8338ec;
-color:white;
+color:white
 }
 
 #voiceButton{
 background:#e63946;
-color:white;
+color:white
 }
 
 #downloadButton{
 background:#2a9d8f;
-color:white;
+color:white
 }
 
 #removeKeyButton{
 background:#555;
-color:white;
+color:white
 }
 
 .scene{
@@ -113,18 +106,18 @@ background:#222;
 padding:15px;
 margin:12px 0;
 border-radius:10px;
-border-left:4px solid #457b9d;
+border-left:4px solid #457b9d
 }
 
 .sceneTitle{
 color:#ffd166;
 font-weight:bold;
-font-size:18px;
+font-size:18px
 }
 
 .sceneText{
 margin-top:10px;
-line-height:1.6;
+line-height:1.6
 }
 
 .prompt{
@@ -134,51 +127,46 @@ background:#181818;
 border-radius:8px;
 color:#bbb;
 line-height:1.5;
-font-size:14px;
+font-size:14px
 }
 
 .sceneImage{
 width:100%;
 margin-top:15px;
 border-radius:10px;
-display:block;
+display:block
 }
 
-#status,
-#pollinationsStatus{
+#status,#pollinationsStatus{
 background:#222;
 padding:12px;
 border-radius:8px;
 text-align:center;
-margin-top:15px;
+margin-top:15px
 }
 
 .note{
 color:#999;
 font-size:13px;
-line-height:1.5;
+line-height:1.5
 }
 
 .saved{
 color:#90be6d;
 font-size:13px;
-margin-bottom:10px;
+margin-bottom:10px
 }
 
 audio{
 width:100%;
-margin-top:15px;
+margin-top:15px
 }
-
 </style>
 </head>
 
 <body>
 
 <h1>🎬 GUPT BHARATVARSH AI</h1>
-
-
-<!-- STORY -->
 
 <div class="box">
 
@@ -256,11 +244,9 @@ placeholder="ElevenLabs API Key यहाँ डालें"
 </button>
 
 <select id="voiceSelect">
-
 <option value="">
 पहले Voices Load करें
 </option>
-
 </select>
 
 <select id="modelSelect">
@@ -294,15 +280,9 @@ Speed: 0.95
 🎙️ Generate Professional Hindi Voice
 </button>
 
-<audio
-id="audio"
-controls
-></audio>
+<audio id="audio" controls></audio>
 
-<button
-id="downloadButton"
-disabled
->
+<button id="downloadButton" disabled>
 💾 Download MP3
 </button>
 
@@ -376,16 +356,17 @@ POLLINATIONS APP KEY
 ===================================================== */
 
 /*
-अपनी Pollinations pk_ App Key यहाँ डालें।
+⚠️ अपनी नई Pollinations App Key नीचे डालें।
 
 उदाहरण:
-const POLLINATIONS_CLIENT_ID = "pk_bxT7t04xyyGHLQhN";
 
-अपनी पूरी key चैट में शेयर न करें।
+const POLLINATIONS_CLIENT_ID =
+"pk_bxT7t04xyyGHLQhN";
+
 */
 
 const POLLINATIONS_CLIENT_ID =
-"YOUR_POLLINATIONS_APP_KEY";
+"PASTE_YOUR_NEW_PK_KEY_HERE";
 
 
 let pollinationsToken =
@@ -427,64 +408,6 @@ document.getElementById(
 
 
 /* =====================================================
-LOAD SAVED VOICES
-===================================================== */
-
-const savedVoices =
-localStorage.getItem(
-"gb_eleven_voices"
-);
-
-if(savedVoices){
-
-try{
-
-const voices =
-JSON.parse(savedVoices);
-
-voiceSelect.innerHTML = "";
-
-voices.forEach(
-function(voice){
-
-const option =
-document.createElement("option");
-
-option.value =
-voice.voice_id;
-
-option.textContent =
-voice.name;
-
-voiceSelect.appendChild(
-option
-);
-
-});
-
-const savedVoice =
-localStorage.getItem(
-"gb_selected_voice"
-);
-
-if(savedVoice){
-
-voiceSelect.value =
-savedVoice;
-
-}
-
-}
-catch(error){
-
-console.error(error);
-
-}
-
-}
-
-
-/* =====================================================
 GENERATE SCENES
 ===================================================== */
 
@@ -500,10 +423,7 @@ Number(sceneCount.value);
 
 if(text === ""){
 
-alert(
-"पहले Story लिखें।"
-);
-
+alert("पहले Story लिखें।");
 return;
 
 }
@@ -521,14 +441,10 @@ return;
 scenes.innerHTML = "";
 
 const words =
-text
-.split(/\s+/)
-.filter(Boolean);
+text.split(/\s+/).filter(Boolean);
 
 const wordsPerScene =
-Math.ceil(
-words.length / count
-);
+Math.ceil(words.length / count);
 
 let sceneNumber = 0;
 
@@ -548,13 +464,9 @@ words.length
 );
 
 const sceneText =
-words
-.slice(start,end)
-.join(" ");
+words.slice(start,end).join(" ");
 
-if(sceneText === ""){
-continue;
-}
+if(sceneText === "") continue;
 
 sceneNumber++;
 
@@ -566,8 +478,7 @@ sceneText +
 const scene =
 document.createElement("div");
 
-scene.className =
-"scene";
+scene.className = "scene";
 
 scene.innerHTML =
 
@@ -674,14 +585,10 @@ return btoa(binary)
 }
 
 
-async function createChallenge(
-verifier
-){
+async function createChallenge(verifier){
 
 const data =
-new TextEncoder().encode(
-verifier
-);
+new TextEncoder().encode(verifier);
 
 const hash =
 await crypto.subtle.digest(
@@ -707,11 +614,11 @@ async function(){
 if(
 !POLLINATIONS_CLIENT_ID ||
 POLLINATIONS_CLIENT_ID ===
-"YOUR_POLLINATIONS_APP_KEY"
+"PASTE_YOUR_NEW_PK_KEY_HERE"
 ){
 
 alert(
-"पहले code में Pollinations pk_ App Key डालें।"
+"पहले code में अपनी Pollinations pk_ App Key डालें।"
 );
 
 return;
@@ -720,8 +627,7 @@ return;
 
 try{
 
-connectPollinations.disabled =
-true;
+connectPollinations.disabled = true;
 
 pollinationsStatus.textContent =
 "⏳ Pollinations Connect हो रहा है...";
@@ -730,9 +636,7 @@ const verifier =
 randomString(64);
 
 const challenge =
-await createChallenge(
-verifier
-);
+await createChallenge(verifier);
 
 const state =
 randomString(32);
@@ -785,8 +689,7 @@ console.error(error);
 pollinationsStatus.textContent =
 "❌ Pollinations Connect नहीं हुआ।";
 
-connectPollinations.disabled =
-false;
+connectPollinations.disabled = false;
 
 }
 
@@ -800,19 +703,13 @@ POLLINATIONS CALLBACK
 async function handlePollinationsCallback(){
 
 const currentURL =
-new URL(
-window.location.href
-);
+new URL(window.location.href);
 
 const code =
-currentURL.searchParams.get(
-"code"
-);
+currentURL.searchParams.get("code");
 
 const returnedState =
-currentURL.searchParams.get(
-"state"
-);
+currentURL.searchParams.get("state");
 
 if(!code){
 
@@ -974,8 +871,7 @@ return;
 
 try{
 
-button.disabled =
-true;
+button.disabled = true;
 
 button.textContent =
 "⏳ Image बन रही है...";
@@ -1057,15 +953,12 @@ function(){
 const link =
 document.createElement("a");
 
-link.href =
-localURL;
+link.href = localURL;
 
 link.download =
 "gupt-bharatvarsh-scene.png";
 
-document.body.appendChild(
-link
-);
+document.body.appendChild(link);
 
 link.click();
 
@@ -1099,8 +992,7 @@ alert(
 }
 finally{
 
-button.disabled =
-false;
+button.disabled = false;
 
 }
 
@@ -1120,10 +1012,7 @@ apiKey.value.trim();
 
 if(!key){
 
-alert(
-"पहले API Key डालें।"
-);
-
+alert("पहले API Key डालें।");
 return;
 
 }
@@ -1192,8 +1081,7 @@ return;
 
 try{
 
-loadVoices.disabled =
-true;
+loadVoices.disabled = true;
 
 status.textContent =
 "⏳ Voices load हो रही हैं...";
@@ -1203,8 +1091,6 @@ await fetch(
 "https://api.elevenlabs.io/v1/voices",
 {
 
-method:"GET",
-
 headers:{
 "xi-api-key":key
 }
@@ -1212,11 +1098,6 @@ headers:{
 });
 
 if(!response.ok){
-
-const errorText =
-await response.text();
-
-console.error(errorText);
 
 throw new Error(
 "Voices load नहीं हुईं"
@@ -1234,9 +1115,7 @@ key
 
 localStorage.setItem(
 "gb_eleven_voices",
-JSON.stringify(
-data.voices
-)
+JSON.stringify(data.voices)
 );
 
 voiceSelect.innerHTML = "";
@@ -1245,9 +1124,7 @@ data.voices.forEach(
 function(voice){
 
 const option =
-document.createElement(
-"option"
-);
+document.createElement("option");
 
 option.value =
 voice.voice_id;
@@ -1255,32 +1132,11 @@ voice.voice_id;
 option.textContent =
 voice.name;
 
-voiceSelect.appendChild(
-option
-);
+voiceSelect.appendChild(option);
 
 });
 
-const savedVoice =
-localStorage.getItem(
-"gb_selected_voice"
-);
-
-if(
-savedVoice &&
-data.voices.some(
-v =>
-v.voice_id === savedVoice
-)
-){
-
-voiceSelect.value =
-savedVoice;
-
-}
-else if(
-data.voices.length
-){
+if(data.voices.length){
 
 voiceSelect.value =
 data.voices[0].voice_id;
@@ -1315,8 +1171,7 @@ alert(
 }
 finally{
 
-loadVoices.disabled =
-false;
+loadVoices.disabled = false;
 
 }
 
@@ -1381,9 +1236,7 @@ document.getElementById(
 ).value;
 
 const voiceSpeed =
-Number(
-speed.value
-);
+Number(speed.value);
 
 if(!key){
 
@@ -1417,11 +1270,9 @@ return;
 
 try{
 
-voiceButton.disabled =
-true;
+voiceButton.disabled = true;
 
-downloadButton.disabled =
-true;
+downloadButton.disabled = true;
 
 status.textContent =
 "⏳ Hindi voice बन रही है...";
@@ -1439,13 +1290,8 @@ url,
 method:"POST",
 
 headers:{
-
-"xi-api-key":
-key,
-
-"Content-Type":
-"application/json"
-
+"xi-api-key":key,
+"Content-Type":"application/json"
 },
 
 body:
@@ -1453,27 +1299,16 @@ JSON.stringify({
 
 text:text,
 
-model_id:
-model,
+model_id:model,
 
 voice_settings:{
-
-stability:
-0.45,
-
-similarity_boost:
-0.80,
-
-style:
-0.25,
-
-use_speaker_boost:
-true
-
+stability:0.45,
+similarity_boost:0.80,
+style:0.25,
+use_speaker_boost:true
 },
 
-speed:
-voiceSpeed
+speed:voiceSpeed
 
 })
 
@@ -1481,16 +1316,8 @@ voiceSpeed
 
 if(!response.ok){
 
-const errorText =
-await response.text();
-
-console.error(
-"ElevenLabs Error:",
-errorText
-);
-
 throw new Error(
-errorText
+await response.text()
 );
 
 }
@@ -1499,17 +1326,14 @@ audioBlob =
 await response.blob();
 
 const audioURL =
-URL.createObjectURL(
-audioBlob
-);
+URL.createObjectURL(audioBlob);
 
 audio.src =
 audioURL;
 
 audio.load();
 
-downloadButton.disabled =
-false;
+downloadButton.disabled = false;
 
 status.textContent =
 "✅ Professional Hindi Voice तैयार है!";
@@ -1529,8 +1353,7 @@ alert(
 }
 finally{
 
-voiceButton.disabled =
-false;
+voiceButton.disabled = false;
 
 }
 
@@ -1545,29 +1368,20 @@ downloadButton.addEventListener(
 "click",
 function(){
 
-if(!audioBlob){
-
-return;
-
-}
+if(!audioBlob) return;
 
 const url =
-URL.createObjectURL(
-audioBlob
-);
+URL.createObjectURL(audioBlob);
 
 const link =
 document.createElement("a");
 
-link.href =
-url;
+link.href = url;
 
 link.download =
 "gupt-bharatvarsh-hindi-voice.mp3";
 
-document.body.appendChild(
-link
-);
+document.body.appendChild(link);
 
 link.click();
 
