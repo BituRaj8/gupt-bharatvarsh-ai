@@ -7,1200 +7,1068 @@
 <title>GUPT BHARATVARSH AI</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#080808;
-color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at top,#18233d 0,#080b13 42%,#030407 100%);
+  color:#fff;
+  min-height:100vh;
 }
 
-.header{
-padding:18px;
-text-align:center;
-background:linear-gradient(135deg,#111,#252525);
-border-bottom:1px solid #333;
+header{
+  padding:25px 16px;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  background:rgba(0,0,0,.25);
 }
 
-.header h1{
-margin:0;
-font-size:25px;
+.logo{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:2px;
 }
 
-.header p{
-margin:7px 0 0;
-color:#aaa;
+.logo span{
+  color:#f5b942;
+}
+
+.subtitle{
+  margin-top:7px;
+  color:#aeb8ca;
+  font-size:14px;
 }
 
 .container{
-max-width:850px;
-margin:auto;
-padding:18px;
+  width:min(1100px,94%);
+  margin:25px auto 60px;
 }
 
 .card{
-background:#151515;
-border:1px solid #333;
-border-radius:18px;
-padding:18px;
-margin-bottom:18px;
+  background:rgba(16,21,34,.92);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.card h2{
+  font-size:19px;
+  margin-bottom:15px;
 }
 
 label{
-display:block;
-margin-bottom:9px;
-font-weight:bold;
-}
-
-textarea,select{
-width:100%;
-background:#0d0d0d;
-color:white;
-border:1px solid #444;
-border-radius:12px;
-padding:14px;
-font-size:16px;
-outline:none;
+  display:block;
+  color:#dce2ed;
+  font-size:14px;
+  margin-bottom:7px;
 }
 
 textarea{
-min-height:220px;
-resize:vertical;
+  width:100%;
+  min-height:230px;
+  resize:vertical;
+  padding:16px;
+  border-radius:12px;
+  border:1px solid #30394c;
+  background:#080c15;
+  color:#fff;
+  outline:none;
+  font-size:15px;
+  line-height:1.7;
 }
 
-textarea:focus,select:focus{
-border-color:#9b59ff;
+textarea:focus,
+select:focus{
+  border-color:#f5b942;
 }
 
 .grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+  margin-top:18px;
 }
 
-.option{
-background:#101010;
-border:1px solid #333;
-border-radius:12px;
-padding:13px;
+.field{
+  background:#0b101b;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #222b3c;
+}
+
+select{
+  width:100%;
+  padding:12px;
+  border-radius:9px;
+  background:#151c2b;
+  color:#fff;
+  border:1px solid #30394c;
+  outline:none;
+}
+
+.duration-options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.duration-options label{
+  margin:0;
+}
+
+.duration-options input{
+  display:none;
+}
+
+.duration-options span{
+  display:block;
+  padding:10px 16px;
+  border-radius:8px;
+  background:#151c2b;
+  border:1px solid #30394c;
+  cursor:pointer;
+}
+
+.duration-options input:checked + span{
+  background:#f5b942;
+  color:#111;
+  border-color:#f5b942;
+  font-weight:bold;
 }
 
 button{
-width:100%;
-border:0;
-border-radius:13px;
-padding:16px;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
+  border:0;
+  border-radius:10px;
+  padding:13px 20px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.generate{
-background:linear-gradient(135deg,#8b3dff,#c43dff);
-color:white;
+button:hover{
+  transform:translateY(-1px);
+}
+
+.primary{
+  width:100%;
+  margin-top:20px;
+  background:linear-gradient(135deg,#f5b942,#ffcf65);
+  color:#111;
+  font-size:17px;
 }
 
 .secondary{
-background:#222;
-color:white;
-margin-top:10px;
+  background:#202a3c;
+  color:#fff;
 }
 
-.status{
-margin-top:15px;
-padding:12px;
-border-radius:10px;
-background:#101010;
-color:#bbb;
-text-align:center;
+.success{
+  background:#173d2c;
+  color:#9ff0c1;
 }
 
-.progress{
-height:8px;
-background:#333;
-border-radius:20px;
-overflow:hidden;
-margin-top:12px;
-}
-
-.progress-bar{
-width:0%;
-height:100%;
-background:linear-gradient(90deg,#8b3dff,#ff3df2);
-transition:.4s;
-}
-
-.small{
-color:#888;
-font-size:13px;
-margin-top:8px;
-}
-
-.badge{
-display:inline-block;
-padding:6px 10px;
-border-radius:20px;
-background:#252525;
-color:#bbb;
-font-size:12px;
-margin:3px;
+.danger{
+  background:#49222a;
+  color:#ffb4bd;
 }
 
 .hidden{
-display:none;
+  display:none!important;
+}
+
+.project-header{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.badge{
+  padding:7px 11px;
+  border-radius:20px;
+  background:#172238;
+  color:#c9d5ea;
+  font-size:12px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:16px;
+}
+
+.stat{
+  background:#0a0f19;
+  border:1px solid #202a3b;
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:22px;
+  color:#f5b942;
+}
+
+.stat small{
+  color:#9aa6ba;
 }
 
 .scene{
-background:#101010;
-border:1px solid #333;
-border-radius:15px;
-padding:15px;
-margin-top:14px;
+  border:1px solid #242e40;
+  background:#0a0f18;
+  border-radius:14px;
+  padding:16px;
+  margin-top:12px;
 }
 
-.scene-title{
-font-weight:bold;
-font-size:17px;
-margin-bottom:10px;
-color:#d8b8ff;
+.scene-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.scene-number{
+  color:#f5b942;
+  font-weight:bold;
+}
+
+.scene-duration{
+  color:#8f9bb0;
+  font-size:12px;
 }
 
 .scene-text{
-color:#ddd;
-line-height:1.6;
-margin-bottom:12px;
+  margin-top:12px;
+  color:#e5e9f0;
+  line-height:1.7;
 }
 
-.prompt{
-background:#080808;
-border:1px solid #333;
-border-radius:10px;
-padding:12px;
-color:#bbb;
-font-size:14px;
-line-height:1.5;
-margin-top:8px;
+.prompt-box{
+  margin-top:12px;
+  padding:12px;
+  background:#05080e;
+  border-radius:10px;
+  color:#aebbd0;
+  font-size:13px;
+  line-height:1.6;
+  border:1px solid #1d2636;
 }
 
-.row{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
+.scene-actions{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+  flex-wrap:wrap;
 }
 
-.statusbox{
-flex:1;
-min-width:140px;
-background:#0d0d0d;
-border:1px solid #333;
-padding:13px;
-border-radius:12px;
+.scene-actions button{
+  padding:8px 12px;
+  font-size:12px;
 }
 
-.statusbox b{
-display:block;
-margin-bottom:5px;
+.progress-wrap{
+  margin-top:15px;
+  background:#080c13;
+  border-radius:10px;
+  overflow:hidden;
+  height:10px;
 }
 
-.copy{
-width:auto;
-padding:8px 12px;
-font-size:13px;
-background:#292929;
-color:#fff;
-margin-top:10px;
+.progress{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#f5b942,#fff0b3);
+  transition:.3s;
 }
 
-.render{
-margin-top:10px;
-background:#111;
-border:1px solid #333;
-border-radius:12px;
-padding:14px;
+.status{
+  margin-top:10px;
+  color:#aeb8ca;
+  font-size:13px;
 }
 
-.video-preview{
-width:100%;
-margin-top:12px;
-background:#000;
-border-radius:12px;
-min-height:180px;
-display:flex;
-align-items:center;
-justify-content:center;
-color:#777;
-text-align:center;
-padding:20px;
+.empty{
+  padding:25px;
+  text-align:center;
+  color:#8995aa;
 }
 
-.audio-player{
-width:100%;
-margin-top:12px;
+.notice{
+  padding:12px 14px;
+  border-radius:10px;
+  background:#131d2e;
+  color:#b8c6dc;
+  font-size:13px;
+  line-height:1.6;
+  margin-top:12px;
 }
 
-.info-note{
-margin-top:12px;
-padding:12px;
-border-radius:10px;
-background:#111;
-border:1px solid #333;
-color:#aaa;
-font-size:13px;
-line-height:1.5;
+footer{
+  text-align:center;
+  color:#69758a;
+  font-size:12px;
+  padding:20px;
 }
 
-@media(max-width:600px){
-.grid{
-grid-template-columns:1fr;
-}
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .logo{
+    font-size:23px;
+  }
+
+  textarea{
+    min-height:190px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-<h1>🎬 GUPT BHARATVARSH AI</h1>
-<p>AI Documentary Video Maker</p>
-</div>
+<header>
+  <div class="logo">GUPT <span>BHARATVARSH</span> AI</div>
+  <div class="subtitle">
+    AI Documentary Script → Scenes → Voice → Video
+  </div>
+</header>
 
-<div class="container">
+<main class="container">
 
-<!-- SCRIPT -->
+<section class="card">
+  <h2>🎬 Documentary Script</h2>
 
-<div class="card">
+  <label for="title">Documentary Title</label>
+  <input
+    id="title"
+    type="text"
+    value="कैलाश मंदिर का रहस्य"
+    style="
+      width:100%;
+      padding:13px;
+      border-radius:10px;
+      border:1px solid #30394c;
+      background:#080c15;
+      color:white;
+      outline:none;
+      margin-bottom:15px;
+    "
+  >
 
-<label>📝 Documentary Script</label>
+  <label for="script">अपनी Hindi Script यहाँ डालें</label>
 
-<textarea
-id="script"
-placeholder="अपना पूरा हिंदी script यहाँ paste करें..."></textarea>
+  <textarea id="script">महाराष्ट्र की एलोरा गुफाओं में मौजूद कैलाश मंदिर को देखकर आज भी लोग हैरान रह जाते हैं।
 
-<div class="small">
-Script → Scenes → Prompts → Voice → Video
-</div>
+क्योंकि यह मंदिर अलग-अलग पत्थरों को जोड़कर नहीं बनाया गया था। इसे एक विशाल चट्टान को काटकर तैयार किया गया था।
 
-</div>
+सोचिए, आज से लगभग बारह सौ साल पहले, जब आधुनिक मशीनें और क्रेन मौजूद नहीं थीं, तब कारीगरों ने एक पहाड़ जैसी चट्टान में मंदिर, स्तंभ, मूर्तियाँ और विशाल संरचनाएँ तराश दीं।
 
+मंदिर का निर्माण राष्ट्रकूट शासक कृष्ण प्रथम के शासनकाल से जोड़ा जाता है।
 
-<!-- VOICE -->
+इसके चारों तरफ बनी नक्काशी में देवी-देवताओं और भारतीय धार्मिक कथाओं से जुड़े अनेक दृश्य दिखाई देते हैं।
 
-<div class="card">
+सबसे हैरान करने वाली बात यह है कि यहाँ पत्थर केवल काटा नहीं गया—बल्कि उसे इतनी सटीकता से तराशा गया कि एक विशाल मंदिर का पूरा रूप उसी चट्टान से बाहर निकल आया।
 
-<label>🎙️ Voice चुनें</label>
+आज भी कैलाश मंदिर हमें एक सवाल सोचने पर मजबूर करता है—
 
-<select id="voice">
+प्राचीन भारत के कारीगरों के पास आखिर कितना अद्भुत ज्ञान और कौशल रहा होगा?
 
-<option value="roger">Roger — Natural / Casual</option>
-<option value="male_deep">Male — Deep Documentary</option>
-<option value="male_natural">Male — Natural</option>
-<option value="female_doc">Female — Documentary</option>
-<option value="female_natural">Female — Natural</option>
-<option value="dramatic">Dramatic — Mystery</option>
-
-</select>
-
-<div>
-<span class="badge">Natural</span>
-<span class="badge">Documentary</span>
-<span class="badge">Deep</span>
-<span class="badge">Female</span>
-<span class="badge">Dramatic</span>
-</div>
-
-</div>
-
-
-<!-- SCENE -->
-
-<div class="card">
-
-<label>🎞️ Scene Duration</label>
+अगर आपको भारत के ऐसे ही रहस्यमयी इतिहास पसंद हैं, तो GUPT BHARATVARSH को Subscribe जरूर करें।</textarea>
 
 <div class="grid">
 
-<div class="option">
-<input type="radio" name="duration" value="5">
-5 Seconds
+  <div class="field">
+    <label>🎙️ Voice</label>
+    <select id="voice">
+      <option value="roger">Roger — Deep Documentary</option>
+      <option value="male_deep">Male Deep — Mystery</option>
+      <option value="male_natural">Male Natural</option>
+      <option value="female_doc">Female Documentary</option>
+      <option value="female_natural">Female Natural</option>
+      <option value="dramatic">Dramatic Storyteller</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>🎞️ Style</label>
+    <select id="style">
+      <option value="cinematic">Cinematic Mystery</option>
+      <option value="dark">Dark Documentary</option>
+      <option value="historical">Historical Documentary</option>
+      <option value="science">Science Documentary</option>
+      <option value="horror">Horror Mystery</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>⏱️ Scene Duration</label>
+
+    <div class="duration-options">
+
+      <label>
+        <input type="radio" name="duration" value="5" checked>
+        <span>5 sec</span>
+      </label>
+
+      <label>
+        <input type="radio" name="duration" value="7">
+        <span>7 sec</span>
+      </label>
+
+      <label>
+        <input type="radio" name="duration" value="9">
+        <span>9 sec</span>
+      </label>
+
+      <label>
+        <input type="radio" name="duration" value="12">
+        <span>12 sec</span>
+      </label>
+
+    </div>
+  </div>
+
+  <div class="field">
+    <label>🎥 Total Video Length</label>
+
+    <select id="videoLength">
+      <option value="60">1 Minute</option>
+      <option value="300">5 Minutes</option>
+      <option value="600">10 Minutes</option>
+      <option value="900">15 Minutes</option>
+    </select>
+  </div>
+
 </div>
 
-<div class="option">
-<input type="radio" name="duration" value="7" checked>
-7 Seconds
-</div>
-
-<div class="option">
-<input type="radio" name="duration" value="9">
-9 Seconds
-</div>
-
-<div class="option">
-<input type="radio" name="duration" value="12">
-12 Seconds
-</div>
-
-</div>
-
-</div>
-
-
-<!-- VIDEO LENGTH -->
-
-<div class="card">
-
-<label>⏱️ Total Video Length</label>
-
-<select id="videoLength">
-
-<option value="60">1 Minute</option>
-<option value="300">5 Minutes</option>
-<option value="600">10 Minutes</option>
-<option value="900">15 Minutes</option>
-
-</select>
-
-<div class="info-note">
-💡 Test के लिए पहले <b>1 Minute</b> चुनें।
-</div>
-
-</div>
-
-
-<!-- STYLE -->
-
-<div class="card">
-
-<label>🎬 Documentary Style</label>
-
-<select id="style">
-
-<option>Cinematic Mystery</option>
-<option>Dark Documentary</option>
-<option>Historical Documentary</option>
-<option>Science Documentary</option>
-<option>Horror Mystery</option>
-
-</select>
-
-</div>
-
-
-<!-- GENERATE -->
-
-<div class="card">
-
-<button class="generate" onclick="generateProject()">
-🚀 Generate Documentary
+<button class="primary" id="generateBtn">
+  🚀 Generate Documentary Project
 </button>
 
-<div id="status" class="status">
-Ready
+<div class="progress-wrap">
+  <div class="progress" id="progress"></div>
 </div>
 
-<div class="progress">
-<div id="progressBar" class="progress-bar"></div>
+<div class="status" id="status">
+  Ready...
 </div>
 
-</div>
+</section>
 
 
-<!-- PROJECT INFO -->
+<section class="card hidden" id="projectCard">
 
-<div id="projectInfo" class="card hidden">
+  <div class="project-header">
 
-<h3>📊 Project Information</h3>
+    <div>
+      <h2 id="projectTitle">Project</h2>
+      <div class="subtitle" id="projectTopic"></div>
+    </div>
 
-<div class="row">
+    <div class="badge">
+      GUPT BHARATVARSH AI
+    </div>
 
-<div class="statusbox">
-<b>🎞️ Scenes</b>
-<span id="sceneCount">0</span>
-</div>
+  </div>
 
-<div class="statusbox">
-<b>⏱️ Duration</b>
-<span id="durationInfo">0 sec</span>
-</div>
+  <div class="stats">
 
-<div class="statusbox">
-<b>🎙️ Voice</b>
-<span id="voiceInfo">-</span>
-</div>
+    <div class="stat">
+      <strong id="sceneCount">0</strong>
+      <small>Scenes</small>
+    </div>
 
-</div>
+    <div class="stat">
+      <strong id="totalSeconds">0</strong>
+      <small>Seconds</small>
+    </div>
 
-</div>
+    <div class="stat">
+      <strong id="voiceName">Roger</strong>
+      <small>Voice</small>
+    </div>
 
+    <div class="stat">
+      <strong id="styleName">Cinematic</strong>
+      <small>Style</small>
+    </div>
 
-<!-- SCENES -->
+  </div>
 
-<div id="scenesCard" class="card hidden">
-
-<h3>🎬 Generated Scenes</h3>
-
-<div id="scenes"></div>
-
-</div>
-
-
-<!-- AUDIO -->
-
-<div id="audioCard" class="card hidden">
-
-<h3>🎙️ ElevenLabs Audio</h3>
-
-<div class="statusbox">
-
-<b>ElevenLabs Voice</b>
-
-<span id="audioStatus">
-Waiting...
-</span>
-
-</div>
-
-<button class="secondary" onclick="generateAudio()">
-🔊 Generate ElevenLabs Audio
-</button>
-
-<audio
-id="audioPlayer"
-class="audio-player"
-controls
-style="display:none">
-</audio>
-
-</div>
+</section>
 
 
-<!-- VIDEO -->
+<section class="card hidden" id="scenesCard">
 
-<div id="videoCard" class="card hidden">
+  <div class="project-header">
+    <h2>🎞️ Generated Scenes</h2>
 
-<h3>🎥 Video Rendering</h3>
+    <button class="secondary" id="copyAllBtn">
+      Copy All Prompts
+    </button>
+  </div>
 
-<div class="render">
+  <div id="scenes"></div>
 
-<div id="videoStatus">
-Waiting for scenes and audio...
-</div>
+</section>
 
-<div class="progress">
-<div id="videoProgress" class="progress-bar"></div>
-</div>
 
-</div>
+<section class="card hidden" id="audioCard">
 
-<button class="secondary" onclick="renderVideo()">
-🎬 Start Video Rendering
-</button>
+  <h2>🎙️ AI Voice</h2>
 
-<div class="video-preview" id="videoPreview">
-Video Preview यहाँ दिखाई देगा
-</div>
+  <div class="notice">
+    Voice generation module तैयार है। ElevenLabs/API backend connect करने के बाद
+    इसी जगह से पूरा narration audio generate किया जाएगा।
+  </div>
 
-</div>
+  <button class="primary" id="audioBtn">
+    🎙️ Generate AI Voice
+  </button>
 
-</div>
+</section>
+
+
+<section class="card hidden" id="videoCard">
+
+  <h2>🎥 Final Documentary Video</h2>
+
+  <div class="notice">
+    पहले scenes और voice तैयार होंगे। उसके बाद video rendering backend
+    जोड़कर final documentary MP4 बनाया जाएगा।
+  </div>
+
+  <button class="primary" id="videoBtn">
+    🎬 Create Final Video
+  </button>
+
+</section>
+
+
+<section class="card">
+
+  <h2>ℹ️ Current Version</h2>
+
+  <div class="notice">
+    Frontend engine: Active<br>
+    Scene generator: Active<br>
+    Prompt generator: Active<br>
+    Voice API: Backend connection pending<br>
+    Video renderer: Backend connection pending
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+  © 2026 GUPT BHARATVARSH AI
+</footer>
 
 
 <script>
 
-let projectData = {};
+"use strict";
+
+/* ==========================================
+   GUPT BHARATVARSH AI
+   FRONTEND DOCUMENTARY ENGINE
+========================================== */
+
 let generatedScenes = [];
+let projectData = {};
 
 
-/* =========================
-   BACKEND CONFIGURATION
-   ========================= */
+/* ------------------------------------------
+   ELEMENTS
+------------------------------------------ */
 
-const BACKEND_URL = "YOUR_BACKEND_URL";
+const $ = id => document.getElementById(id);
+
+const scriptEl = $("script");
+const titleEl = $("title");
+const voiceEl = $("voice");
+const styleEl = $("style");
+const lengthEl = $("videoLength");
+const generateBtn = $("generateBtn");
+const scenesEl = $("scenes");
+const progressEl = $("progress");
+const statusEl = $("status");
 
 
-/* =========================
-   CLEAN TEXT
-   ========================= */
+/* ------------------------------------------
+   HELPERS
+------------------------------------------ */
 
 function cleanText(text){
 
-return text
-.replace(/\r/g," ")
-.replace(/\n+/g," ")
-.replace(/\s+/g," ")
-.trim();
+  return text
+    .replace(/\r/g,"")
+    .replace(/[ \t]+/g," ")
+    .replace(/\n{3,}/g,"\n\n")
+    .trim();
 
 }
 
 
-/* =========================
+function getDuration(){
+
+  const selected =
+    document.querySelector(
+      'input[name="duration"]:checked'
+    );
+
+  return selected
+    ? Number(selected.value)
+    : 5;
+
+}
+
+
+function getTotalLength(){
+
+  return Number(lengthEl.value || 60);
+
+}
+
+
+function setProgress(value){
+
+  const v = Math.max(
+    0,
+    Math.min(100,value)
+  );
+
+  progressEl.style.width = v + "%";
+
+}
+
+
+function setStatus(message){
+
+  statusEl.textContent = message;
+
+}
+
+
+/* ------------------------------------------
    SENTENCE SPLITTER
-   ========================= */
+------------------------------------------ */
 
-function getSentences(text){
+function splitSentences(text){
 
-const cleaned = cleanText(text);
+  text = cleanText(text);
 
-const matches =
-cleaned.match(/[^।!?]+[।!?]+|[^।!?]+$/g);
+  if(!text) return [];
 
-if(!matches){
+  let parts = text
+    .split(/(?<=[।!?])\s+|\n+/)
+    .map(x => x.trim())
+    .filter(Boolean);
 
-return [cleaned];
-
-}
-
-return matches
-.map(x => x.trim())
-.filter(x => x.length > 0);
+  return parts;
 
 }
 
 
-/* =========================
-   CREATE SCENE TEXT
-   ========================= */
-
-/*
-यह function script को scenes में बाँटता है।
-
-अगर sentences कम हैं लेकिन scenes ज्यादा हैं,
-तो script को छोटे text blocks में बाँटा जाएगा।
-
-इससे एक ही narration बार-बार repeat नहीं होगी।
-*/
-
-function createSceneTexts(text,sceneCount){
-
-const sentences = getSentences(text);
-
-if(sentences.length === 0){
-
-return Array(sceneCount)
-.fill("Documentary scene");
-
-}
-
-
-/* पहले sentence-based distribution */
-
-if(sentences.length >= sceneCount){
-
-let result = [];
-
-for(let i=0;i<sceneCount;i++){
-
-const start =
-Math.floor(i * sentences.length / sceneCount);
-
-const end =
-Math.floor((i + 1) * sentences.length / sceneCount);
-
-const chunk =
-sentences.slice(start,end).join(" ");
-
-result.push(chunk);
-
-}
-
-return result;
-
-}
-
-
-/* 
-अगर sentences कम हैं,
-तो पूरे script को words में बाँटकर
-unique scene narration बनाते हैं।
-*/
-
-const words =
-cleanText(text).split(/\s+/);
-
-let result = [];
-
-for(let i=0;i<sceneCount;i++){
-
-const start =
-Math.floor(i * words.length / sceneCount);
-
-const end =
-Math.floor((i + 1) * words.length / sceneCount);
-
-let chunk =
-words.slice(start,end).join(" ");
-
-if(!chunk){
-
-chunk = words[Math.min(start,words.length-1)] || "Documentary";
-
-}
-
-result.push(chunk);
-
-}
-
-return result;
-
-}
-
-
-/* =========================
+/* ------------------------------------------
    TOPIC DETECTION
-   ========================= */
+------------------------------------------ */
 
-function detectTopic(text){
+function detectTopic(text,title){
 
-const lower = text.toLowerCase();
+  const value =
+    (title + " " + text)
+    .toLowerCase();
 
-if(
-lower.includes("कैलाश") ||
-lower.includes("एलोरा") ||
-lower.includes("ellora")
-){
+  if(
+    value.includes("कैलाश") ||
+    value.includes("एलोरा") ||
+    value.includes("मंदिर")
+  ){
+    return "ancient Indian temple";
+  }
 
-return "kailash";
+  if(
+    value.includes("अंटार्कटिका") ||
+    value.includes("antarctica") ||
+    value.includes("बर्फ")
+  ){
+    return "Antarctica";
+  }
 
-}
+  if(
+    value.includes("बरमूडा") ||
+    value.includes("bermuda")
+  ){
+    return "Bermuda Triangle";
+  }
 
-if(
-lower.includes("अंटार्कटिका") ||
-lower.includes("antarctica") ||
-lower.includes("बर्फ")
-){
+  if(
+    value.includes("समुद्र") ||
+    value.includes("ocean") ||
+    value.includes("ship")
+  ){
+    return "mysterious ocean";
+  }
 
-return "antarctica";
+  if(
+    value.includes("इतिहास") ||
+    value.includes("राजा") ||
+    value.includes("युद्ध")
+  ){
+    return "Indian history";
+  }
 
-}
-
-if(
-lower.includes("बरमूडा") ||
-lower.includes("bermuda") ||
-lower.includes("triangle")
-){
-
-return "bermuda";
-
-}
-
-if(
-lower.includes("मंदिर") ||
-lower.includes("temple")
-){
-
-return "temple";
-
-}
-
-if(
-lower.includes("समुद्र") ||
-lower.includes("सागर") ||
-lower.includes("ocean")
-){
-
-return "ocean";
-
-}
-
-if(
-lower.includes("अंतरिक्ष") ||
-lower.includes("space") ||
-lower.includes("पृथ्वी")
-){
-
-return "space";
-
-}
-
-if(
-lower.includes("युद्ध") ||
-lower.includes("राजा") ||
-lower.includes("शासक") ||
-lower.includes("साम्राज्य")
-){
-
-return "history";
-
-}
-
-return "general";
+  return "mystery documentary";
 
 }
 
 
-/* =========================
-   KAILASH VISUALS
-   ========================= */
+/* ------------------------------------------
+   STYLE PROMPTS
+------------------------------------------ */
 
-function kailashPrompt(sceneNumber){
+function getStylePrompt(style){
 
-const shots = [
+  const styles = {
 
-"Wide aerial establishing shot of Ellora Caves in Maharashtra, India, enormous ancient rock-cut complex surrounded by rugged landscape, cinematic atmosphere",
+    cinematic:
+      "cinematic documentary style, dramatic lighting, realistic atmosphere, volumetric light, deep shadows",
 
-"Massive Kailasa Temple carved directly from a single mountain rock, dramatic wide angle showing the enormous monolithic structure",
+    dark:
+      "dark investigative documentary style, mysterious atmosphere, dramatic shadows, moody lighting",
 
-"Ancient Indian stone craftsmen carefully carving a giant rock using traditional hand tools, historically inspired clothing, realistic documentary reconstruction",
+    historical:
+      "historically inspired documentary reconstruction, realistic ancient environment, cinematic lighting",
 
-"Detailed view of ancient rock-cut architecture, enormous stone pillars and carved walls emerging from the mountain, dramatic sunlight",
+    science:
+      "scientific documentary visual style, realistic details, research atmosphere, cinematic lighting",
 
-"Close cinematic shot of intricate Indian temple sculptures carved into stone, extremely detailed craftsmanship, realistic stone texture",
+    horror:
+      "dark mysterious horror documentary atmosphere, fog, dramatic shadows, realistic cinematic lighting"
 
-"Wide interior courtyard of Kailasa Temple, towering stone structures, pillars and sculptures, atmospheric historical documentary lighting",
+  };
 
-"Detailed close-up of monumental elephant and deity sculptures carved from stone, ancient Indian artistic craftsmanship",
-
-"Historical reconstruction of the Rashtrakuta era, ancient Indian royal court and craftsmen planning a monumental temple, realistic documentary style",
-
-"Top-down cinematic view showing the extraordinary scale of the rock-cut temple complex carved into the mountain",
-
-"Extreme close-up of precise ancient stone carving marks and architectural details, dramatic shadows, realistic archaeological documentary style",
-
-"Mysterious evening view of Kailasa Temple surrounded by darkness and mist, moonlight touching ancient stone structures, cinematic mystery",
-
-"Epic final wide shot of Kailasa Temple at sunrise, enormous ancient architecture glowing in golden light, mysterious historical atmosphere"
-
-];
-
-return shots[(sceneNumber-1) % shots.length];
+  return styles[style] || styles.cinematic;
 
 }
 
 
-/* =========================
-   ANTARCTICA VISUALS
-   ========================= */
-
-function antarcticaPrompt(sceneNumber){
-
-const shots = [
-
-"Massive Antarctic ice landscape stretching to the horizon, aerial cinematic documentary view",
-
-"Close-up of enormous blue glacier walls and ancient compressed ice, ultra realistic textures",
-
-"Research expedition moving through an endless Antarctic snow field, realistic documentary cinematography",
-
-"Powerful Antarctic blizzard surrounding explorers, low visibility, dramatic cinematic atmosphere",
-
-"Ancient frozen landscape beneath layers of ice, mysterious geological atmosphere",
-
-"Massive ice mountain under dark Antarctic sky, dramatic clouds and cold blue atmosphere",
-
-"Research station surrounded by endless snow and ice, realistic scientific documentary scene",
-
-"Emperor penguins standing together on Antarctic ice near the ocean, natural wildlife documentary",
-
-"Large icebreaker ship pushing through frozen Antarctic sea, dramatic aerial view",
-
-"Deep crevasse in Antarctic glacier revealing mysterious blue depths, cinematic lighting",
-
-"Antarctica viewed from space, white continent surrounded by dark blue ocean, realistic Earth photography style",
-
-"Dark Antarctic night with glowing moon above enormous ice mountains, mysterious cinematic ending"
-
-];
-
-return shots[(sceneNumber-1) % shots.length];
-
-}
-
-
-/* =========================
-   BERMUDA VISUALS
-   ========================= */
-
-function bermudaPrompt(sceneNumber){
-
-const shots = [
-
-"Vast dark Atlantic Ocean viewed from above, mysterious storm clouds forming over the Bermuda Triangle",
-
-"Old cargo ship struggling through enormous ocean waves during a violent Atlantic storm",
-
-"Ghost ship disappearing into thick ocean fog, mysterious cinematic documentary atmosphere",
-
-"Military aircraft flying over the dark Atlantic Ocean beneath powerful storm clouds",
-
-"Aircraft cockpit with navigation instruments and compass behaving strangely, dramatic realistic lighting",
-
-"Radio communication equipment inside aircraft cockpit showing a mysterious loss of signal",
-
-"Ancient nautical map showing the Bermuda Triangle region, cinematic documentary close-up",
-
-"Dark ocean surrounded by thick fog with no visible land, mysterious atmosphere",
-
-"Satellite-style aerial view of the Atlantic Ocean during a massive storm",
-
-"Abandoned ship floating alone in dark foggy water, unsettling documentary atmosphere",
-
-"Scientists studying ocean maps and historical disappearance records inside a modern research laboratory",
-
-"Dark mysterious ocean horizon under moonlight, cinematic final documentary shot"
-
-];
-
-return shots[(sceneNumber-1) % shots.length];
-
-}
-
-
-/* =========================
-   GENERAL VISUAL SHOTS
-   ========================= */
-
-function generalPrompt(sceneNumber){
-
-const shots = [
-
-"Wide cinematic establishing shot showing the main location described in the narration",
-
-"Detailed close-up of the main subject described in the narration, realistic documentary photography",
-
-"Historical reconstruction of people and environment related to the narration, natural realistic appearance",
-
-"Extreme close-up of important object or artifact mentioned in the narration",
-
-"Wide environmental shot showing the scale and surroundings of the subject",
-
-"Slow cinematic perspective through the location described in the narration",
-
-"Detailed architectural or geological close-up related to the subject",
-
-"Researchers or experts examining evidence connected with the documentary topic",
-
-"Mysterious atmospheric scene representing an unanswered question from the narration",
-
-"Epic wide cinematic shot representing the central mystery of the documentary",
-
-"Dark atmospheric transition scene with realistic environment and dramatic lighting",
-
-"Final cinematic establishing shot with mysterious documentary atmosphere"
-
-];
-
-return shots[(sceneNumber-1) % shots.length];
-
-}
-
-
-/* =========================
+/* ------------------------------------------
    PROMPT GENERATOR
-   ========================= */
+------------------------------------------ */
 
-function createPrompt(sceneText,style,sceneNumber){
+function createPrompt(sceneText,index,topic,style){
 
-const topic =
-detectTopic(sceneText + " " + projectData.script);
+  const base =
+    getStylePrompt(style);
 
-let visualDescription;
+  const topicLower =
+    topic.toLowerCase();
 
-if(topic === "kailash"){
+  let subject = "";
 
-visualDescription =
-kailashPrompt(sceneNumber);
+  if(topicLower.includes("temple")){
+
+    const templeScenes = [
+
+      "wide aerial view of Ellora caves and the enormous Kailasa temple carved from rock",
+
+      "ancient Indian craftsmen carving a gigantic rock temple using traditional tools",
+
+      "massive monolithic rock structure being carved from top to bottom",
+
+      "close cinematic view of detailed ancient stone pillars and sculptures",
+
+      "dramatic view of the Kailasa temple courtyard surrounded by enormous stone architecture",
+
+      "ancient Indian sculptors carefully creating intricate religious sculptures",
+
+      "close-up of highly detailed stone carvings illuminated by warm sunlight",
+
+      "wide view showing the scale of the monolithic temple compared with tiny human figures",
+
+      "dramatic low angle view of giant elephants and stone structures carved from rock",
+
+      "mysterious cinematic view of the temple during sunset with long shadows",
+
+      "archaeological researchers studying ancient temple architecture",
+
+      "final majestic aerial shot of Kailasa temple surrounded by the Ellora landscape"
+
+    ];
+
+    subject =
+      templeScenes[
+        index % templeScenes.length
+      ];
+
+  }else if(topicLower.includes("antarctica")){
+
+    const antarcticaScenes = [
+
+      "vast frozen Antarctica landscape from above",
+
+      "massive blue ice mountains under a dark sky",
+
+      "scientists walking across an endless frozen landscape",
+
+      "research station surrounded by snow and ice",
+
+      "violent Antarctic blizzard covering the landscape",
+
+      "deep cracks appearing across an enormous ice shelf",
+
+      "ancient secrets hidden beneath Antarctic ice",
+
+      "icebreaker ship navigating through massive ice",
+
+      "penguins standing on a frozen coastline",
+
+      "satellite-like view of Antarctica from space",
+
+      "mysterious underground ice cave",
+
+      "dramatic final aerial view of the frozen continent"
+
+    ];
+
+    subject =
+      antarcticaScenes[
+        index % antarcticaScenes.length
+      ];
+
+  }else if(topicLower.includes("bermuda")){
+
+    const bermudaScenes = [
+
+      "dark Atlantic Ocean with enormous storm clouds",
+
+      "old cargo ship surrounded by violent waves",
+
+      "mysterious ship disappearing into thick ocean fog",
+
+      "military aircraft flying above the stormy Atlantic",
+
+      "aircraft cockpit with malfunctioning compass",
+
+      "radio operator losing communication during a storm",
+
+      "dark aerial map-like view of the mysterious ocean region",
+
+      "huge waves surrounding an isolated ship",
+
+      "underwater view beneath a mysterious storm",
+
+      "scientists studying ocean maps in a modern research laboratory",
+
+      "satellite view of the Atlantic Ocean during a massive storm",
+
+      "dark mysterious ocean horizon under moonlight"
+
+    ];
+
+    subject =
+      bermudaScenes[
+        index % bermudaScenes.length
+      ];
+
+  }else{
+
+    const genericScenes = [
+
+      "dramatic establishing shot related to the documentary topic",
+
+      "historical cinematic reconstruction of the subject",
+
+      "close-up of important details related to the story",
+
+      "wide cinematic landscape connected with the subject",
+
+      "mysterious atmospheric scene with dramatic lighting",
+
+      "experts or researchers investigating the mystery",
+
+      "ancient or historical objects connected with the story",
+
+      "detailed cinematic close-up showing evidence",
+
+      "dramatic environment representing the main mystery",
+
+      "wide aerial cinematic view",
+
+      "researchers analyzing information",
+
+      "final mysterious cinematic shot"
+
+    ];
+
+    subject =
+      genericScenes[
+        index % genericScenes.length
+      ];
+
+  }
+
+  return `${subject}, ${base}, ultra realistic, highly detailed, documentary photography, realistic textures, natural depth of field, 16:9 widescreen composition, 4K, no text, no captions, no logo, no watermark`;
 
 }
 
-else if(topic === "antarctica"){
 
-visualDescription =
-antarcticaPrompt(sceneNumber);
+/* ------------------------------------------
+   SCENE TEXT CREATION
+------------------------------------------ */
 
-}
+function createSceneTexts(text,count){
 
-else if(topic === "bermuda"){
+  const sentences =
+    splitSentences(text);
 
-visualDescription =
-bermudaPrompt(sceneNumber);
+  if(sentences.length === 0){
+    return [];
+  }
 
-}
+  const result = [];
 
-else{
+  for(let i=0;i<count;i++){
 
-visualDescription =
-generalPrompt(sceneNumber);
+    const start =
+      Math.floor(
+        i * sentences.length / count
+      );
 
-}
+    const end =
+      Math.max(
+        start + 1,
+        Math.floor(
+          (i + 1) *
+          sentences.length /
+          count
+        )
+      );
 
+    let chunk =
+      sentences
+        .slice(start,end)
+        .join(" ");
 
-/* narration keywords */
+    if(!chunk){
 
-const lower =
-sceneText.toLowerCase();
+      chunk =
+        sentences[
+          i % sentences.length
+        ];
 
-if(
-lower.includes("कारीगर") ||
-lower.includes("तराश") ||
-lower.includes("पत्थर काट")
-){
+    }
 
-visualDescription +=
-", ancient craftsmen actively carving stone with traditional tools, realistic hand-made craftsmanship";
+    result.push(chunk);
 
-}
+  }
 
-if(
-lower.includes("मूर्ति") ||
-lower.includes("नक्काशी")
-){
-
-visualDescription +=
-", extremely detailed ancient sculptures and stone carvings, realistic texture";
-
-}
-
-if(
-lower.includes("राजा") ||
-lower.includes("शासक") ||
-lower.includes("राष्ट्रकूट")
-){
-
-visualDescription +=
-", historically inspired ancient Indian royal environment, authentic period atmosphere";
-
-}
-
-if(
-lower.includes("रहस्य") ||
-lower.includes("सवाल") ||
-lower.includes("हैरान")
-){
-
-visualDescription +=
-", mysterious atmosphere, subtle fog, dramatic shadows, suspenseful cinematic mood";
+  return result;
 
 }
 
 
-return (
-"Ultra realistic cinematic documentary scene, " +
-style +
-", " +
-visualDescription +
-", natural realistic lighting, cinematic composition, " +
-"high detail, photorealistic, 16:9, 8K, no text, no letters, no watermark."
-);
+/* ------------------------------------------
+   EXACT SCENE COUNT
+------------------------------------------ */
+
+function calculateSceneCount(total,duration){
+
+  return Math.max(
+    1,
+    Math.ceil(total / duration)
+  );
 
 }
 
 
-/* =========================
-   FORMAT DURATION
-   ========================= */
+/* ------------------------------------------
+   HTML ESCAPE
+------------------------------------------ */
 
-function formatDuration(seconds){
+function escapeHtml(value){
 
-const minutes =
-Math.floor(seconds / 60);
-
-const secs =
-seconds % 60;
-
-if(minutes === 0){
-
-return secs + " sec";
-
-}
-
-if(secs === 0){
-
-return minutes + " Minute" +
-(minutes > 1 ? "s" : "");
-
-}
-
-return minutes + "m " + secs + "s";
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================
+/* ------------------------------------------
    GENERATE PROJECT
-   ========================= */
+------------------------------------------ */
 
 function generateProject(){
 
-const script =
-document.getElementById("script").value.trim();
+  const title =
+    titleEl.value.trim() ||
+    "Untitled Documentary";
 
-if(!script){
+  const text =
+    cleanText(scriptEl.value);
 
-alert("पहले अपना script डालिए।");
+  if(!text){
 
-return;
+    alert(
+      "पहले documentary script डालें।"
+    );
 
-}
+    return;
 
+  }
 
-const voice =
-document.getElementById("voice").value;
+  const sceneDuration =
+    getDuration();
 
+  const totalLength =
+    getTotalLength();
 
-const duration =
-parseInt(
-document.querySelector(
-'input[name="duration"]:checked'
-).value
-);
+  const sceneCount =
+    calculateSceneCount(
+      totalLength,
+      sceneDuration
+    );
 
+  const voice =
+    voiceEl.value;
 
-const videoLength =
-parseInt(
-document.getElementById("videoLength").value
-);
+  const style =
+    styleEl.value;
 
+  const topic =
+    detectTopic(text,title);
 
-const style =
-document.getElementById("style").value;
+  setProgress(5);
 
+  setStatus(
+    "Script analyze हो रही है..."
+  );
 
-/*
-IMPORTANT FIX:
-
-पहले code में scene count गलत तरीके से
-calculate हो रहा था।
-
-अब exact total duration के हिसाब से
-scenes बनाए जाएंगे।
-*/
-
-const fullScenes =
-Math.floor(videoLength / duration);
-
-const remainder =
-videoLength % duration;
-
-const scenesCount =
-fullScenes + (remainder > 0 ? 1 : 0);
-
-
-/* Script को scenes में divide करें */
-
-const sceneTexts =
-createSceneTexts(script,scenesCount);
-
-
-generatedScenes = [];
-
-
-for(let i=0;i<scenesCount;i++){
-
-let sceneDuration = duration;
-
-
-/*
-अगर आखिरी scene में कुछ seconds बचते हैं,
-तो आखिरी scene उतने ही seconds का होगा।
-
-Example:
-60 sec / 7 sec
-
-8 scenes × 7 = 56 sec
-last scene = 4 sec
-
-Total = exactly 60 sec
-*/
-
-if(
-i === scenesCount - 1 &&
-remainder > 0
-){
-
-sceneDuration = remainder;
-
-}
-
-
-const text =
-sceneTexts[i] ||
-"Documentary scene " + (i+1);
-
-
-generatedScenes.push({
-
-number:i+1,
-
-text:text,
-
-prompt:createPrompt(
-text,
-style,
-i+1
-),
-
-duration:sceneDuration
-
-});
-
-}
-
-
-/* Project data */
-
-projectData = {
-
-script:script,
-
-voice:voice,
-
-duration:duration,
-
-videoLength:videoLength,
-
-style:style,
-
-scenes:generatedScenes
-
-};
-
-
-/* UI */
-
-document.getElementById("projectInfo")
-.classList.remove("hidden");
-
-document.getElementById("scenesCard")
-.classList.remove("hidden");
-
-document.getElementById("audioCard")
-.classList.remove("hidden");
-
-document.getElementById("videoCard")
-.classList.remove("hidden");
-
-
-document.getElementById("sceneCount")
-.innerText =
-scenesCount;
-
-
-document.getElementById("durationInfo")
-.innerText =
-formatDuration(videoLength);
-
-
-document.getElementById("voiceInfo")
-.innerText =
-voice;
-
-
-renderScenes();
-
-
-const status =
-document.getElementById("status");
-
-const progress =
-document.getElementById("progressBar");
-
-
-status.innerText =
-"⏳ Documentary scenes तैयार हो रहे हैं...";
-
-progress.style.width="20%";
-
-
-setTimeout(()=>{
-
-progress.
+  const sceneTexts =
+    create
