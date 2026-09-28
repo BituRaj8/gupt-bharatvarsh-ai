@@ -1,412 +1,548 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>GUPT BHARATVARSH AI</title>
+<title>GUPT BHARATVARSH AI</title>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 20px;
-      background: #111;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
+<style>
+body{
+  margin:0;
+  padding:20px;
+  background:#111;
+  color:white;
+  font-family:Arial,sans-serif;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
+h1{
+  text-align:center;
+  margin-bottom:25px;
+}
 
-    h2 {
-      margin-top: 25px;
-    }
+h2{
+  margin-top:10px;
+}
 
-    textarea,
-    input,
-    select {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 14px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: none;
-      margin-bottom: 12px;
-    }
+textarea,input,select{
+  width:100%;
+  box-sizing:border-box;
+  padding:14px;
+  font-size:16px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:12px;
+}
 
-    textarea {
-      height: 220px;
-      resize: vertical;
-    }
+textarea{
+  height:220px;
+  resize:vertical;
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      margin: 6px 0;
-      border: none;
-      border-radius: 10px;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+button{
+  width:100%;
+  padding:15px;
+  margin:6px 0;
+  border:none;
+  border-radius:10px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    #sceneButton {
-      background: #457b9d;
-      color: white;
-    }
+button:disabled{
+  opacity:.5;
+}
 
-    #voiceButton {
-      background: #e63946;
-      color: white;
-    }
+#sceneButton{
+  background:#457b9d;
+  color:white;
+}
 
-    #downloadButton {
-      background: #2a9d8f;
-      color: white;
-    }
+#saveKeyButton{
+  background:#f4a261;
+  color:#111;
+}
 
-    button:disabled {
-      opacity: 0.5;
-    }
+#removeKeyButton{
+  background:#6c757d;
+  color:white;
+}
 
-    .box {
-      background: #1b1b1b;
-      padding: 15px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
+#loadVoices{
+  background:#8338ec;
+  color:white;
+}
 
-    #status {
-      margin-top: 15px;
-      padding: 12px;
-      background: #222;
-      border-radius: 8px;
-      text-align: center;
-    }
+#voiceButton{
+  background:#e63946;
+  color:white;
+}
 
-    audio {
-      width: 100%;
-      margin-top: 15px;
-    }
+#downloadButton{
+  background:#2a9d8f;
+  color:white;
+}
 
-    .scene {
-      background: #222;
-      padding: 14px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border-left: 4px solid #457b9d;
-    }
+.box{
+  background:#1b1b1b;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
 
-    .scene strong {
-      color: #ffd166;
-    }
+#status{
+  margin-top:15px;
+  padding:12px;
+  background:#222;
+  border-radius:8px;
+  text-align:center;
+}
 
-    .prompt {
-      color: #aaa;
-      margin-top: 10px;
-      line-height: 1.5;
-      font-size: 14px;
-    }
+audio{
+  width:100%;
+  margin-top:15px;
+}
 
-    .note {
-      color: #aaa;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-  </style>
+.scene{
+  background:#222;
+  padding:14px;
+  margin:10px 0;
+  border-radius:8px;
+  border-left:4px solid #457b9d;
+}
+
+.scene strong{
+  color:#ffd166;
+}
+
+.prompt{
+  color:#aaa;
+  margin-top:10px;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.note{
+  color:#aaa;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.saved{
+  color:#90be6d;
+  font-size:13px;
+  margin-bottom:10px;
+}
+</style>
 </head>
 
 <body>
 
 <h1>🎬 GUPT BHARATVARSH AI</h1>
 
+<!-- STORY -->
 <div class="box">
 
-  <h2>📝 Story</h2>
+<h2>📝 Story</h2>
 
-  <textarea
-    id="story"
-    placeholder="अपनी हिंदी documentary story यहाँ लिखें..."
-  ></textarea>
+<textarea
+id="story"
+placeholder="अपनी Hindi documentary story यहाँ लिखें..."
+></textarea>
 
-  <label>
-    🎬 Number of Scenes
-  </label>
+<label>🎬 Number of Scenes</label>
 
-  <input
-    type="number"
-    id="sceneCount"
-    min="1"
-    max="50"
-    value="10"
-  >
+<input
+type="number"
+id="sceneCount"
+min="1"
+max="50"
+value="10"
+>
 
-  <button id="sceneButton">
-    🎬 Generate Scenes
-  </button>
+<button id="sceneButton">
+🎬 Generate Scenes
+</button>
 
-  <div id="scenes"></div>
+<div id="scenes"></div>
 
 </div>
 
 
+<!-- ELEVENLABS -->
 <div class="box">
 
-  <h2>🎙️ ElevenLabs Professional Hindi Voice</h2>
+<h2>🎙️ ElevenLabs Professional Hindi Voice</h2>
 
-  <input
-    type="password"
-    id="apiKey"
-    placeholder="ElevenLabs API Key यहाँ डालें"
-  >
+<input
+type="password"
+id="apiKey"
+placeholder="ElevenLabs API Key यहाँ डालें"
+>
 
-  <button id="loadVoices">
-    🔄 Load ElevenLabs Voices
-  </button>
+<div id="keyStatus" class="saved"></div>
 
-  <select id="voiceSelect">
-    <option value="">पहले Load Voices दबाएँ</option>
-  </select>
+<button id="saveKeyButton">
+💾 Save API Key
+</button>
 
-  <select id="modelSelect">
+<button id="removeKeyButton">
+🗑️ Remove Saved API Key
+</button>
 
-    <option value="eleven_multilingual_v2">
-      Multilingual v2 - Natural Documentary
-    </option>
+<button id="loadVoices">
+🔄 Load ElevenLabs Voices
+</button>
 
-    <option value="eleven_v3">
-      Eleven v3 - Expressive Voice
-    </option>
 
-  </select>
+<select id="voiceSelect">
 
-  <label>
-    Voice Speed:
-  </label>
+<option value="">
+पहले Load Voices दबाएँ
+</option>
 
-  <input
-    type="range"
-    id="speed"
-    min="0.7"
-    max="1.2"
-    step="0.05"
-    value="0.95"
-  >
+</select>
 
-  <div id="speedValue">
-    Speed: 0.95
-  </div>
 
-  <button id="voiceButton">
-    🎙️ Generate Professional Hindi Voice
-  </button>
+<select id="modelSelect">
 
-  <audio id="audio" controls></audio>
+<option value="eleven_multilingual_v2">
+Multilingual v2 - Natural Documentary
+</option>
 
-  <button id="downloadButton" disabled>
-    💾 Download MP3
-  </button>
+<option value="eleven_v3">
+Eleven v3 - Expressive Voice
+</option>
 
-  <div id="status">
-    🟡 Story डालें और voice generate करें
-  </div>
+</select>
 
-  <p class="note">
-    ⚠️ अभी testing के लिए API key browser में डाली जा रही है।
-    Public professional version में API key को server पर सुरक्षित रखना होगा।
-  </p>
+
+<label>Voice Speed:</label>
+
+<input
+type="range"
+id="speed"
+min="0.7"
+max="1.2"
+step="0.05"
+value="0.95"
+>
+
+<div id="speedValue">
+Speed: 0.95
+</div>
+
+
+<button id="voiceButton">
+🎙️ Generate Professional Hindi Voice
+</button>
+
+
+<audio
+id="audio"
+controls
+></audio>
+
+
+<button
+id="downloadButton"
+disabled
+>
+💾 Download MP3
+</button>
+
+
+<div id="status">
+🟡 Story डालें और voice generate करें
+</div>
+
+
+<p class="note">
+
+⚠️ Testing version: API Key आपके browser के local storage में save होती है।
+Public professional version में API Key को server पर रखना ज्यादा सुरक्षित है।
+
+</p>
 
 </div>
 
 
 <script>
 
+/* =========================
+   ELEMENTS
+========================= */
+
 const story =
-  document.getElementById("story");
+document.getElementById("story");
 
 const sceneButton =
-  document.getElementById("sceneButton");
+document.getElementById("sceneButton");
 
 const sceneCount =
-  document.getElementById("sceneCount");
+document.getElementById("sceneCount");
 
 const scenesBox =
-  document.getElementById("scenes");
+document.getElementById("scenes");
 
 const apiKey =
-  document.getElementById("apiKey");
+document.getElementById("apiKey");
+
+const saveKeyButton =
+document.getElementById("saveKeyButton");
+
+const removeKeyButton =
+document.getElementById("removeKeyButton");
+
+const keyStatus =
+document.getElementById("keyStatus");
 
 const loadVoices =
-  document.getElementById("loadVoices");
+document.getElementById("loadVoices");
 
 const voiceSelect =
-  document.getElementById("voiceSelect");
+document.getElementById("voiceSelect");
 
 const voiceButton =
-  document.getElementById("voiceButton");
+document.getElementById("voiceButton");
 
 const downloadButton =
-  document.getElementById("downloadButton");
+document.getElementById("downloadButton");
 
 const audio =
-  document.getElementById("audio");
+document.getElementById("audio");
 
 const status =
-  document.getElementById("status");
+document.getElementById("status");
 
 const speed =
-  document.getElementById("speed");
+document.getElementById("speed");
 
 const speedValue =
-  document.getElementById("speedValue");
+document.getElementById("speedValue");
+
 
 let audioBlob = null;
+
+
+/* =========================
+   LOAD SAVED API KEY
+========================= */
+
+const savedKey =
+localStorage.getItem("gb_eleven_api_key");
+
+if(savedKey){
+
+  apiKey.value = savedKey;
+
+  keyStatus.textContent =
+  "✅ API Key browser में saved है।";
+
+}
+
+
+/* =========================
+   SAVE API KEY
+========================= */
+
+saveKeyButton.addEventListener(
+"click",
+function(){
+
+  const key =
+  apiKey.value.trim();
+
+  if(!key){
+
+    alert("पहले API Key डालें।");
+
+    return;
+
+  }
+
+  localStorage.setItem(
+    "gb_eleven_api_key",
+    key
+  );
+
+  keyStatus.textContent =
+  "✅ API Key save हो गई। अगली बार दोबारा डालने की जरूरत नहीं।";
+
+  status.textContent =
+  "✅ API Key browser में सुरक्षित रूप से save हो गई।";
+
+});
+
+
+/* =========================
+   REMOVE API KEY
+========================= */
+
+removeKeyButton.addEventListener(
+"click",
+function(){
+
+  localStorage.removeItem(
+    "gb_eleven_api_key"
+  );
+
+  apiKey.value = "";
+
+  keyStatus.textContent =
+  "🗑️ Saved API Key हटा दी गई।";
+
+  status.textContent =
+  "🟡 API Key हट गई।";
+
+});
 
 
 /* =========================
    SPEED
 ========================= */
 
-speed.addEventListener("input", function () {
+speed.addEventListener(
+"input",
+function(){
 
   speedValue.textContent =
-    "Speed: " + speed.value;
+  "Speed: " + speed.value;
 
 });
 
 
 /* =========================
-   SCENE GENERATOR
+   GENERATE SCENES
 ========================= */
 
 sceneButton.addEventListener(
-  "click",
-  function () {
+"click",
+function(){
 
-    const text =
-      story.value.trim();
+  const text =
+  story.value.trim();
 
-    const count =
-      Number(sceneCount.value);
-
-    if (!text) {
-
-      alert("पहले story लिखें।");
-      return;
-
-    }
-
-    if (
-      !count ||
-      count < 1 ||
-      count > 50
-    ) {
-
-      alert(
-        "Scenes की संख्या 1 से 50 के बीच रखें।"
-      );
-
-      return;
-
-    }
+  const count =
+  Number(sceneCount.value);
 
 
-    scenesBox.innerHTML = "";
+  if(!text){
 
-    const words =
-      text
-        .split(/\s+/)
-        .filter(Boolean);
+    alert("पहले story लिखें।");
 
-
-    const wordsPerScene =
-      Math.ceil(
-        words.length / count
-      );
-
-
-    let createdScenes = 0;
-
-
-    for (
-      let i = 0;
-      i < count;
-      i++
-    ) {
-
-      const start =
-        i * wordsPerScene;
-
-      const end =
-        Math.min(
-          start + wordsPerScene,
-          words.length
-        );
-
-
-      const sceneText =
-        words
-          .slice(start, end)
-          .join(" ");
-
-
-      if (!sceneText) {
-
-        continue;
-
-      }
-
-
-      createdScenes++;
-
-
-      const scene =
-        document.createElement("div");
-
-
-      scene.className =
-        "scene";
-
-
-      const imagePrompt =
-        "Cinematic documentary scene, " +
-        sceneText +
-        ", ultra realistic, dramatic lighting, " +
-        "realistic environment, cinematic composition, " +
-        "high detail, 16:9, 8K, no text, no watermark";
-
-
-      scene.innerHTML =
-
-        "<strong>🎬 Scene " +
-        createdScenes +
-        "</strong><br><br>" +
-
-        sceneText +
-
-        "<div class='prompt'>" +
-
-        "<strong>🖼️ AI Image Prompt:</strong><br>" +
-
-        imagePrompt +
-
-        "</div>";
-
-
-      scenesBox.appendChild(scene);
-
-    }
-
-
-    status.textContent =
-      "✅ " +
-      createdScenes +
-      " scenes तैयार हो गए।";
+    return;
 
   }
-);
+
+
+  if(
+    !count ||
+    count < 1 ||
+    count > 50
+  ){
+
+    alert(
+      "Scenes की संख्या 1 से 50 के बीच रखें।"
+    );
+
+    return;
+
+  }
+
+
+  scenesBox.innerHTML = "";
+
+
+  const words =
+  text.split(/\s+/).filter(Boolean);
+
+
+  const wordsPerScene =
+  Math.ceil(words.length / count);
+
+
+  let createdScenes = 0;
+
+
+  for(
+    let i = 0;
+    i < count;
+    i++
+  ){
+
+    const start =
+    i * wordsPerScene;
+
+    const end =
+    Math.min(
+      start + wordsPerScene,
+      words.length
+    );
+
+
+    const sceneText =
+    words
+    .slice(start,end)
+    .join(" ");
+
+
+    if(!sceneText){
+
+      continue;
+
+    }
+
+
+    createdScenes++;
+
+
+    const scene =
+    document.createElement("div");
+
+    scene.className =
+    "scene";
+
+
+    const imagePrompt =
+    "Cinematic documentary scene, " +
+    sceneText +
+    ", ultra realistic, dramatic lighting, realistic environment, cinematic composition, high detail, 16:9, 8K, no text, no watermark";
+
+
+    scene.innerHTML =
+
+    "<strong>🎬 Scene " +
+    createdScenes +
+    "</strong>" +
+
+    "<br><br>" +
+
+    sceneText +
+
+    "<div class='prompt'>" +
+
+    "<strong>🖼️ AI Image Prompt:</strong>" +
+
+    "<br>" +
+
+    imagePrompt +
+
+    "</div>";
+
+
+    scenesBox.appendChild(scene);
+
+  }
+
+
+  status.textContent =
+  "✅ " +
+  createdScenes +
+  " scenes तैयार हो गए।";
+
+});
 
 
 /* =========================
@@ -414,290 +550,370 @@ sceneButton.addEventListener(
 ========================= */
 
 loadVoices.addEventListener(
-  "click",
-  async function () {
+"click",
+async function(){
 
-    const key =
-      apiKey.value.trim();
+  let key =
+  apiKey.value.trim();
 
 
-    if (!key) {
+  if(!key){
 
-      alert(
-        "पहले ElevenLabs API Key डालें।"
+    alert(
+      "पहले ElevenLabs API Key डालें।"
+    );
+
+    return;
+
+  }
+
+
+  /* Automatically save key */
+
+  localStorage.setItem(
+    "gb_eleven_api_key",
+    key
+  );
+
+  keyStatus.textContent =
+  "✅ API Key saved है।";
+
+
+  try{
+
+    status.textContent =
+    "🔄 ElevenLabs voices load हो रही हैं...";
+
+
+    const response =
+    await fetch(
+      "https://api.elevenlabs.io/v1/voices",
+      {
+        method:"GET",
+
+        headers:{
+          "xi-api-key":key
+        }
+
+      }
+    );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "API Key या ElevenLabs request में समस्या है।"
       );
-
-      return;
 
     }
 
 
-    try {
-
-      status.textContent =
-        "🔄 ElevenLabs voices load हो रही हैं...";
+    const data =
+    await response.json();
 
 
-      const response =
-        await fetch(
-          "https://api.elevenlabs.io/v1/voices",
-          {
-            method: "GET",
+    voiceSelect.innerHTML = "";
 
-            headers: {
-              "xi-api-key": key
-            }
-          }
+
+    data.voices.forEach(
+      function(voice){
+
+        const option =
+        document.createElement(
+          "option"
         );
 
 
-      if (!response.ok) {
+        option.value =
+        voice.voice_id;
 
-        throw new Error(
-          "API key या ElevenLabs request में समस्या है।"
+
+        option.textContent =
+        voice.name;
+
+
+        voiceSelect.appendChild(
+        option
         );
 
       }
+    );
 
 
-      const data =
-        await response.json();
+    status.textContent =
+    "✅ ElevenLabs voices load हो गईं।";
 
-
-      voiceSelect.innerHTML = "";
-
-
-      data.voices.forEach(
-        function (voice) {
-
-          const option =
-            document.createElement(
-              "option"
-            );
-
-
-          option.value =
-            voice.voice_id;
-
-
-          option.textContent =
-            voice.name;
-
-
-          voiceSelect.appendChild(
-            option
-          );
-
-        }
-      );
-
-
-      status.textContent =
-        "✅ ElevenLabs voices load हो गईं।";
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-
-      status.textContent =
-        "❌ Voices load नहीं हुईं।";
-
-
-      alert(
-        "API Key check करें और फिर कोशिश करें।"
-      );
-
-    }
 
   }
-);
+
+  catch(error){
+
+    console.error(error);
+
+    status.textContent =
+    "❌ Voices load नहीं हुईं।";
+
+    alert(
+      "API Key check करें और फिर कोशिश करें।"
+    );
+
+  }
+
+});
 
 
 /* =========================
-   GENERATE PROFESSIONAL VOICE
+   GENERATE VOICE
 ========================= */
 
 voiceButton.addEventListener(
-  "click",
-  async function () {
+"click",
+async function(){
 
-    const key =
-      apiKey.value.trim();
-
-
-    const text =
-      story.value.trim();
+  let key =
+  apiKey.value.trim();
 
 
-    const voiceId =
-      voiceSelect.value;
+  const text =
+  story.value.trim();
 
 
-    const model =
-      document.getElementById(
-        "modelSelect"
-      ).value;
+  const voiceId =
+  voiceSelect.value;
 
 
-    const voiceSpeed =
-      Number(speed.value);
+  const model =
+  document.getElementById(
+    "modelSelect"
+  ).value;
 
 
-    if (!key) {
-
-      alert(
-        "ElevenLabs API Key डालें।"
-      );
-
-      return;
-
-    }
+  const voiceSpeed =
+  Number(speed.value);
 
 
-    if (!text) {
+  if(!key){
 
-      alert(
-        "पहले story लिखें।"
-      );
+    alert(
+      "ElevenLabs API Key डालें।"
+    );
 
-      return;
+    return;
 
-    }
-
-
-    if (!voiceId) {
-
-      alert(
-        "पहले Load ElevenLabs Voices दबाकर voice चुनें।"
-      );
-
-      return;
-
-    }
+  }
 
 
-    try {
+  if(!text){
 
-      voiceButton.disabled =
-        true;
+    alert(
+      "पहले story लिखें।"
+    );
 
+    return;
 
-      downloadButton.disabled =
-        true;
-
-
-      status.textContent =
-        "⏳ Professional Hindi voice बन रही है...";
+  }
 
 
-      const url =
-        "https://api.elevenlabs.io/v1/text-to-speech/" +
-        voiceId +
-        "?output_format=mp3_44100_128";
+  if(!voiceId){
+
+    alert(
+      "पहले Load ElevenLabs Voices दबाकर voice चुनें।"
+    );
+
+    return;
+
+  }
 
 
-      const response =
-        await fetch(
-          url,
-          {
+  /* Automatically save */
 
-            method: "POST",
-
-            headers: {
-
-              "xi-api-key": key,
-
-              "Content-Type":
-                "application/json"
-
-            },
+  localStorage.setItem(
+    "gb_eleven_api_key",
+    key
+  );
 
 
-            body:
-              JSON.stringify({
+  try{
 
-                text: text,
+    voiceButton.disabled =
+    true;
 
-                model_id:
-                  model,
-
-                voice_settings: {
-
-                  stability:
-                    0.45,
-
-                  similarity_boost:
-                    0.80,
-
-                  style:
-                    0.25,
-
-                  use_speaker_boost:
-                    true
-
-                },
-
-                speed:
-                  voiceSpeed
-
-              })
-
-          }
-        );
+    downloadButton.disabled =
+    true;
 
 
-      if (!response.ok) {
-
-        const errorText =
-          await response.text();
-
-        console.error(
-          errorText
-        );
+    status.textContent =
+    "⏳ Professional Hindi voice बन रही है...";
 
 
-        throw new Error(
-          "ElevenLabs voice generate नहीं हुई।"
-        );
+    const url =
+    "https://api.elevenlabs.io/v1/text-to-speech/" +
+    voiceId +
+    "?output_format=mp3_44100_128";
+
+
+    const response =
+    await fetch(
+      url,
+      {
+        method:"POST",
+
+        headers:{
+          "xi-api-key":key,
+          "Content-Type":
+          "application/json"
+        },
+
+        body:JSON.stringify({
+
+          text:text,
+
+          model_id:model,
+
+          voice_settings:{
+
+            stability:0.45,
+
+            similarity_boost:0.80,
+
+            style:0.25,
+
+            use_speaker_boost:true
+
+          },
+
+          speed:voiceSpeed
+
+        })
 
       }
+    );
 
 
-      audioBlob =
-        await response.blob();
+    if(!response.ok){
 
+      const errorText =
+      await response.text();
 
-      const audioURL =
-        URL.createObjectURL(
-          audioBlob
-        );
+      console.error(
+        errorText
+      );
 
-
-      audio.src =
-        audioURL;
-
-
-      audio.load();
-
-
-      downloadButton.disabled =
-        false;
-
-
-      status.textContent =
-        "✅ Professional Hindi voice तैयार है!";
+      throw new Error(
+        "ElevenLabs voice generate नहीं हुई।"
+      );
 
     }
 
-    catch (error) {
 
-      console.error(
-        error
+    audioBlob =
+    await response.blob();
+
+
+    const audioURL =
+    URL.createObjectURL(
+      audioBlob
+    );
+
+
+    audio.src =
+    audioURL;
+
+
+    audio.load();
+
+
+    downloadButton.disabled =
+    false;
+
+
+    status.textContent =
+    "✅ Professional Hindi voice तैयार है!";
+
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    status.textContent =
+    "❌ Voice generate नहीं हुई।";
+
+    alert(
+      "Voice generate नहीं हुई। API key, voice और internet connection check करें।"
+    );
+
+  }
+
+  finally{
+
+    voiceButton.disabled =
+    false;
+
+  }
+
+});
+
+
+/* =========================
+   DOWNLOAD MP3
+========================= */
+
+downloadButton.addEventListener(
+"click",
+function(){
+
+  if(!audioBlob){
+
+    return;
+
+  }
+
+
+  const url =
+  URL.createObjectURL(
+    audioBlob
+  );
+
+
+  const a =
+  document.createElement(
+    "a"
+  );
+
+
+  a.href =
+  url;
+
+
+  a.download =
+  "gupt-bharatvarsh-professional-voice.mp3";
+
+
+  document.body.appendChild(a);
+
+
+  a.click();
+
+
+  a.remove();
+
+
+  setTimeout(
+    function(){
+
+      URL.revokeObjectURL(
+        url
       );
 
+    },
+    1000
+  );
 
-      status.textContent =
-        "❌
+});
+
+</script>
+
+</body>
+</html>
