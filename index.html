@@ -2,1153 +2,477 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GUPT BHARATVARSH AI VIDEO STUDIO</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
+<title>GUPT BHARATVARSH AI</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
-    margin:0;
-    background:linear-gradient(135deg,#020617,#111827,#2e1065);
-    color:white;
-    font-family:Arial,sans-serif;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#080808;
+  color:white;
+}
+
+.header{
+  padding:18px;
+  text-align:center;
+  background:linear-gradient(135deg,#111,#252525);
+  border-bottom:1px solid #333;
+}
+
+.header h1{
+  margin:0;
+  font-size:25px;
+}
+
+.header p{
+  margin:7px 0 0;
+  color:#aaa;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:18px;
 }
 
 .card{
-    background:rgba(15,23,42,.85);
-    border:1px solid rgba(255,255,255,.1);
-    border-radius:18px;
-    padding:20px;
-    margin-bottom:20px;
+  background:#151515;
+  border:1px solid #333;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:18px;
 }
 
-.btn{
-    border:0;
-    border-radius:12px;
-    padding:12px 18px;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
+label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:bold;
 }
 
-.primary{
-    background:linear-gradient(90deg,#6366f1,#a855f7);
+textarea{
+  width:100%;
+  min-height:220px;
+  resize:vertical;
+  background:#0d0d0d;
+  color:white;
+  border:1px solid #444;
+  border-radius:12px;
+  padding:14px;
+  font-size:16px;
+  outline:none;
 }
 
-.green{
-    background:#059669;
+textarea:focus{
+  border-color:#9b59ff;
 }
 
-.red{
-    background:#dc2626;
+select{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #444;
+  background:#0d0d0d;
+  color:white;
+  font-size:16px;
+  margin-bottom:15px;
 }
 
-.duration{
-    background:#1e293b;
-    border:1px solid #334155;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
-.duration.active{
-    background:#7c3aed;
-    border-color:#c084fc;
+.option{
+  background:#101010;
+  border:1px solid #333;
+  border-radius:12px;
+  padding:13px;
 }
 
-input,select,textarea{
-    width:100%;
-    background:#020617;
-    color:white;
-    border:1px solid #334155;
-    border-radius:10px;
-    padding:12px;
-    box-sizing:border-box;
+button{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:16px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
-.scene{
-    background:#020617;
-    border:1px solid #334155;
-    border-radius:12px;
-    padding:15px;
-    margin-top:10px;
+.generate{
+  background:linear-gradient(135deg,#8b3dff,#c43dff);
+  color:white;
+}
+
+.generate:active{
+  transform:scale(.98);
+}
+
+.status{
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
+  background:#101010;
+  color:#bbb;
+  text-align:center;
 }
 
 .progress{
-    width:100%;
-    height:12px;
-    background:#1e293b;
-    border-radius:20px;
-    overflow:hidden;
+  height:8px;
+  background:#333;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:12px;
 }
 
-.progressBar{
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#6366f1,#ec4899);
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#8b3dff,#ff3df2);
+  transition:.3s;
 }
 
-video{
-    width:100%;
-    border-radius:15px;
-    background:black;
+.small{
+  color:#888;
+  font-size:13px;
+  margin-top:8px;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:20px;
+  background:#252525;
+  color:#bbb;
+  font-size:12px;
+  margin:3px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="max-w-6xl mx-auto p-5">
-
-<h1 class="text-3xl font-bold mb-2">
-⚡ GUPT BHARATVARSH AI VIDEO STUDIO
-</h1>
-
-<p class="text-gray-400 mb-6">
-Script → Scenes → ElevenLabs Voice → Video Export
-</p>
-
-
-<!-- API -->
-
-<div class="card">
-
-<h2 class="text-xl font-bold mb-4">
-🔑 ElevenLabs API
-</h2>
-
-<input
-id="apiKey"
-type="password"
-placeholder="अपनी ElevenLabs API Key यहाँ डालें">
-
-<br><br>
-
-<select id="voiceId">
-
-<option value="21m00Tcm4TlvDq8ikWAM">
-Rachel
-</option>
-
-<option value="AZnzlk1XvdvUeBnXmlld">
-Domi
-</option>
-
-<option value="EXAVITQu4vr4xnSDxMaL">
-Bella
-</option>
-
-<option value="ErXwobaYiN019PkySvjV">
-Antoni
-</option>
-
-</select>
-
+<div class="header">
+  <h1>🎬 GUPT BHARATVARSH AI</h1>
+  <p>AI Documentary Video Maker</p>
 </div>
 
+<div class="container">
 
-<!-- SETTINGS -->
+  <!-- SCRIPT -->
+  <div class="card">
 
-<div class="card">
+    <label>📝 Documentary Script</label>
 
-<h2 class="text-xl font-bold mb-4">
-🎬 Video Settings
-</h2>
+    <textarea
+      id="script"
+      placeholder="अपना पूरा हिंदी script यहाँ paste करें..."></textarea>
 
-<p class="text-gray-400 mb-2">
-Scene Duration
-</p>
+    <div class="small">
+      Script → Scenes → Voice → Video
+    </div>
 
-<div class="grid grid-cols-4 gap-2">
+  </div>
 
-<button class="btn duration active"
-onclick="setDuration(5)" id="d5">
-5 sec
-</button>
 
-<button class="btn duration"
-onclick="setDuration(7)" id="d7">
-7 sec
-</button>
+  <!-- VOICE -->
+  <div class="card">
 
-<button class="btn duration"
-onclick="setDuration(9)" id="d9">
-9 sec
-</button>
+    <label>🎙️ Voice चुनें</label>
 
-<button class="btn duration"
-onclick="setDuration(12)" id="d12">
-12 sec
-</button>
+    <select id="voice">
 
-</div>
+      <option value="roger">
+        Roger — Natural / Casual
+      </option>
 
-<br>
+      <option value="male_deep">
+        Male — Deep Documentary
+      </option>
 
-<select id="videoLength" onchange="calculate()">
+      <option value="male_natural">
+        Male — Natural
+      </option>
 
-<option value="60">
-1 Minute Test
-</option>
+      <option value="female_doc">
+        Female — Documentary
+      </option>
 
-<option value="300">
-5 Minutes
-</option>
+      <option value="female_natural">
+        Female — Natural
+      </option>
 
-<option value="600">
-10 Minutes
-</option>
+      <option value="dramatic">
+        Dramatic — Mystery
+      </option>
 
-<option value="900">
-15 Minutes
-</option>
+    </select>
 
-</select>
+    <div>
+      <span class="badge">Natural</span>
+      <span class="badge">Documentary</span>
+      <span class="badge">Deep</span>
+      <span class="badge">Female</span>
+      <span class="badge">Dramatic</span>
+    </div>
 
-<br><br>
+  </div>
 
-<div class="bg-slate-950 p-4 rounded-xl">
 
-<div>
-Total Video:
-<strong id="totalTime">60 sec</strong>
-</div>
+  <!-- SCENE -->
+  <div class="card">
 
-<div>
-Required Scenes:
-<strong id="sceneCount">12</strong>
-</div>
+    <label>🎞️ Scene Duration</label>
 
-</div>
+    <div class="grid">
 
-</div>
+      <div class="option">
+        <input type="radio"
+               name="duration"
+               value="5">
+        5 Seconds
+      </div>
 
+      <div class="option">
+        <input type="radio"
+               name="duration"
+               value="7"
+               checked>
+        7 Seconds
+      </div>
 
-<!-- SCRIPT -->
+      <div class="option">
+        <input type="radio"
+               name="duration"
+               value="9">
+        9 Seconds
+      </div>
 
-<div class="card">
+      <div class="option">
+        <input type="radio"
+               name="duration"
+               value="12">
+        12 Seconds
+      </div>
 
-<h2 class="text-xl font-bold mb-4">
-📝 Script
-</h2>
+    </div>
 
-<textarea
-id="script"
-rows="10"
-placeholder="अपनी documentary script यहाँ डालें..."></textarea>
+  </div>
 
-<br><br>
 
-<div class="flex flex-wrap gap-3">
+  <!-- VIDEO LENGTH -->
+  <div class="card">
 
-<button
-class="btn primary"
-onclick="generateScenes()">
+    <label>⏱️ Total Video Length</label>
 
-✨ Generate Scenes
+    <select id="videoLength">
 
-</button>
+      <option value="60">
+        1 Minute
+      </option>
 
-<button
-class="btn green"
-onclick="generateVoice()">
+      <option value="300">
+        5 Minutes
+      </option>
 
-🎙️ Generate Voice
+      <option value="600">
+        10 Minutes
+      </option>
 
-</button>
+      <option value="900" selected>
+        15 Minutes
+      </option>
 
-<button
-class="btn"
-style="background:#ea580c"
-onclick="createVideo()">
+    </select>
 
-🎬 CREATE VIDEO
+  </div>
 
-</button>
 
-</div>
+  <!-- STYLE -->
+  <div class="card">
 
-</div>
+    <label>🎬 Documentary Style</label>
 
+    <select id="style">
 
-<!-- PROGRESS -->
+      <option>
+        Cinematic Mystery
+      </option>
 
-<div class="card">
+      <option>
+        Dark Documentary
+      </option>
 
-<h2 class="text-xl font-bold mb-3">
-⚙️ Video Processing
-</h2>
+      <option>
+        Historical Documentary
+      </option>
 
-<div class="progress">
+      <option>
+        Science Documentary
+      </option>
 
-<div id="progressBar" class="progressBar"></div>
+      <option>
+        Horror Mystery
+      </option>
 
-</div>
+    </select>
 
-<p id="status" class="text-gray-400 mt-3">
-Ready
-</p>
+  </div>
 
-</div>
 
+  <!-- GENERATE -->
+  <div class="card">
 
-<!-- AUDIO -->
+    <button
+      class="generate"
+      onclick="generateProject()">
 
-<div class="card">
+      🚀 Generate Documentary
 
-<h2 class="text-xl font-bold mb-3">
-🎙️ Voice Preview
-</h2>
+    </button>
 
-<audio id="audio" controls class="w-full"></audio>
+    <div
+      id="status"
+      class="status">
 
-</div>
+      Ready
 
+    </div>
 
-<!-- SCENES -->
+    <div class="progress">
 
-<div class="card">
+      <div
+        id="progressBar"
+        class="progress-bar">
+      </div>
 
-<div class="flex justify-between">
+    </div>
 
-<h2 class="text-xl font-bold">
-🎞️ Scenes
-</h2>
-
-<span id="badge">
-0 Scenes
-</span>
-
-</div>
-
-<div id="scenes">
-
-<p class="text-gray-500 mt-5">
-पहले script डालकर Generate Scenes दबाएँ।
-</p>
-
-</div>
-
-</div>
-
-
-<!-- FINAL VIDEO -->
-
-<div class="card">
-
-<h2 class="text-xl font-bold mb-4">
-🎬 Final Video
-</h2>
-
-<video
-id="video"
-controls>
-</video>
-
-<br><br>
-
-<a
-id="download"
-class="btn primary hidden"
-download="gupt-bharatvarsh-video.webm">
-
-⬇️ Download Video
-
-</a>
-
-</div>
+  </div>
 
 </div>
 
 
 <script>
 
-let currentDuration = 5;
+function generateProject(){
 
-let sceneData = [];
+  const script =
+    document.getElementById("script").value.trim();
 
-let voiceBlob = null;
+  if(!script){
 
-let audioURL = null;
+    alert("पहले अपना script डालिए।");
 
-
-/* -------------------------
-DURATION
-------------------------- */
-
-function setDuration(sec){
-
-currentDuration = sec;
-
-document.querySelectorAll(".duration")
-.forEach(x=>x.classList.remove("active"));
-
-document.getElementById("d"+sec)
-.classList.add("active");
-
-calculate();
-
-}
+    return;
+  }
 
 
-/* -------------------------
-CALCULATE
-------------------------- */
-
-function calculate(){
-
-let total =
-parseInt(
-document.getElementById("videoLength").value
-);
-
-let scenes =
-Math.ceil(total/currentDuration);
-
-document.getElementById("totalTime")
-.innerText =
-total+" sec";
-
-document.getElementById("sceneCount")
-.innerText =
-scenes;
-
-}
+  const voice =
+    document.getElementById("voice").value;
 
 
-/* -------------------------
-GENERATE SCENES
-------------------------- */
-
-function generateScenes(){
-
-let script =
-document.getElementById("script")
-.value.trim();
-
-if(!script){
-
-alert("पहले script डालो");
-
-return;
-
-}
-
-let total =
-parseInt(
-document.getElementById("videoLength").value
-);
-
-let count =
-Math.ceil(total/currentDuration);
-
-sceneData=[];
-
-let container =
-document.getElementById("scenes");
-
-container.innerHTML="";
+  const duration =
+    document.querySelector(
+      'input[name="duration"]:checked'
+    ).value;
 
 
-for(let i=0;i<count;i++){
-
-let start =
-i*currentDuration;
-
-let end =
-Math.min(
-(i+1)*currentDuration,
-total
-);
-
-let sceneText =
-makeSceneText(script,i,count);
-
-let prompt =
-makePrompt(sceneText,i);
-
-sceneData.push({
-
-number:i+1,
-
-start:start,
-
-end:end,
-
-text:sceneText,
-
-prompt:prompt
-
-});
+  const videoLength =
+    document.getElementById("videoLength").value;
 
 
-let div =
-document.createElement("div");
+  const style =
+    document.getElementById("style").value;
 
-div.className="scene";
 
-div.innerHTML=`
+  const totalSeconds =
+    parseInt(videoLength);
 
-<div class="flex justify-between">
 
-<strong>
-SCENE ${i+1}
-</strong>
+  const scenes =
+    Math.ceil(totalSeconds / parseInt(duration));
 
-<span class="text-purple-400">
-${start}s - ${end}s
-</span>
 
-</div>
+  const status =
+    document.getElementById("status");
 
-<p class="mt-2 text-gray-300">
-${escapeHTML(sceneText)}
-</p>
+  const progress =
+    document.getElementById("progressBar");
 
-<div class="mt-3 bg-slate-900 p-3 rounded-lg text-green-400 text-sm">
 
-${escapeHTML(prompt)}
+  status.innerHTML =
+    "⏳ Project तैयार हो रहा है...";
 
-</div>
 
-`;
+  progress.style.width = "10%";
 
-container.appendChild(div);
+
+  setTimeout(()=>{
+
+    progress.style.width = "35%";
+
+    status.innerHTML =
+      "🎞️ " + scenes +
+      " scenes तैयार किए जाएंगे...";
+
+  },700);
+
+
+  setTimeout(()=>{
+
+    progress.style.width = "65%";
+
+    status.innerHTML =
+      "🎙️ Voice: " + voice;
+
+  },1400);
+
+
+  setTimeout(()=>{
+
+    progress.style.width = "85%";
+
+    status.innerHTML =
+      "🎬 " + style +
+      " documentary तैयार हो रही है...";
+
+  },2100);
+
+
+  setTimeout(()=>{
+
+    progress.style.width = "100%";
+
+    status.innerHTML =
+      "✅ Project तैयार है — अगला चरण Video Rendering";
+
+    console.log({
+
+      script:script,
+
+      voice:voice,
+
+      sceneDuration:duration,
+
+      videoLength:videoLength,
+
+      scenes:scenes,
+
+      style:style
+
+    });
+
+  },3000);
 
 }
-
-document.getElementById("badge")
-.innerText =
-count+" Scenes";
-
-setStatus(
-count+" scenes तैयार हैं"
-);
-
-}
-
-
-/* -------------------------
-SCENE TEXT
-------------------------- */
-
-function makeSceneText(script,index,total){
-
-let words =
-script.split(/\s+/);
-
-let chunk =
-Math.ceil(words.length/total);
-
-let start =
-index*chunk;
-
-let end =
-Math.min(start+chunk,words.length);
-
-let result =
-words.slice(start,end).join(" ");
-
-if(!result){
-
-result =
-script;
-}
-
-return result;
-
-}
-
-
-/* -------------------------
-PROMPT
-------------------------- */
-
-function makePrompt(text,index){
-
-return `
-Cinematic documentary scene,
-ultra realistic,
-dramatic lighting,
-deep atmosphere,
-realistic environment,
-high detail,
-camera movement,
-8K style,
-16:9,
-scene ${index+1},
-visual based on: ${text.substring(0,160)}
-`;
-
-}
-
-
-/* -------------------------
-ELEVENLABS VOICE
-------------------------- */
-
-async function generateVoice(){
-
-let key =
-document.getElementById("apiKey")
-.value.trim();
-
-let script =
-document.getElementById("script")
-.value.trim();
-
-let voice =
-document.getElementById("voiceId")
-.value;
-
-if(!key){
-
-alert("ElevenLabs API Key डालो");
-
-return;
-
-}
-
-if(!script){
-
-alert("Script डालो");
-
-return;
-
-}
-
-try{
-
-setStatus("ElevenLabs voice बन रही है...");
-
-let response =
-await fetch(
-"https://api.elevenlabs.io/v1/text-to-speech/"+voice,
-{
-
-method:"POST",
-
-headers:{
-
-"Accept":"audio/mpeg",
-
-"Content-Type":"application/json",
-
-"xi-api-key":key
-
-},
-
-body:JSON.stringify({
-
-text:script,
-
-model_id:"eleven_multilingual_v2",
-
-voice_settings:{
-
-stability:0.5,
-
-similarity_boost:0.75
-
-}
-
-})
-
-});
-
-if(!response.ok){
-
-throw new Error(
-"ElevenLabs Error "+response.status
-);
-
-}
-
-voiceBlob =
-await response.blob();
-
-audioURL =
-URL.createObjectURL(voiceBlob);
-
-document.getElementById("audio")
-.src=audioURL;
-
-setStatus(
-"Voice successfully generated"
-);
-
-}
-
-catch(error){
-
-alert(
-"Voice error: "+error.message
-);
-
-setStatus("Voice generation failed");
-
-}
-
-}
-
-
-/* -------------------------
-CREATE VIDEO
-------------------------- */
-
-async function createVideo(){
-
-if(sceneData.length===0){
-
-alert("पहले Generate Scenes दबाओ");
-
-return;
-
-}
-
-if(!voiceBlob){
-
-alert(
-"पहले Generate Voice दबाओ"
-);
-
-return;
-
-}
-
-try{
-
-setStatus("Video तैयार हो रहा है...");
-
-setProgress(5);
-
-
-/*
-Create audio element
-*/
-
-let audio =
-new Audio(audioURL);
-
-await waitForAudio(audio);
-
-setProgress(15);
-
-
-/*
-Canvas
-*/
-
-let canvas =
-document.createElement("canvas");
-
-canvas.width=1280;
-canvas.height=720;
-
-let ctx =
-canvas.getContext("2d");
-
-
-/*
-Canvas stream
-*/
-
-let stream =
-canvas.captureStream(30);
-
-
-/*
-Audio stream
-*/
-
-let audioContext =
-new AudioContext();
-
-let source =
-audioContext.createMediaElementSource(audio);
-
-let destination =
-audioContext.createMediaStreamDestination();
-
-source.connect(destination);
-
-source.connect(audioContext.destination);
-
-destination.stream
-.getAudioTracks()
-.forEach(track=>{
-stream.addTrack(track);
-});
-
-
-/*
-Recorder
-*/
-
-let recorder =
-new MediaRecorder(
-stream,
-{
-mimeType:"video/webm;codecs=vp9,opus"
-}
-);
-
-let chunks=[];
-
-recorder.ondataavailable =
-e=>{
-if(e.data.size>0)
-chunks.push(e.data);
-};
-
-
-let stopped =
-new Promise(resolve=>{
-recorder.onstop=resolve;
-});
-
-
-recorder.start();
-
-
-audio.currentTime=0;
-
-await audio.play();
-
-
-/*
-Visual loop
-*/
-
-let startTime =
-performance.now();
-
-let total =
-parseInt(
-document.getElementById("videoLength").value
-);
-
-function draw(){
-
-let elapsed =
-(performance.now()-startTime)/1000;
-
-if(elapsed>=total){
-
-return;
-
-}
-
-
-let sceneIndex =
-Math.floor(
-elapsed/currentDuration
-);
-
-let scene =
-sceneData[
-Math.min(
-sceneIndex,
-sceneData.length-1
-)
-];
-
-drawScene(
-ctx,
-scene,
-elapsed
-);
-
-setProgress(
-15+
-(elapsed/total)*80
-);
-
-requestAnimationFrame(draw);
-
-}
-
-draw();
-
-
-/*
-Wait video duration
-*/
-
-await new Promise(
-resolve=>setTimeout(
-resolve,
-(total*1000)+1000
-)
-);
-
-recorder.stop();
-
-audio.pause();
-
-await stopped;
-
-stream.getTracks()
-.forEach(track=>track.stop());
-
-audioContext.close();
-
-
-let blob =
-new Blob(
-chunks,
-{
-type:"video/webm"
-}
-);
-
-let url =
-URL.createObjectURL(blob);
-
-document.getElementById("video")
-.src=url;
-
-let download =
-document.getElementById("download");
-
-download.href=url;
-
-download.classList.remove("hidden");
-
-setProgress(100);
-
-setStatus(
-"🎉 Video तैयार है!"
-);
-
-}
-
-catch(error){
-
-console.error(error);
-
-alert(
-"Video बनाने में error: "+
-error.message
-);
-
-setStatus("Video generation failed");
-
-}
-
-}
-
-
-/* -------------------------
-DRAW SCENE
-------------------------- */
-
-function drawScene(
-ctx,
-scene,
-elapsed
-){
-
-let w=1280;
-let h=720;
-
-
-/*
-Animated background
-*/
-
-let gradient =
-ctx.createLinearGradient(
-0,0,w,h
-);
-
-gradient.addColorStop(
-0,
-"#020617"
-);
-
-gradient.addColorStop(
-0.5,
-"#312e81"
-);
-
-gradient.addColorStop(
-1,
-"#581c87"
-);
-
-ctx.fillStyle=gradient;
-
-ctx.fillRect(0,0,w,h);
-
-
-/*
-Moving light
-*/
-
-let x =
-(w/2)+
-Math.sin(elapsed*0.7)*350;
-
-let y =
-(h/2)+
-Math.cos(elapsed*0.5)*180;
-
-let glow =
-ctx.createRadialGradient(
-x,y,20,
-x,y,450
-);
-
-glow.addColorStop(
-0,
-"rgba(168,85,247,.35)"
-);
-
-glow.addColorStop(
-1,
-"rgba(0,0,0,0)"
-);
-
-ctx.fillStyle=glow;
-
-ctx.fillRect(0,0,w,h);
-
-
-/*
-Scene number
-*/
-
-ctx.fillStyle="rgba(0,0,0,.45)";
-
-ctx.fillRect(
-50,
-50,
-300,
-70
-);
-
-ctx.fillStyle="white";
-
-ctx.font=
-"bold 34px Arial";
-
-ctx.fillText(
-"SCENE "+scene.number,
-75,
-96
-);
-
-
-/*
-Documentary title
-*/
-
-ctx.font=
-"bold 48px Arial";
-
-ctx.fillText(
-"GUPT BHARATVARSH",
-50,
-610
-);
-
-
-/*
-Scene text
-*/
-
-ctx.font=
-"28px Arial";
-
-let words =
-scene.text.split(" ");
-
-let line="";
-let yText=655;
-
-for(let i=0;i<words.length;i++){
-
-let test =
-line+words[i]+" ";
-
-if(ctx.measureText(test).width>1050){
-
-ctx.fillText(
-line,
-50,
-yText
-);
-
-line=words[i]+" ";
-
-yText+=35;
-
-if(yText>705) break;
-
-}else{
-
-line=test;
-
-}
-
-}
-
-ctx.fillText(
-line,
-50,
-yText
-);
-
-}
-
-
-/* -------------------------
-HELPERS
-------------------------- */
-
-function setProgress(value){
-
-document.getElementById("progressBar")
-.style.width=
-Math.min(100,value)+"%";
-
-}
-
-function setStatus(text){
-
-document.getElementById("status")
-.innerText=text;
-
-}
-
-function waitForAudio(audio){
-
-return new Promise(
-(resolve,reject)=>{
-
-audio.onloadedmetadata=resolve;
-
-audio.onerror=reject;
-
-audio.load();
-
-});
-
-}
-
-function escapeHTML(text){
-
-return text
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-calculate();
 
 </script>
 
