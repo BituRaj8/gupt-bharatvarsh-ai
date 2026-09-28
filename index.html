@@ -8,6 +8,10 @@
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
 margin:0;
 padding:20px;
@@ -21,20 +25,21 @@ text-align:center;
 margin-bottom:25px;
 }
 
-h2{
-margin-top:10px;
+.box{
+background:#1b1b1b;
+padding:18px;
+border-radius:12px;
+margin-bottom:20px;
 }
 
 textarea,
-input,
-select{
+input{
 width:100%;
-box-sizing:border-box;
 padding:14px;
 font-size:16px;
+border:0;
 border-radius:10px;
-border:none;
-margin-bottom:12px;
+margin:8px 0 15px;
 }
 
 textarea{
@@ -45,87 +50,248 @@ resize:vertical;
 button{
 width:100%;
 padding:15px;
-margin:6px 0;
-border:none;
+margin:8px 0;
+border:0;
 border-radius:10px;
 font-size:17px;
 font-weight:bold;
 cursor:pointer;
-}
-
-button:disabled{
-opacity:.5;
-cursor:not-allowed;
-}
-
-#sceneButton{
 background:#457b9d;
 color:white;
 }
 
-#saveKeyButton{
-background:#f4a261;
-color:#111;
-}
-
-#removeKeyButton{
-background:#6c757d;
-color:white;
-}
-
-#loadVoices{
-background:#8338ec;
-color:white;
-}
-
-#voiceButton{
-background:#e63946;
-color:white;
-}
-
-#downloadButton{
-background:#2a9d8f;
-color:white;
-}
-
-#imageButton{
-background:#4361ee;
-color:white;
-}
-
-#saveImageKeyButton{
-background:#f4a261;
-color:#111;
-}
-
-#removeImageKeyButton{
-background:#6c757d;
-color:white;
-}
-
-.box{
-background:#1b1b1b;
-padding:15px;
-border-radius:12px;
-margin-bottom:20px;
-}
-
-#status{
-margin-top:15px;
-padding:12px;
-background:#222;
-border-radius:8px;
-text-align:center;
-}
-
-audio{
-width:100%;
-margin-top:15px;
+button:active{
+transform:scale(.98);
 }
 
 .scene{
 background:#222;
-padding:14px;
-margin:10px 0;
+padding:15px;
+margin:12px 0;
+border-radius:10px;
+border-left:4px solid #457b9d;
+}
+
+.sceneTitle{
+color:#ffd166;
+font-weight:bold;
+font-size:18px;
+}
+
+.sceneText{
+margin-top:10px;
+line-height:1.6;
+}
+
+.prompt{
+margin-top:12px;
+padding:12px;
+background:#181818;
 border-radius:8px;
-border-left:4px
+color:#bbb;
+line-height:1.5;
+font-size:14px;
+}
+
+#status{
+background:#222;
+padding:12px;
+border-radius:8px;
+text-align:center;
+margin-top:15px;
+}
+
+.note{
+color:#999;
+font-size:13px;
+line-height:1.5;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<h1>🎬 GUPT BHARATVARSH AI</h1>
+
+
+<div class="box">
+
+<h2>📝 अपनी Story डालें</h2>
+
+<textarea
+id="story"
+placeholder="अपनी Hindi documentary story यहाँ लिखें..."
+></textarea>
+
+
+<label>🎬 Number of Scenes</label>
+
+<input
+id="sceneCount"
+type="number"
+min="1"
+max="50"
+value="10"
+>
+
+
+<button id="generateButton">
+🎬 Generate Scenes
+</button>
+
+
+<div id="status">
+🟡 Story डालें और Generate Scenes दबाएँ
+</div>
+
+</div>
+
+
+<div class="box">
+
+<h2>🎬 Generated Scenes</h2>
+
+<div id="scenes"></div>
+
+</div>
+
+
+<script>
+
+const story =
+document.getElementById("story");
+
+const sceneCount =
+document.getElementById("sceneCount");
+
+const generateButton =
+document.getElementById("generateButton");
+
+const scenes =
+document.getElementById("scenes");
+
+const status =
+document.getElementById("status");
+
+
+generateButton.addEventListener(
+"click",
+function(){
+
+const text =
+story.value.trim();
+
+const count =
+Number(sceneCount.value);
+
+
+if(text === ""){
+
+alert("पहले Story लिखें।");
+
+return;
+
+}
+
+
+if(count < 1 || count > 50){
+
+alert("Scenes की संख्या 1 से 50 के बीच रखें।");
+
+return;
+
+}
+
+
+scenes.innerHTML="";
+
+
+const words =
+text.split(/\s+/).filter(Boolean);
+
+
+const wordsPerScene =
+Math.ceil(words.length / count);
+
+
+let sceneNumber=0;
+
+
+for(
+let i=0;
+i<count;
+i++
+){
+
+const start =
+i * wordsPerScene;
+
+const end =
+Math.min(
+start + wordsPerScene,
+words.length
+);
+
+
+const sceneText =
+words
+.slice(start,end)
+.join(" ");
+
+
+if(sceneText === ""){
+continue;
+}
+
+
+sceneNumber++;
+
+
+const prompt =
+"Cinematic documentary scene, " +
+sceneText +
+", ultra realistic, dramatic lighting, realistic environment, cinematic composition, high detail, 16:9, 8K, no text, no watermark";
+
+
+const scene =
+document.createElement("div");
+
+scene.className="scene";
+
+
+scene.innerHTML=
+
+"<div class='sceneTitle'>" +
+"🎬 Scene " +
+sceneNumber +
+"</div>" +
+
+"<div class='sceneText'>" +
+sceneText +
+"</div>" +
+
+"<div class='prompt'>" +
+"<b>🖼️ AI Image Prompt:</b><br>" +
+prompt +
+"</div>";
+
+
+scenes.appendChild(scene);
+
+}
+
+
+status.textContent =
+"✅ " +
+sceneNumber +
+" Scenes successfully तैयार हो गए।";
+
+});
+
+
+</script>
+
+</body>
+</html>
