@@ -7,1403 +7,569 @@
 <title>GUPT BHARATVARSH AI</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
-margin:0;
-padding:20px;
-background:#111;
-color:white;
-font-family:Arial,sans-serif
+  font-family:Arial, sans-serif;
+  background:#0b0b0f;
+  color:#fff;
+  min-height:100vh;
 }
 
-h1{
-text-align:center;
-margin-bottom:25px
+.header{
+  padding:20px;
+  text-align:center;
+  background:linear-gradient(135deg,#111827,#1f2937);
+  border-bottom:1px solid #333;
 }
 
-.box{
-background:#1b1b1b;
-padding:18px;
-border-radius:12px;
-margin-bottom:20px
+.header h1{
+  font-size:28px;
+  color:#f5c542;
 }
 
-textarea,input,select{
-width:100%;
-padding:14px;
-font-size:16px;
-border:0;
-border-radius:10px;
-margin:8px 0 15px
+.header p{
+  margin-top:6px;
+  color:#aaa;
+  font-size:14px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:#15151c;
+  border:1px solid #292936;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.25);
+}
+
+label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:bold;
+  color:#f5c542;
+}
+
+textarea,
+input,
+select{
+  width:100%;
+  padding:13px;
+  border-radius:10px;
+  border:1px solid #3a3a48;
+  background:#0d0d12;
+  color:#fff;
+  outline:none;
+  font-size:15px;
 }
 
 textarea{
-height:220px;
-resize:vertical
+  min-height:130px;
+  resize:vertical;
+}
+
+textarea:focus,
+input:focus,
+select:focus{
+  border-color:#f5c542;
+}
+
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:15px;
 }
 
 button{
-width:100%;
-padding:15px;
-margin:8px 0;
-border:0;
-border-radius:10px;
-font-size:17px;
-font-weight:bold;
-cursor:pointer
+  border:none;
+  border-radius:10px;
+  padding:13px 18px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
 }
 
-button:disabled{opacity:.5}
-
-#generateButton{
-background:#457b9d;
-color:white
+button:hover{
+  transform:translateY(-1px);
+  opacity:.9;
 }
 
-#connectPollinations{
-background:#ffb703;
-color:#111
+.primary{
+  background:#f5c542;
+  color:#111;
+  width:100%;
+  margin-top:18px;
 }
 
-.generateImageButton{
-background:#06d6a0;
-color:#111
+.secondary{
+  background:#272733;
+  color:#fff;
 }
 
-.downloadImageButton{
-background:#2a9d8f;
-color:white
+.success{
+  background:#16803c;
+  color:#fff;
 }
 
-#saveKeyButton{
-background:#f4a261;
-color:#111
+.danger{
+  background:#9b2226;
+  color:#fff;
 }
 
-#loadVoices{
-background:#8338ec;
-color:white
+.button-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:15px;
 }
 
-#voiceButton{
-background:#e63946;
-color:white
+.preview{
+  width:100%;
+  max-height:500px;
+  object-fit:contain;
+  display:none;
+  border-radius:12px;
+  border:1px solid #333;
+  background:#050505;
 }
 
-#downloadButton{
-background:#2a9d8f;
-color:white
+.info{
+  padding:13px;
+  margin-top:15px;
+  background:#101017;
+  border-radius:10px;
+  color:#aaa;
+  font-size:13px;
+  line-height:1.6;
 }
 
-#removeKeyButton{
-background:#555;
-color:white
+.status{
+  margin-top:12px;
+  color:#67e8f9;
+  font-size:14px;
 }
 
-.scene{
-background:#222;
-padding:15px;
-margin:12px 0;
-border-radius:10px;
-border-left:4px solid #457b9d
+.footer{
+  text-align:center;
+  padding:25px;
+  color:#666;
+  font-size:13px;
 }
 
-.sceneTitle{
-color:#ffd166;
-font-weight:bold;
-font-size:18px
-}
+@media(max-width:650px){
+  .row{
+    grid-template-columns:1fr;
+  }
 
-.sceneText{
-margin-top:10px;
-line-height:1.6
-}
+  .header h1{
+    font-size:23px;
+  }
 
-.prompt{
-margin-top:12px;
-padding:12px;
-background:#181818;
-border-radius:8px;
-color:#bbb;
-line-height:1.5;
-font-size:14px
-}
+  .container{
+    padding:12px;
+  }
 
-.sceneImage{
-width:100%;
-margin-top:15px;
-border-radius:10px;
-display:block
-}
-
-#status,#pollinationsStatus{
-background:#222;
-padding:12px;
-border-radius:8px;
-text-align:center;
-margin-top:15px
-}
-
-.note{
-color:#999;
-font-size:13px;
-line-height:1.5
-}
-
-.saved{
-color:#90be6d;
-font-size:13px;
-margin-bottom:10px
-}
-
-audio{
-width:100%;
-margin-top:15px
+  .card{
+    padding:15px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<h1>🎬 GUPT BHARATVARSH AI</h1>
+<header class="header">
+  <h1>GUPT BHARATVARSH AI</h1>
+  <p>AI Prompt Studio • Free Workflow</p>
+</header>
 
-<div class="box">
+<main class="container">
 
-<h2>📝 अपनी Story डालें</h2>
+  <!-- PROMPT GENERATOR -->
+  <section class="card">
 
-<textarea
-id="story"
-placeholder="अपनी Hindi documentary story यहाँ लिखें..."
-></textarea>
+    <label for="topic">आप क्या बनाना चाहते हैं?</label>
 
-<label>🎬 Number of Scenes</label>
+    <textarea
+      id="topic"
+      placeholder="उदाहरण: Bermuda Triangle में तूफान के बीच एक पुराना जहाज..."
+    ></textarea>
 
-<input
-id="sceneCount"
-type="number"
-min="1"
-max="50"
-value="10"
->
+    <div class="row">
 
-<button id="generateButton">
-🎬 Generate Scenes
-</button>
+      <div>
+        <label for="style">Image Style</label>
 
-<div id="scenes"></div>
+        <select id="style">
+          <option value="cinematic documentary">Cinematic Documentary</option>
+          <option value="ultra realistic">Ultra Realistic</option>
+          <option value="dark mystery">Dark Mystery</option>
+          <option value="historical cinematic">Historical Cinematic</option>
+          <option value="epic cinematic">Epic Cinematic</option>
+          <option value="realistic photography">Realistic Photography</option>
+      </select>
+      </div>
 
-</div>
+      <div>
+        <label for="ratio">Aspect Ratio</label>
+
+        <select id="ratio">
+          <option value="16:9">16:9 YouTube</option>
+          <option value="9:16">9:16 Shorts</option>
+          <option value="1:1">1:1 Square</option>
+          <option value="4:5">4:5</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div>
+        <label for="quality">Quality</label>
+
+        <select id="quality">
+          <option value="8K">8K</option>
+          <option value="4K">4K</option>
+          <option value="Ultra HD">Ultra HD</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="lighting">Lighting</label>
+
+        <select id="lighting">
+          <option value="dramatic lighting">Dramatic Lighting</option>
+          <option value="dark atmospheric lighting">Dark Atmospheric</option>
+          <option value="moody cinematic lighting">Moody Cinematic</option>
+          <option value="natural lighting">Natural Lighting</option>
+        </select>
+      </div>
+
+    </div>
+
+    <button class="primary" onclick="generatePrompt()">
+      ✨ Generate Prompt
+    </button>
+
+    <div id="status" class="status"></div>
+
+  </section>
 
 
-<!-- POLLINATIONS -->
+  <!-- GENERATED PROMPT -->
+  <section class="card">
 
-<div class="box">
+    <label for="promptOutput">Generated AI Image Prompt</label>
 
-<h2>🖼️ Pollinations AI Image</h2>
+    <textarea
+      id="promptOutput"
+      placeholder="आपका prompt यहाँ दिखाई देगा..."
+    ></textarea>
 
-<button id="connectPollinations">
-🔐 Connect Pollinations
-</button>
+    <div class="button-row">
 
-<div id="pollinationsStatus">
-🟡 पहले Pollinations Connect करें
-</div>
+      <button class="success" onclick="copyPrompt()">
+        📋 Copy Prompt
+      </button>
 
-<p class="note">
-Connect करने के बाद हर Scene की AI Image बनाई जा सकती है।
-</p>
+      <button class="secondary" onclick="clearPrompt()">
+        🗑️ Clear
+      </button>
 
-</div>
+    </div>
+
+    <div class="info">
+      यह workflow किसी API या API Key का उपयोग नहीं करता।
+      Prompt को copy करके अपनी पसंद के image generator में इस्तेमाल करें।
+    </div>
+
+  </section>
 
 
-<!-- ELEVENLABS -->
+  <!-- IMAGE UPLOAD -->
+  <section class="card">
 
-<div class="box">
+    <label>अपनी बनाई हुई Image Upload करें</label>
 
-<h2>🎙️ ElevenLabs Hindi Voice</h2>
+    <input
+      type="file"
+      id="imageInput"
+      accept="image/*"
+      onchange="previewImage(event)"
+    >
 
-<input
-id="apiKey"
-type="password"
-placeholder="ElevenLabs API Key यहाँ डालें"
->
+    <div class="button-row">
 
-<div id="keyStatus" class="saved"></div>
+      <button
+        class="secondary"
+        onclick="document.getElementById('imageInput').click()"
+      >
+        📤 Upload Image
+      </button>
 
-<button id="saveKeyButton">
-💾 Save API Key
-</button>
+      <button
+        class="success"
+        onclick="downloadImage()"
+      >
+        ⬇️ Download Image
+      </button>
 
-<button id="removeKeyButton">
-🗑️ Remove Saved API Key
-</button>
+    </div>
 
-<button id="loadVoices">
-🔄 Load ElevenLabs Voices
-</button>
+    <p id="imageStatus" class="status"></p>
 
-<select id="voiceSelect">
-<option value="">
-पहले Voices Load करें
-</option>
-</select>
+    <img
+      id="preview"
+      class="preview"
+      alt="Uploaded Image Preview"
+    >
 
-<select id="modelSelect">
+  </section>
 
-<option value="eleven_multilingual_v2">
-Multilingual v2 - Natural Hindi
-</option>
 
-<option value="eleven_v3">
-Eleven v3 - Expressive
-</option>
+  <!-- WORKFLOW -->
+  <section class="card">
 
-</select>
+    <label>कैसे इस्तेमाल करें?</label>
 
-<label>🎚️ Voice Speed</label>
+    <div class="info">
 
-<input
-id="speed"
-type="range"
-min="0.7"
-max="1.2"
-step="0.05"
-value="0.95"
->
+      <b>1.</b> ऊपर अपना scene/topic लिखें।<br><br>
 
-<div id="speedValue">
-Speed: 0.95
-</div>
+      <b>2.</b> Generate Prompt दबाएँ।<br><br>
 
-<button id="voiceButton">
-🎙️ Generate Professional Hindi Voice
-</button>
+      <b>3.</b> Copy Prompt दबाएँ।<br><br>
 
-<audio id="audio" controls></audio>
+      <b>4.</b> Prompt को किसी image generator में इस्तेमाल करें।<br><br>
 
-<button id="downloadButton" disabled>
-💾 Download MP3
-</button>
+      <b>5.</b> बनी हुई image को यहाँ Upload करें।<br><br>
 
-<div id="status">
-🟡 Story डालें और शुरू करें
-</div>
+      <b>6.</b> जरूरत हो तो image को अपने device में save/download करें।
 
-<p class="note">
-Testing version.
-</p>
+    </div>
 
-</div>
+  </section>
+
+</main>
+
+
+<footer class="footer">
+  © 2026 GUPT BHARATVARSH AI
+</footer>
 
 
 <script>
 
-/* =====================================================
-ELEMENTS
-===================================================== */
-
-const story =
-document.getElementById("story");
-
-const sceneCount =
-document.getElementById("sceneCount");
-
-const generateButton =
-document.getElementById("generateButton");
-
-const scenes =
-document.getElementById("scenes");
-
-const apiKey =
-document.getElementById("apiKey");
-
-const saveKeyButton =
-document.getElementById("saveKeyButton");
-
-const removeKeyButton =
-document.getElementById("removeKeyButton");
-
-const loadVoices =
-document.getElementById("loadVoices");
-
-const voiceSelect =
-document.getElementById("voiceSelect");
-
-const voiceButton =
-document.getElementById("voiceButton");
-
-const downloadButton =
-document.getElementById("downloadButton");
-
-const audio =
-document.getElementById("audio");
-
-const status =
-document.getElementById("status");
-
-const speed =
-document.getElementById("speed");
-
-const speedValue =
-document.getElementById("speedValue");
-
-let audioBlob = null;
+let uploadedImageURL = "";
 
 
-/* =====================================================
-POLLINATIONS APP KEY
-===================================================== */
+/* GENERATE PROMPT */
 
-/*
-⚠️ अपनी नई Pollinations App Key नीचे डालें।
+function generatePrompt(){
 
-उदाहरण:
+  const topic =
+    document.getElementById("topic").value.trim();
 
-const POLLINATIONS_CLIENT_ID =
-"pk_bxT7t04xyyGHLQhN";
+  const style =
+    document.getElementById("style").value;
 
-*/
+  const ratio =
+    document.getElementById("ratio").value;
 
-const POLLINATIONS_CLIENT_ID =
-"PASTE_YOUR_NEW_PK_KEY_HERE";
+  const quality =
+    document.getElementById("quality").value;
 
+  const lighting =
+    document.getElementById("lighting").value;
 
-let pollinationsToken =
-sessionStorage.getItem(
-"gb_pollinations_token"
-);
+  const output =
+    document.getElementById("promptOutput");
 
-const connectPollinations =
-document.getElementById(
-"connectPollinations"
-);
-
-const pollinationsStatus =
-document.getElementById(
-"pollinationsStatus"
-);
+  const status =
+    document.getElementById("status");
 
 
-/* =====================================================
-LOAD ELEVENLABS KEY
-===================================================== */
+  if(!topic){
 
-const savedKey =
-localStorage.getItem(
-"gb_eleven_api_key"
-);
+    status.textContent =
+      "⚠️ पहले अपना scene या topic लिखें।";
 
-if(savedKey){
+    output.value = "";
 
-apiKey.value =
-savedKey;
+    return;
+  }
 
-document.getElementById(
-"keyStatus"
-).textContent =
-"✅ API Key saved है।";
 
+  const prompt =
+`Create a ${style} scene based on this description:
+
+"${topic}"
+
+Visual style: ${style}
+Composition: cinematic and highly detailed
+Lighting: ${lighting}
+Quality: ${quality}
+Aspect ratio: ${ratio}
+Camera: professional cinematic camera
+Details: realistic textures, realistic environment, dramatic atmosphere, depth, volumetric light, natural shadows, highly detailed
+Documentary look, immersive composition, visually powerful scene.
+
+Important:
+No text, no captions, no logo, no watermark, no UI elements.`;
+
+
+  output.value = prompt;
+
+  status.textContent =
+    "✅ Prompt तैयार है। अब Copy Prompt दबाएँ।";
 }
 
 
-/* =====================================================
-GENERATE SCENES
-===================================================== */
+/* COPY PROMPT */
 
-generateButton.addEventListener(
-"click",
-function(){
+async function copyPrompt(){
 
-const text =
-story.value.trim();
+  const output =
+    document.getElementById("promptOutput");
 
-const count =
-Number(sceneCount.value);
+  const text =
+    output.value.trim();
 
-if(text === ""){
-
-alert("पहले Story लिखें।");
-return;
-
-}
-
-if(count < 1 || count > 50){
-
-alert(
-"Scenes की संख्या 1 से 50 के बीच रखें।"
-);
-
-return;
-
-}
-
-scenes.innerHTML = "";
-
-const words =
-text.split(/\s+/).filter(Boolean);
-
-const wordsPerScene =
-Math.ceil(words.length / count);
-
-let sceneNumber = 0;
-
-for(
-let i=0;
-i<count;
-i++
-){
-
-const start =
-i * wordsPerScene;
-
-const end =
-Math.min(
-start + wordsPerScene,
-words.length
-);
-
-const sceneText =
-words.slice(start,end).join(" ");
-
-if(sceneText === "") continue;
-
-sceneNumber++;
-
-const prompt =
-"Cinematic documentary scene, " +
-sceneText +
-", ultra realistic, dramatic lighting, realistic environment, cinematic composition, high detail, 16:9, 8K, no text, no watermark";
-
-const scene =
-document.createElement("div");
-
-scene.className = "scene";
-
-scene.innerHTML =
-
-"<div class='sceneTitle'>" +
-"🎬 Scene " +
-sceneNumber +
-"</div>" +
-
-"<div class='sceneText'>" +
-sceneText +
-"</div>" +
-
-"<div class='prompt'>" +
-"<b>🖼️ AI Image Prompt:</b><br>" +
-prompt +
-"</div>" +
-
-"<button class='generateImageButton'>" +
-"🎨 Generate Scene Image" +
-"</button>" +
-
-"<div class='imageContainer'></div>";
-
-scenes.appendChild(scene);
-
-const imageButton =
-scene.querySelector(
-".generateImageButton"
-);
-
-const imageContainer =
-scene.querySelector(
-".imageContainer"
-);
-
-imageButton.addEventListener(
-"click",
-function(){
-
-generateSceneImage(
-prompt,
-imageButton,
-imageContainer
-);
-
-});
-
-}
-
-status.textContent =
-"✅ " +
-sceneNumber +
-" Scenes तैयार हो गए।";
-
-});
+  const status =
+    document.getElementById("status");
 
 
-/* =====================================================
-PKCE
-===================================================== */
+  if(!text){
 
-function randomString(length){
+    status.textContent =
+      "⚠️ पहले Prompt Generate करें।";
 
-const chars =
-"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+    return;
+  }
 
-let result = "";
 
-const array =
-new Uint8Array(length);
+  try{
 
-crypto.getRandomValues(array);
+    await navigator.clipboard.writeText(text);
 
-array.forEach(
-function(value){
+    status.textContent =
+      "✅ Prompt clipboard में copy हो गया।";
 
-result +=
-chars[value % chars.length];
+  }catch(error){
 
-});
+    output.select();
+    document.execCommand("copy");
 
-return result;
-
+    status.textContent =
+      "✅ Prompt copy हो गया।";
+  }
 }
 
 
-function base64UrlEncode(bytes){
+/* CLEAR PROMPT */
 
-let binary = "";
+function clearPrompt(){
 
-bytes.forEach(
-function(byte){
+  document.getElementById("promptOutput").value = "";
 
-binary +=
-String.fromCharCode(byte);
-
-});
-
-return btoa(binary)
-.replace(/\+/g,"-")
-.replace(/\//g,"_")
-.replace(/=+$/,"");
-
+  document.getElementById("status").textContent =
+    "Prompt साफ कर दिया गया।";
 }
 
 
-async function createChallenge(verifier){
+/* IMAGE PREVIEW */
 
-const data =
-new TextEncoder().encode(verifier);
+function previewImage(event){
 
-const hash =
-await crypto.subtle.digest(
-"SHA-256",
-data
-);
+  const file =
+    event.target.files[0];
 
-return base64UrlEncode(
-new Uint8Array(hash)
-);
+  const preview =
+    document.getElementById("preview");
 
+  const status =
+    document.getElementById("imageStatus");
+
+
+  if(!file){
+
+    return;
+  }
+
+
+  if(!file.type.startsWith("image/")){
+
+    status.textContent =
+      "⚠️ कृपया केवल image file चुनें।";
+
+    return;
+  }
+
+
+  if(uploadedImageURL){
+
+    URL.revokeObjectURL(uploadedImageURL);
+  }
+
+
+  uploadedImageURL =
+    URL.createObjectURL(file);
+
+  preview.src =
+    uploadedImageURL;
+
+  preview.style.display =
+    "block";
+
+  status.textContent =
+    "✅ Image upload हो गई।";
 }
 
 
-/* =====================================================
-CONNECT POLLINATIONS
-===================================================== */
+/* DOWNLOAD IMAGE */
 
-connectPollinations.addEventListener(
-"click",
-async function(){
+function downloadImage(){
 
-if(
-!POLLINATIONS_CLIENT_ID ||
-POLLINATIONS_CLIENT_ID ===
-"PASTE_YOUR_NEW_PK_KEY_HERE"
-){
+  if(!uploadedImageURL){
 
-alert(
-"पहले code में अपनी Pollinations pk_ App Key डालें।"
-);
+    document.getElementById("imageStatus").textContent =
+      "⚠️ पहले Image Upload करें।";
 
-return;
+    return;
+  }
 
+
+  const link =
+    document.createElement("a");
+
+  link.href =
+    uploadedImageURL;
+
+  link.download =
+    "gupt-bharatvarsh-image.png";
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+
+  document.getElementById("imageStatus").textContent =
+    "✅ Image download शुरू हो गया।";
 }
-
-try{
-
-connectPollinations.disabled = true;
-
-pollinationsStatus.textContent =
-"⏳ Pollinations Connect हो रहा है...";
-
-const verifier =
-randomString(64);
-
-const challenge =
-await createChallenge(verifier);
-
-const state =
-randomString(32);
-
-sessionStorage.setItem(
-"gb_pollinations_verifier",
-verifier
-);
-
-sessionStorage.setItem(
-"gb_pollinations_state",
-state
-);
-
-const redirectUri =
-window.location.origin +
-window.location.pathname;
-
-const params =
-new URLSearchParams({
-
-response_type:"code",
-
-client_id:
-POLLINATIONS_CLIENT_ID,
-
-redirect_uri:
-redirectUri,
-
-scope:"usage",
-
-state:state,
-
-code_challenge:
-challenge,
-
-code_challenge_method:"S256"
-
-});
-
-window.location.href =
-"https://enter.pollinations.ai/authorize?" +
-params.toString();
-
-}
-catch(error){
-
-console.error(error);
-
-pollinationsStatus.textContent =
-"❌ Pollinations Connect नहीं हुआ।";
-
-connectPollinations.disabled = false;
-
-}
-
-});
-
-
-/* =====================================================
-POLLINATIONS CALLBACK
-===================================================== */
-
-async function handlePollinationsCallback(){
-
-const currentURL =
-new URL(window.location.href);
-
-const code =
-currentURL.searchParams.get("code");
-
-const returnedState =
-currentURL.searchParams.get("state");
-
-if(!code){
-
-if(pollinationsToken){
-
-pollinationsStatus.textContent =
-"✅ Pollinations Connected है।";
-
-connectPollinations.textContent =
-"✅ Pollinations Connected";
-
-}
-
-return;
-
-}
-
-const savedState =
-sessionStorage.getItem(
-"gb_pollinations_state"
-);
-
-const verifier =
-sessionStorage.getItem(
-"gb_pollinations_verifier"
-);
-
-if(
-!savedState ||
-!verifier ||
-returnedState !== savedState
-){
-
-pollinationsStatus.textContent =
-"❌ Authorization check failed।";
-
-return;
-
-}
-
-try{
-
-pollinationsStatus.textContent =
-"⏳ Authorization complete हो रही है...";
-
-const redirectUri =
-window.location.origin +
-window.location.pathname;
-
-const response =
-await fetch(
-"https://enter.pollinations.ai/api/oauth/token",
-{
-
-method:"POST",
-
-headers:{
-"Content-Type":
-"application/x-www-form-urlencoded"
-},
-
-body:
-new URLSearchParams({
-
-grant_type:
-"authorization_code",
-
-code:code,
-
-client_id:
-POLLINATIONS_CLIENT_ID,
-
-redirect_uri:
-redirectUri,
-
-code_verifier:
-verifier
-
-})
-
-});
-
-const data =
-await response.json();
-
-if(
-!response.ok ||
-!data.access_token
-){
-
-console.error(data);
-
-throw new Error(
-"Pollinations token नहीं मिला"
-);
-
-}
-
-pollinationsToken =
-data.access_token;
-
-sessionStorage.setItem(
-"gb_pollinations_token",
-pollinationsToken
-);
-
-sessionStorage.removeItem(
-"gb_pollinations_verifier"
-);
-
-sessionStorage.removeItem(
-"gb_pollinations_state"
-);
-
-window.history.replaceState(
-{},
-document.title,
-redirectUri
-);
-
-pollinationsStatus.textContent =
-"✅ Pollinations Connected है।";
-
-connectPollinations.textContent =
-"✅ Pollinations Connected";
-
-}
-catch(error){
-
-console.error(error);
-
-pollinationsStatus.textContent =
-"❌ Pollinations authorization failed।";
-
-}
-
-}
-
-
-/* =====================================================
-GENERATE SCENE IMAGE
-===================================================== */
-
-async function generateSceneImage(
-prompt,
-button,
-container
-){
-
-if(!pollinationsToken){
-
-alert(
-"पहले 🔐 Connect Pollinations दबाएँ।"
-);
-
-return;
-
-}
-
-try{
-
-button.disabled = true;
-
-button.textContent =
-"⏳ Image बन रही है...";
-
-pollinationsStatus.textContent =
-"⏳ AI Image generate हो रही है...";
-
-const imageURL =
-"https://gen.pollinations.ai/image/" +
-encodeURIComponent(prompt) +
-"?model=flux" +
-"&width=1280" +
-"&height=720";
-
-const response =
-await fetch(
-imageURL,
-{
-
-method:"GET",
-
-headers:{
-"Authorization":
-"Bearer " +
-pollinationsToken
-}
-
-}
-);
-
-if(!response.ok){
-
-const errorText =
-await response.text();
-
-console.error(errorText);
-
-throw new Error(
-"Image generation failed"
-);
-
-}
-
-const blob =
-await response.blob();
-
-const localURL =
-URL.createObjectURL(blob);
-
-container.innerHTML = "";
-
-const image =
-document.createElement("img");
-
-image.className =
-"sceneImage";
-
-image.src =
-localURL;
-
-image.alt =
-"AI Generated Scene";
-
-container.appendChild(image);
-
-const download =
-document.createElement("button");
-
-download.className =
-"downloadImageButton";
-
-download.textContent =
-"💾 Download Image";
-
-download.addEventListener(
-"click",
-function(){
-
-const link =
-document.createElement("a");
-
-link.href = localURL;
-
-link.download =
-"gupt-bharatvarsh-scene.png";
-
-document.body.appendChild(link);
-
-link.click();
-
-link.remove();
-
-});
-
-container.appendChild(download);
-
-button.textContent =
-"✅ Image तैयार है";
-
-pollinationsStatus.textContent =
-"✅ AI Image तैयार है।";
-
-}
-catch(error){
-
-console.error(error);
-
-button.textContent =
-"❌ फिर से Generate करें";
-
-pollinationsStatus.textContent =
-"❌ Image generate नहीं हुई।";
-
-alert(
-"Image generate नहीं हुई। Pollinations connection check करें।"
-);
-
-}
-finally{
-
-button.disabled = false;
-
-}
-
-}
-
-
-/* =====================================================
-SAVE ELEVENLABS API KEY
-===================================================== */
-
-saveKeyButton.addEventListener(
-"click",
-function(){
-
-const key =
-apiKey.value.trim();
-
-if(!key){
-
-alert("पहले API Key डालें।");
-return;
-
-}
-
-localStorage.setItem(
-"gb_eleven_api_key",
-key
-);
-
-document.getElementById(
-"keyStatus"
-).textContent =
-"✅ API Key save हो गई।";
-
-status.textContent =
-"✅ API Key saved है।";
-
-});
-
-
-/* =====================================================
-REMOVE ELEVENLABS KEY
-===================================================== */
-
-removeKeyButton.addEventListener(
-"click",
-function(){
-
-localStorage.removeItem(
-"gb_eleven_api_key"
-);
-
-apiKey.value = "";
-
-document.getElementById(
-"keyStatus"
-).textContent =
-"🗑️ API Key हटा दी गई।";
-
-status.textContent =
-"🟡 API Key हट गई।";
-
-});
-
-
-/* =====================================================
-LOAD ELEVENLABS VOICES
-===================================================== */
-
-loadVoices.addEventListener(
-"click",
-async function(){
-
-const key =
-apiKey.value.trim();
-
-if(!key){
-
-alert(
-"पहले ElevenLabs API Key डालें।"
-);
-
-return;
-
-}
-
-try{
-
-loadVoices.disabled = true;
-
-status.textContent =
-"⏳ Voices load हो रही हैं...";
-
-const response =
-await fetch(
-"https://api.elevenlabs.io/v1/voices",
-{
-
-headers:{
-"xi-api-key":key
-}
-
-});
-
-if(!response.ok){
-
-throw new Error(
-"Voices load नहीं हुईं"
-);
-
-}
-
-const data =
-await response.json();
-
-localStorage.setItem(
-"gb_eleven_api_key",
-key
-);
-
-localStorage.setItem(
-"gb_eleven_voices",
-JSON.stringify(data.voices)
-);
-
-voiceSelect.innerHTML = "";
-
-data.voices.forEach(
-function(voice){
-
-const option =
-document.createElement("option");
-
-option.value =
-voice.voice_id;
-
-option.textContent =
-voice.name;
-
-voiceSelect.appendChild(option);
-
-});
-
-if(data.voices.length){
-
-voiceSelect.value =
-data.voices[0].voice_id;
-
-localStorage.setItem(
-"gb_selected_voice",
-data.voices[0].voice_id
-);
-
-}
-
-document.getElementById(
-"keyStatus"
-).textContent =
-"✅ API Key और Voices saved हैं।";
-
-status.textContent =
-"✅ Voices successfully load हो गईं।";
-
-}
-catch(error){
-
-console.error(error);
-
-status.textContent =
-"❌ Voices load नहीं हुईं।";
-
-alert(
-"API Key या ElevenLabs account check करें।"
-);
-
-}
-finally{
-
-loadVoices.disabled = false;
-
-}
-
-});
-
-
-/* =====================================================
-SAVE VOICE
-===================================================== */
-
-voiceSelect.addEventListener(
-"change",
-function(){
-
-if(voiceSelect.value){
-
-localStorage.setItem(
-"gb_selected_voice",
-voiceSelect.value
-);
-
-}
-
-});
-
-
-/* =====================================================
-SPEED
-===================================================== */
-
-speed.addEventListener(
-"input",
-function(){
-
-speedValue.textContent =
-"Speed: " +
-speed.value;
-
-});
-
-
-/* =====================================================
-GENERATE VOICE
-===================================================== */
-
-voiceButton.addEventListener(
-"click",
-async function(){
-
-const key =
-apiKey.value.trim();
-
-const text =
-story.value.trim();
-
-const voiceId =
-voiceSelect.value;
-
-const model =
-document.getElementById(
-"modelSelect"
-).value;
-
-const voiceSpeed =
-Number(speed.value);
-
-if(!key){
-
-alert(
-"पहले API Key डालें।"
-);
-
-return;
-
-}
-
-if(!text){
-
-alert(
-"पहले Story लिखें।"
-);
-
-return;
-
-}
-
-if(!voiceId){
-
-alert(
-"पहले Voices Load करें।"
-);
-
-return;
-
-}
-
-try{
-
-voiceButton.disabled = true;
-
-downloadButton.disabled = true;
-
-status.textContent =
-"⏳ Hindi voice बन रही है...";
-
-const url =
-"https://api.elevenlabs.io/v1/text-to-speech/" +
-voiceId +
-"?output_format=mp3_44100_128";
-
-const response =
-await fetch(
-url,
-{
-
-method:"POST",
-
-headers:{
-"xi-api-key":key,
-"Content-Type":"application/json"
-},
-
-body:
-JSON.stringify({
-
-text:text,
-
-model_id:model,
-
-voice_settings:{
-stability:0.45,
-similarity_boost:0.80,
-style:0.25,
-use_speaker_boost:true
-},
-
-speed:voiceSpeed
-
-})
-
-});
-
-if(!response.ok){
-
-throw new Error(
-await response.text()
-);
-
-}
-
-audioBlob =
-await response.blob();
-
-const audioURL =
-URL.createObjectURL(audioBlob);
-
-audio.src =
-audioURL;
-
-audio.load();
-
-downloadButton.disabled = false;
-
-status.textContent =
-"✅ Professional Hindi Voice तैयार है!";
-
-}
-catch(error){
-
-console.error(error);
-
-status.textContent =
-"❌ Voice generate नहीं हुई।";
-
-alert(
-"Voice generate नहीं हुई। API Key, Voice और quota check करें।"
-);
-
-}
-finally{
-
-voiceButton.disabled = false;
-
-}
-
-});
-
-
-/* =====================================================
-DOWNLOAD MP3
-===================================================== */
-
-downloadButton.addEventListener(
-"click",
-function(){
-
-if(!audioBlob) return;
-
-const url =
-URL.createObjectURL(audioBlob);
-
-const link =
-document.createElement("a");
-
-link.href = url;
-
-link.download =
-"gupt-bharatvarsh-hindi-voice.mp3";
-
-document.body.appendChild(link);
-
-link.click();
-
-link.remove();
-
-setTimeout(
-function(){
-
-URL.revokeObjectURL(url);
-
-},
-1000
-);
-
-});
-
-
-/* =====================================================
-START
-===================================================== */
-
-handlePollinationsCallback();
 
 </script>
 
