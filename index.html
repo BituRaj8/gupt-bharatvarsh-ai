@@ -2,9 +2,9 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>GUPT BHARATVARSH AI</title>
+<title>GUPT BHARATVARSH AI - Script To Video</title>
 
 <style>
 *{
@@ -14,67 +14,65 @@
 }
 
 body{
-  font-family:Arial, sans-serif;
-  background:#0b0b0f;
+  background:#090a0f;
   color:#fff;
-  min-height:100vh;
+  font-family:Arial,sans-serif;
 }
 
-.header{
-  padding:20px;
-  text-align:center;
+header{
   background:linear-gradient(135deg,#111827,#1f2937);
+  text-align:center;
+  padding:22px 15px;
   border-bottom:1px solid #333;
 }
 
-.header h1{
-  font-size:28px;
+header h1{
   color:#f5c542;
+  font-size:27px;
 }
 
-.header p{
-  margin-top:6px;
+header p{
   color:#aaa;
-  font-size:14px;
+  margin-top:6px;
+  font-size:13px;
 }
 
 .container{
-  max-width:900px;
+  max-width:950px;
   margin:auto;
-  padding:20px;
+  padding:15px;
 }
 
 .card{
-  background:#15151c;
-  border:1px solid #292936;
+  background:#15161d;
+  border:1px solid #292b35;
   border-radius:16px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 8px 30px rgba(0,0,0,.25);
+  padding:18px;
+  margin-bottom:18px;
 }
 
-label{
-  display:block;
-  margin-bottom:8px;
-  font-weight:bold;
+.title{
   color:#f5c542;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:13px;
 }
 
 textarea,
 input,
 select{
   width:100%;
-  padding:13px;
-  border-radius:10px;
-  border:1px solid #3a3a48;
-  background:#0d0d12;
+  background:#0d0e13;
   color:#fff;
+  border:1px solid #383a46;
+  border-radius:10px;
+  padding:13px;
   outline:none;
   font-size:15px;
 }
 
 textarea{
-  min-height:130px;
+  min-height:180px;
   resize:vertical;
 }
 
@@ -84,88 +82,127 @@ select:focus{
   border-color:#f5c542;
 }
 
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-  margin-top:15px;
-}
-
 button{
-  border:none;
+  border:0;
   border-radius:10px;
-  padding:13px 18px;
-  font-size:15px;
+  padding:12px 17px;
   font-weight:bold;
   cursor:pointer;
-  transition:.2s;
-}
-
-button:hover{
-  transform:translateY(-1px);
-  opacity:.9;
+  margin-top:12px;
 }
 
 .primary{
+  width:100%;
   background:#f5c542;
   color:#111;
-  width:100%;
-  margin-top:18px;
 }
 
-.secondary{
-  background:#272733;
-  color:#fff;
-}
-
-.success{
+.green{
   background:#16803c;
-  color:#fff;
+  color:white;
 }
 
-.danger{
+.dark{
+  background:#292b36;
+  color:white;
+}
+
+.red{
   background:#9b2226;
-  color:#fff;
+  color:white;
 }
 
-.button-row{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:15px;
-}
-
-.preview{
-  width:100%;
-  max-height:500px;
-  object-fit:contain;
-  display:none;
-  border-radius:12px;
-  border:1px solid #333;
-  background:#050505;
-}
-
-.info{
-  padding:13px;
-  margin-top:15px;
-  background:#101017;
-  border-radius:10px;
-  color:#aaa;
-  font-size:13px;
-  line-height:1.6;
-}
-
-.status{
+.row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
   margin-top:12px;
-  color:#67e8f9;
+}
+
+.scene{
+  background:#0e0f15;
+  border:1px solid #30323d;
+  border-radius:13px;
+  padding:15px;
+  margin-top:14px;
+}
+
+.scene h3{
+  color:#f5c542;
+  margin-bottom:10px;
+}
+
+.scene p{
+  color:#ddd;
+  line-height:1.6;
   font-size:14px;
 }
 
-.footer{
-  text-align:center;
-  padding:25px;
-  color:#666;
+.prompt{
+  margin-top:10px;
+  min-height:120px;
+}
+
+.sceneImage{
+  width:100%;
+  max-height:350px;
+  object-fit:contain;
+  margin-top:12px;
+  border-radius:10px;
+  display:none;
+  background:#000;
+}
+
+.progress{
+  width:100%;
+  height:18px;
+  background:#292b36;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.progressBar{
+  width:0%;
+  height:100%;
+  background:#f5c542;
+  transition:.2s;
+}
+
+.status{
+  color:#67e8f9;
+  margin-top:10px;
+  font-size:14px;
+}
+
+.note{
+  color:#999;
   font-size:13px;
+  line-height:1.6;
+  margin-top:10px;
+}
+
+audio{
+  width:100%;
+  margin-top:12px;
+}
+
+video{
+  width:100%;
+  margin-top:15px;
+  border-radius:12px;
+  background:#000;
+}
+
+.hidden{
+  display:none;
+}
+
+footer{
+  text-align:center;
+  color:#666;
+  padding:25px;
+  font-size:12px;
 }
 
 @media(max-width:650px){
@@ -173,16 +210,12 @@ button:hover{
     grid-template-columns:1fr;
   }
 
-  .header h1{
+  header h1{
     font-size:23px;
   }
 
-  .container{
-    padding:12px;
-  }
-
   .card{
-    padding:15px;
+    padding:14px;
   }
 }
 </style>
@@ -190,385 +223,1220 @@ button:hover{
 
 <body>
 
-<header class="header">
+<header>
   <h1>GUPT BHARATVARSH AI</h1>
-  <p>AI Prompt Studio • Free Workflow</p>
+  <p>Script → Scenes → Voice → Video</p>
 </header>
 
-<main class="container">
+<div class="container">
 
-  <!-- PROMPT GENERATOR -->
-  <section class="card">
+  <!-- SCRIPT -->
+  <div class="card">
 
-    <label for="topic">आप क्या बनाना चाहते हैं?</label>
+    <div class="title">📝 अपनी Script डालें</div>
 
     <textarea
-      id="topic"
-      placeholder="उदाहरण: Bermuda Triangle में तूफान के बीच एक पुराना जहाज..."
+      id="script"
+      placeholder="यहाँ अपनी पूरी Hindi documentary script paste करें...
+
+उदाहरण:
+बरमूडा ट्रायंगल दुनिया की सबसे रहस्यमयी जगहों में से एक माना जाता है।
+
+समुद्र के इस हिस्से से जुड़े कई जहाजों और विमानों की कहानियाँ आज भी लोगों को हैरान करती हैं..."
     ></textarea>
 
     <div class="row">
 
       <div>
-        <label for="style">Image Style</label>
-
-        <select id="style">
-          <option value="cinematic documentary">Cinematic Documentary</option>
-          <option value="ultra realistic">Ultra Realistic</option>
-          <option value="dark mystery">Dark Mystery</option>
-          <option value="historical cinematic">Historical Cinematic</option>
-          <option value="epic cinematic">Epic Cinematic</option>
-          <option value="realistic photography">Realistic Photography</option>
-      </select>
+        <label>हर Scene की Duration</label>
+        <select id="duration">
+          <option value="5">5 सेकंड</option>
+          <option value="7" selected>7 सेकंड</option>
+          <option value="10">10 सेकंड</option>
+          <option value="12">12 सेकंड</option>
+        </select>
       </div>
 
       <div>
-        <label for="ratio">Aspect Ratio</label>
-
+        <label>Video Ratio</label>
         <select id="ratio">
           <option value="16:9">16:9 YouTube</option>
           <option value="9:16">9:16 Shorts</option>
-          <option value="1:1">1:1 Square</option>
-          <option value="4:5">4:5</option>
+          <option value="1:1">1:1</option>
         </select>
       </div>
 
     </div>
 
-    <div class="row">
-
-      <div>
-        <label for="quality">Quality</label>
-
-        <select id="quality">
-          <option value="8K">8K</option>
-          <option value="4K">4K</option>
-          <option value="Ultra HD">Ultra HD</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="lighting">Lighting</label>
-
-        <select id="lighting">
-          <option value="dramatic lighting">Dramatic Lighting</option>
-          <option value="dark atmospheric lighting">Dark Atmospheric</option>
-          <option value="moody cinematic lighting">Moody Cinematic</option>
-          <option value="natural lighting">Natural Lighting</option>
-        </select>
-      </div>
-
-    </div>
-
-    <button class="primary" onclick="generatePrompt()">
-      ✨ Generate Prompt
+    <button class="primary" onclick="createScenes()">
+      🎬 Generate Video Scenes
     </button>
 
-    <div id="status" class="status"></div>
+    <div id="scriptStatus" class="status"></div>
 
-  </section>
-
-
-  <!-- GENERATED PROMPT -->
-  <section class="card">
-
-    <label for="promptOutput">Generated AI Image Prompt</label>
-
-    <textarea
-      id="promptOutput"
-      placeholder="आपका prompt यहाँ दिखाई देगा..."
-    ></textarea>
-
-    <div class="button-row">
-
-      <button class="success" onclick="copyPrompt()">
-        📋 Copy Prompt
-      </button>
-
-      <button class="secondary" onclick="clearPrompt()">
-        🗑️ Clear
-      </button>
-
-    </div>
-
-    <div class="info">
-      यह workflow किसी API या API Key का उपयोग नहीं करता।
-      Prompt को copy करके अपनी पसंद के image generator में इस्तेमाल करें।
-    </div>
-
-  </section>
+  </div>
 
 
-  <!-- IMAGE UPLOAD -->
-  <section class="card">
+  <!-- SCENES -->
+  <div class="card">
 
-    <label>अपनी बनाई हुई Image Upload करें</label>
+    <div class="title">🎬 Video Scenes</div>
+
+    <div id="scenes"></div>
+
+  </div>
+
+
+  <!-- VOICE -->
+  <div class="card">
+
+    <div class="title">🎙️ Voice Over</div>
 
     <input
       type="file"
-      id="imageInput"
-      accept="image/*"
-      onchange="previewImage(event)"
+      id="voiceFile"
+      accept="audio/*"
+      onchange="loadVoice()"
     >
 
-    <div class="button-row">
+    <audio id="voicePlayer" controls></audio>
 
-      <button
-        class="secondary"
-        onclick="document.getElementById('imageInput').click()"
-      >
-        📤 Upload Image
-      </button>
+    <div id="voiceStatus" class="status"></div>
 
-      <button
-        class="success"
-        onclick="downloadImage()"
-      >
-        ⬇️ Download Image
-      </button>
-
+    <div class="note">
+      अपनी narration/voice-over audio यहाँ upload करें।
+      MP3, WAV आदि सामान्य audio files इस्तेमाल कर सकते हैं।
     </div>
 
-    <p id="imageStatus" class="status"></p>
+  </div>
 
-    <img
-      id="preview"
-      class="preview"
-      alt="Uploaded Image Preview"
+
+  <!-- ACTIONS -->
+  <div class="card">
+
+    <div class="title">⚙️ Video Tools</div>
+
+    <button class="green" onclick="copyAllPrompts()">
+      📋 Copy All Prompts
+    </button>
+
+    <button class="dark" onclick="downloadProject()">
+      📥 Download Project
+    </button>
+
+    <button class="primary" onclick="renderVideo()">
+      🎥 Create Video
+    </button>
+
+    <div class="progress">
+      <div id="progressBar" class="progressBar"></div>
+    </div>
+
+    <div id="renderStatus" class="status"></div>
+
+  </div>
+
+
+  <!-- RESULT -->
+  <div class="card">
+
+    <div class="title">🎥 Final Video</div>
+
+    <video
+      id="resultVideo"
+      controls
+      class="hidden"
+    ></video>
+
+    <button
+      id="downloadVideo"
+      class="green hidden"
+      onclick="downloadVideo()"
     >
+      ⬇️ Download Video
+    </button>
 
-  </section>
-
-
-  <!-- WORKFLOW -->
-  <section class="card">
-
-    <label>कैसे इस्तेमाल करें?</label>
-
-    <div class="info">
-
-      <b>1.</b> ऊपर अपना scene/topic लिखें।<br><br>
-
-      <b>2.</b> Generate Prompt दबाएँ।<br><br>
-
-      <b>3.</b> Copy Prompt दबाएँ।<br><br>
-
-      <b>4.</b> Prompt को किसी image generator में इस्तेमाल करें।<br><br>
-
-      <b>5.</b> बनी हुई image को यहाँ Upload करें।<br><br>
-
-      <b>6.</b> जरूरत हो तो image को अपने device में save/download करें।
-
+    <div class="note">
+      Video browser में तैयार होगा। इसमें आपकी uploaded images
+      और voice-over इस्तेमाल होंगे।
     </div>
 
-  </section>
+  </div>
 
-</main>
+</div>
 
 
-<footer class="footer">
+<footer>
   © 2026 GUPT BHARATVARSH AI
 </footer>
 
 
 <script>
 
-let uploadedImageURL = "";
+let scenesData = [];
+let voiceURL = "";
+let finalVideoURL = "";
 
 
-/* GENERATE PROMPT */
+/* =========================
+   CREATE SCENES
+========================= */
 
-function generatePrompt(){
+function createScenes(){
 
-  const topic =
-    document.getElementById("topic").value.trim();
+  const script =
+    document.getElementById("script").value.trim();
 
-  const style =
-    document.getElementById("style").value;
+  const duration =
+    Number(document.getElementById("duration").value);
 
-  const ratio =
-    document.getElementById("ratio").value;
-
-  const quality =
-    document.getElementById("quality").value;
-
-  const lighting =
-    document.getElementById("lighting").value;
-
-  const output =
-    document.getElementById("promptOutput");
+  const scenesBox =
+    document.getElementById("scenes");
 
   const status =
-    document.getElementById("status");
+    document.getElementById("scriptStatus");
 
 
-  if(!topic){
+  if(!script){
 
     status.textContent =
-      "⚠️ पहले अपना scene या topic लिखें।";
-
-    output.value = "";
+      "⚠️ पहले Script डालें।";
 
     return;
   }
 
 
-  const prompt =
-`Create a ${style} scene based on this description:
+  /*
+    Paragraph based scene splitting.
+    अगर paragraphs नहीं हैं तो sentences
+    के आधार पर scenes बनाए जाएंगे।
+  */
 
-"${topic}"
-
-Visual style: ${style}
-Composition: cinematic and highly detailed
-Lighting: ${lighting}
-Quality: ${quality}
-Aspect ratio: ${ratio}
-Camera: professional cinematic camera
-Details: realistic textures, realistic environment, dramatic atmosphere, depth, volumetric light, natural shadows, highly detailed
-Documentary look, immersive composition, visually powerful scene.
-
-Important:
-No text, no captions, no logo, no watermark, no UI elements.`;
+  let parts =
+    script
+      .split(/\n\s*\n/)
+      .map(x => x.trim())
+      .filter(Boolean);
 
 
-  output.value = prompt;
+  if(parts.length < 2){
+
+    parts =
+      script
+        .split(/(?<=[।!?])\s+/)
+        .map(x => x.trim())
+        .filter(Boolean);
+
+  }
+
+
+  /*
+    बहुत छोटे scenes को जोड़ना
+  */
+
+  let finalParts = [];
+
+  let buffer = "";
+
+  parts.forEach(part => {
+
+    if(part.length < 45){
+
+      buffer +=
+        (buffer ? " " : "") + part;
+
+    }else{
+
+      if(buffer){
+
+        finalParts.push(buffer);
+        buffer = "";
+      }
+
+      finalParts.push(part);
+    }
+
+  });
+
+
+  if(buffer){
+    finalParts.push(buffer);
+  }
+
+
+  /*
+    Maximum 50 scenes
+  */
+
+  finalParts =
+    finalParts.slice(0,50);
+
+
+  scenesData =
+    finalParts.map((text,index)=>({
+
+      id:index+1,
+      narration:text,
+      duration:duration,
+      image:null,
+      imageURL:null,
+      prompt:makePrompt(text)
+
+    }));
+
+
+  renderScenes();
 
   status.textContent =
-    "✅ Prompt तैयार है। अब Copy Prompt दबाएँ।";
+    "✅ " + scenesData.length +
+    " scenes तैयार हो गए।";
+
 }
 
 
-/* COPY PROMPT */
+/* =========================
+   MAKE VISUAL PROMPT
+========================= */
 
-async function copyPrompt(){
+function makePrompt(text){
 
-  const output =
-    document.getElementById("promptOutput");
+  return `
+Cinematic documentary scene based on:
 
-  const text =
-    output.value.trim();
+"${text}"
 
-  const status =
-    document.getElementById("status");
+Style:
+Ultra realistic cinematic documentary,
+dramatic atmosphere,
+professional filmmaking,
+realistic environment,
+detailed textures,
+natural shadows,
+volumetric lighting,
+deep depth,
+realistic camera perspective,
+highly detailed,
+8K quality.
 
+Composition:
+16:9 widescreen,
+strong cinematic composition,
+immersive visual storytelling.
 
-  if(!text){
+Important:
+No text,
+no captions,
+no logo,
+no watermark,
+no UI elements.
+`.trim();
 
-    status.textContent =
-      "⚠️ पहले Prompt Generate करें।";
-
-    return;
-  }
-
-
-  try{
-
-    await navigator.clipboard.writeText(text);
-
-    status.textContent =
-      "✅ Prompt clipboard में copy हो गया।";
-
-  }catch(error){
-
-    output.select();
-    document.execCommand("copy");
-
-    status.textContent =
-      "✅ Prompt copy हो गया।";
-  }
 }
 
 
-/* CLEAR PROMPT */
+/* =========================
+   RENDER SCENES
+========================= */
 
-function clearPrompt(){
+function renderScenes(){
 
-  document.getElementById("promptOutput").value = "";
+  const box =
+    document.getElementById("scenes");
 
-  document.getElementById("status").textContent =
-    "Prompt साफ कर दिया गया।";
+  box.innerHTML = "";
+
+
+  scenesData.forEach((scene,index)=>{
+
+    const div =
+      document.createElement("div");
+
+    div.className = "scene";
+
+    div.innerHTML = `
+
+      <h3>🎬 Scene ${scene.id}</h3>
+
+      <p>
+        <b>🎙️ Narration:</b><br>
+        ${escapeHTML(scene.narration)}
+      </p>
+
+      <p style="margin-top:12px;">
+        <b>⏱️ Duration:</b>
+        ${scene.duration} seconds
+      </p>
+
+      <textarea
+        class="prompt"
+        id="prompt-${index}"
+      >${escapeHTML(scene.prompt)}</textarea>
+
+      <button
+        class="dark"
+        onclick="copyScenePrompt(${index})"
+      >
+        📋 Copy Prompt
+      </button>
+
+      <br>
+
+      <input
+        type="file"
+        accept="image/*"
+        onchange="loadSceneImage(event,${index})"
+      >
+
+      <img
+        id="sceneImage-${index}"
+        class="sceneImage"
+      >
+
+      <div
+        id="sceneStatus-${index}"
+        class="status"
+      ></div>
+
+    `;
+
+    box.appendChild(div);
+
+  });
+
 }
 
 
-/* IMAGE PREVIEW */
+/* =========================
+   IMAGE LOAD
+========================= */
 
-function previewImage(event){
+function loadSceneImage(event,index){
 
   const file =
     event.target.files[0];
 
-  const preview =
-    document.getElementById("preview");
-
-  const status =
-    document.getElementById("imageStatus");
-
-
   if(!file){
-
     return;
   }
 
 
-  if(!file.type.startsWith("image/")){
-
-    status.textContent =
-      "⚠️ कृपया केवल image file चुनें।";
-
-    return;
-  }
-
-
-  if(uploadedImageURL){
-
-    URL.revokeObjectURL(uploadedImageURL);
-  }
-
-
-  uploadedImageURL =
+  const url =
     URL.createObjectURL(file);
 
-  preview.src =
-    uploadedImageURL;
 
-  preview.style.display =
-    "block";
+  scenesData[index].image =
+    file;
 
-  status.textContent =
-    "✅ Image upload हो गई।";
+  scenesData[index].imageURL =
+    url;
+
+
+  const img =
+    document.getElementById(
+      "sceneImage-" + index
+    );
+
+  img.src = url;
+  img.style.display = "block";
+
+
+  document.getElementById(
+    "sceneStatus-" + index
+  ).textContent =
+    "✅ Image added to Scene " +
+    (index+1);
+
 }
 
 
-/* DOWNLOAD IMAGE */
+/* =========================
+   COPY SCENE PROMPT
+========================= */
 
-function downloadImage(){
+async function copyScenePrompt(index){
 
-  if(!uploadedImageURL){
+  const prompt =
+    document.getElementById(
+      "prompt-" + index
+    ).value;
 
-    document.getElementById("imageStatus").textContent =
-      "⚠️ पहले Image Upload करें।";
+
+  try{
+
+    await navigator.clipboard.writeText(prompt);
+
+    alert(
+      "Scene " +
+      (index+1) +
+      " prompt copied!"
+    );
+
+  }catch(e){
+
+    const area =
+      document.getElementById(
+        "prompt-" + index
+      );
+
+    area.select();
+
+    document.execCommand("copy");
+
+    alert("Prompt copied!");
+
+  }
+
+}
+
+
+/* =========================
+   COPY ALL PROMPTS
+========================= */
+
+async function copyAllPrompts(){
+
+  if(!scenesData.length){
+
+    alert("पहले scenes generate करें।");
+    return;
+  }
+
+
+  let all = "";
+
+  scenesData.forEach(scene=>{
+
+    all +=
+      "SCENE " +
+      scene.id +
+      "\n\n";
+
+    all +=
+      "Narration:\n" +
+      scene.narration +
+      "\n\n";
+
+    all +=
+      "Visual Prompt:\n" +
+      scene.prompt +
+      "\n\n";
+
+    all +=
+      "----------------------\n\n";
+
+  });
+
+
+  await navigator.clipboard.writeText(all);
+
+  alert("✅ सभी prompts copy हो गए।");
+
+}
+
+
+/* =========================
+   VOICE
+========================= */
+
+function loadVoice(){
+
+  const file =
+    document.getElementById(
+      "voiceFile"
+    ).files[0];
+
+  const player =
+    document.getElementById(
+      "voicePlayer"
+    );
+
+  const status =
+    document.getElementById(
+      "voiceStatus"
+    );
+
+
+  if(!file){
+    return;
+  }
+
+
+  if(voiceURL){
+    URL.revokeObjectURL(voiceURL);
+  }
+
+
+  voiceURL =
+    URL.createObjectURL(file);
+
+
+  player.src =
+    voiceURL;
+
+
+  status.textContent =
+    "✅ Voice-over loaded.";
+
+}
+
+
+/* =========================
+   DOWNLOAD PROJECT
+========================= */
+
+function downloadProject(){
+
+  if(!scenesData.length){
+
+    alert("पहले scenes generate करें।");
+    return;
+  }
+
+
+  const project = {
+
+    title:
+      "GUPT BHARATVARSH AI Project",
+
+    ratio:
+      document.getElementById("ratio").value,
+
+    scenes:
+      scenesData.map(scene=>({
+
+        scene:scene.id,
+
+        narration:
+          scene.narration,
+
+        duration:
+          scene.duration,
+
+        prompt:
+          scene.prompt
+
+      }))
+
+  };
+
+
+  const blob =
+    new Blob(
+      [JSON.stringify(project,null,2)],
+      {type:"application/json"}
+    );
+
+
+  const url =
+    URL.createObjectURL(blob);
+
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "gupt-bharatvarsh-project.json";
+
+  a.click();
+
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+   VIDEO RENDER
+========================= */
+
+async function renderVideo(){
+
+  const status =
+    document.getElementById(
+      "renderStatus"
+    );
+
+  const bar =
+    document.getElementById(
+      "progressBar"
+    );
+
+
+  if(!scenesData.length){
+
+    status.textContent =
+      "⚠️ पहले scenes generate करें।";
 
     return;
   }
 
 
-  const link =
+  const missing =
+    scenesData.filter(
+      scene => !scene.image
+    );
+
+
+  if(missing.length){
+
+    status.textContent =
+      "⚠️ सभी scenes में image upload करें। Missing: " +
+      missing.map(x=>x.id).join(", ");
+
+    return;
+  }
+
+
+  if(!voiceURL){
+
+    status.textContent =
+      "⚠️ पहले voice-over audio upload करें।";
+
+    return;
+  }
+
+
+  status.textContent =
+    "🎥 Video तैयार हो रहा है...";
+
+
+  bar.style.width = "5%";
+
+
+  try{
+
+    const video =
+      await createBrowserVideo(
+        scenesData,
+        voiceURL,
+        value => {
+
+          bar.style.width =
+            value + "%";
+
+        }
+      );
+
+
+    finalVideoURL =
+      URL.createObjectURL(video);
+
+
+    const player =
+      document.getElementById(
+        "resultVideo"
+      );
+
+    player.src =
+      finalVideoURL;
+
+    player.classList.remove(
+      "hidden"
+    );
+
+
+    document
+      .getElementById(
+        "downloadVideo"
+      )
+      .classList.remove(
+        "hidden"
+      );
+
+
+    status.textContent =
+      "✅ Video तैयार हो गया!";
+
+
+    bar.style.width =
+      "100%";
+
+
+  }catch(error){
+
+    console.error(error);
+
+    status.textContent =
+      "❌ Video बनाने में समस्या हुई: " +
+      error.message;
+
+  }
+
+}
+
+
+/* =========================
+   BROWSER VIDEO ENGINE
+========================= */
+
+async function createBrowserVideo(
+  scenes,
+  audioURL,
+  progressCallback
+){
+
+  const canvas =
+    document.createElement("canvas");
+
+
+  const ratio =
+    document.getElementById(
+      "ratio"
+    ).value;
+
+
+  if(ratio === "9:16"){
+
+    canvas.width = 720;
+    canvas.height = 1280;
+
+  }else if(ratio === "1:1"){
+
+    canvas.width = 1080;
+    canvas.height = 1080;
+
+  }else{
+
+    canvas.width = 1280;
+    canvas.height = 720;
+
+  }
+
+
+  const ctx =
+    canvas.getContext("2d");
+
+
+  const audioContext =
+    new (
+      window.AudioContext ||
+      window.webkitAudioContext
+    )();
+
+
+  const audio =
+    new Audio();
+
+  audio.src =
+    audioURL;
+
+  audio.crossOrigin =
+    "anonymous";
+
+
+  await new Promise(
+    resolve => {
+
+      audio.onloadedmetadata =
+        resolve;
+
+    }
+  );
+
+
+  const source =
+    audioContext.createMediaElementSource(
+      audio
+    );
+
+
+  const destination =
+    audioContext.createMediaStreamDestination();
+
+
+  source.connect(destination);
+
+  source.connect(
+    audioContext.destination
+  );
+
+
+  const canvasStream =
+    canvas.captureStream(30);
+
+
+  const combined =
+    new MediaStream();
+
+
+  canvasStream
+    .getVideoTracks()
+    .forEach(track =>
+      combined.addTrack(track)
+    );
+
+
+  destination
+    .stream
+    .getAudioTracks()
+    .forEach(track =>
+      combined.addTrack(track)
+    );
+
+
+  let mime =
+    "video/webm;codecs=vp9,opus";
+
+
+  if(!MediaRecorder.isTypeSupported(mime)){
+
+    mime =
+      "video/webm;codecs=vp8,opus";
+
+  }
+
+
+  if(!MediaRecorder.isTypeSupported(mime)){
+
+    mime =
+      "video/webm";
+
+  }
+
+
+  const recorder =
+    new MediaRecorder(
+      combined,
+      {
+        mimeType:mime
+      }
+    );
+
+
+  const chunks = [];
+
+
+  recorder.ondataavailable =
+    event => {
+
+      if(event.data.size > 0){
+
+        chunks.push(
+          event.data
+        );
+
+      }
+
+    };
+
+
+  const totalDuration =
+    scenes.reduce(
+      (sum,scene)=>
+        sum + Number(scene.duration),
+      0
+    );
+
+
+  recorder.start();
+
+
+  await audioContext.resume();
+
+  audio.currentTime = 0;
+
+  audio.play();
+
+
+  const startTime =
+    performance.now();
+
+
+  let elapsed = 0;
+
+
+  for(let i=0;i<scenes.length;i++){
+
+    const scene =
+      scenes[i];
+
+
+    const img =
+      await loadImage(
+        scene.imageURL
+      );
+
+
+    const start =
+      performance.now();
+
+
+    while(
+      performance.now() - start <
+      scene.duration * 1000
+    ){
+
+      const passed =
+        performance.now() -
+        startTime;
+
+
+      elapsed =
+        passed / 1000;
+
+
+      drawImageCover(
+        ctx,
+        img,
+        canvas
+      );
+
+
+      /*
+        हल्का cinematic zoom
+      */
+
+      drawOverlay(
+        ctx,
+        scene.id
+      );
+
+
+      const percent =
+        Math.min(
+          99,
+          Math.round(
+            elapsed /
+            totalDuration *
+            100
+          )
+        );
+
+
+      progressCallback(
+        Math.max(5,percent)
+      );
+
+
+      await new Promise(
+        requestAnimationFrame
+      );
+
+    }
+
+  }
+
+
+  audio.pause();
+
+
+  return new Promise(
+    resolve => {
+
+      recorder.onstop = () => {
+
+        const blob =
+          new Blob(
+            chunks,
+            {
+              type:mime
+            }
+          );
+
+        resolve(blob);
+
+      };
+
+
+      recorder.stop();
+
+    }
+  );
+
+}
+
+
+/* =========================
+   DRAW IMAGE
+========================= */
+
+function drawImageCover(
+  ctx,
+  img,
+  canvas
+){
+
+  const cw =
+    canvas.width;
+
+  const ch =
+    canvas.height;
+
+
+  const iw =
+    img.width;
+
+  const ih =
+    img.height;
+
+
+  const scale =
+    Math.max(
+      cw / iw,
+      ch / ih
+    );
+
+
+  const nw =
+    iw * scale;
+
+  const nh =
+    ih * scale;
+
+
+  const x =
+    (cw-nw)/2;
+
+  const y =
+    (ch-nh)/2;
+
+
+  ctx.fillStyle =
+    "#000";
+
+  ctx.fillRect(
+    0,
+    0,
+    cw,
+    ch
+  );
+
+
+  ctx.drawImage(
+    img,
+    x,
+    y,
+    nw,
+    nh
+  );
+
+}
+
+
+/* =========================
+   OVERLAY
+========================= */
+
+function drawOverlay(
+  ctx,
+  sceneNumber
+){
+
+  /*
+    Dark cinematic overlay
+  */
+
+  const gradient =
+    ctx.createLinearGradient(
+      0,
+      0,
+      0,
+      ctx.canvas.height
+    );
+
+
+  gradient.addColorStop(
+    0,
+    "rgba(0,0,0,0.08)"
+  );
+
+
+  gradient.addColorStop(
+    1,
+    "rgba(0,0,0,0.25)"
+  );
+
+
+  ctx.fillStyle =
+    gradient;
+
+
+  ctx.fillRect(
+    0,
+    0,
+    ctx.canvas.width,
+    ctx.canvas.height
+  );
+
+}
+
+
+/* =========================
+   LOAD IMAGE
+========================= */
+
+function loadImage(url){
+
+  return new Promise(
+    (resolve,reject)=>{
+
+      const img =
+        new Image();
+
+      img.onload =
+        ()=>resolve(img);
+
+      img.onerror =
+        ()=>reject(
+          new Error(
+            "Image load failed"
+          )
+        );
+
+      img.src = url;
+
+    }
+  );
+
+}
+
+
+/* =========================
+   DOWNLOAD VIDEO
+========================= */
+
+function downloadVideo(){
+
+  if(!finalVideoURL){
+
+    alert("पहले video बनाएं।");
+
+    return;
+  }
+
+
+  const a =
     document.createElement("a");
 
-  link.href =
-    uploadedImageURL;
 
-  link.download =
-    "gupt-bharatvarsh-image.png";
+  a.href =
+    finalVideoURL;
 
-  document.body.appendChild(link);
 
-  link.click();
+  a.download =
+    "gupt-bharatvarsh-video.webm";
 
-  document.body.removeChild(link);
 
-  document.getElementById("imageStatus").textContent =
-    "✅ Image download शुरू हो गया।";
+  a.click();
+
+}
+
+
+/* =========================
+   HTML ESCAPE
+========================= */
+
+function escapeHTML(text){
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
 }
 
 </script>
