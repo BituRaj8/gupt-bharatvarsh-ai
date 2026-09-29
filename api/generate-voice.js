@@ -3,7 +3,6 @@ module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  // Health check
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
@@ -39,14 +38,14 @@ module.exports = async (req, res) => {
         : "";
 
     const voiceId =
-      typeof body.voiceId === "string"
+      typeof body.voiceId === "string" &&
+      body.voiceId.trim()
         ? body.voiceId.trim()
         : "JBFqnCBsd6RMkjVDRZzb";
 
     if (!text) {
       return res.status(400).json({
-        error: "Text is required",
-        code: "TEXT_MISSING"
+        error: "Text is required"
       });
     }
 
@@ -70,7 +69,7 @@ module.exports = async (req, res) => {
           "Accept": "audio/mpeg"
         },
         body: JSON.stringify({
-          text,
+          text: text,
           model_id: "eleven_multilingual_v2",
           voice_settings: {
             stability: 0.5,
@@ -106,15 +105,13 @@ module.exports = async (req, res) => {
         } else {
           details = JSON.stringify(data);
         }
-      } catch {
-        // raw text already available
-      }
+      } catch {}
 
       return res.status(response.status).json({
         error: "ElevenLabs error",
         status: response.status,
         details: String(details),
-        voiceId
+        voiceId: voiceId
       });
     }
 
@@ -123,21 +120,32 @@ module.exports = async (req, res) => {
 
     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
       return res.status(500).json({
-        error: "Empty audio received",
-        code: "EMPTY_AUDIO"
+        error: "Empty audio received"
       });
     }
 
     const audioBuffer =
       Buffer.from(arrayBuffer);
 
-    res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Content-Length", audioBuffer.length);
-    res.setHeader("Cache-Control", "no-store");
+    res.setHeader(
+      "Content-Type",
+      "audio/mpeg"
+    );
+
+    res.setHeader(
+      "Content-Length",
+      audioBuffer.length
+    );
+
+    res.setHeader(
+      "Cache-Control",
+      "no-store"
+    );
 
     return res.status(200).send(audioBuffer);
 
   } catch (error) {
+
     console.error(
       "VOICE ERROR:",
       error
@@ -160,7 +168,6 @@ module.exports = async (req, res) => {
 
     return res.status(500).json({
       error: "Voice generation failed",
-      code: "SERVER_ERROR",
       details: String(details)
     });
   }
