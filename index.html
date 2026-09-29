@@ -6,9 +6,7 @@
 <title>GUPT BHARATVARSH AI</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -108,6 +106,7 @@ button:hover{
 
 button:disabled{
   opacity:.5;
+  cursor:not-allowed;
 }
 
 .scene{
@@ -136,9 +135,12 @@ button:disabled{
   color:#ddd;
 }
 
-video{
+audio,video{
   width:100%;
   margin-top:15px;
+}
+
+video{
   border-radius:10px;
   background:#000;
 }
@@ -171,9 +173,15 @@ video{
 <div class="container">
 
 <h1>GUPT BHARATVARSH AI</h1>
+
 <div class="subtitle">
 AI Documentary Script → Scenes → Voice → Video
 </div>
+
+
+<!-- =========================
+     DOCUMENTARY INPUT
+========================= -->
 
 <div class="card">
 
@@ -183,6 +191,7 @@ AI Documentary Script → Scenes → Voice → Video
 id="title"
 value="कैलाश मंदिर का रहस्य"
 >
+
 
 <label>📝 Documentary Script</label>
 
@@ -204,12 +213,15 @@ value="कैलाश मंदिर का रहस्य"
 
 या फिर इस मंदिर के निर्माण की कहानी में अभी भी कई ऐसे अध्याय छिपे हैं जिन्हें इतिहास ने पूरी तरह उजागर नहीं किया?</textarea>
 
+
 <div class="row">
 
 <div>
+
 <label>🎙️ Voice</label>
 
 <select id="voice">
+
 <option value="JBFqnCBsd6RMkjVDRZzb">
 George
 </option>
@@ -217,78 +229,121 @@ George
 <option value="CwhRBWXzGAHq8TQ4Fs17">
 Roger
 </option>
+
 </select>
+
 </div>
 
+
 <div>
+
 <label>🎨 Documentary Style</label>
 
 <select id="style">
+
 <option value="mystery">Mystery</option>
 <option value="history">History</option>
 <option value="dark">Dark</option>
 <option value="nature">Nature</option>
+
 </select>
+
 </div>
 
 </div>
+
 
 <label>⏱️ Scene Duration</label>
 
 <div class="options">
 
 <label>
-<input type="radio" name="sceneDuration" value="5">
+<input
+type="radio"
+name="sceneDuration"
+value="5">
 5 sec
 </label>
 
 <label>
-<input type="radio" name="sceneDuration" value="7">
+<input
+type="radio"
+name="sceneDuration"
+value="7">
 7 sec
 </label>
 
 <label>
-<input type="radio" name="sceneDuration" value="9" checked>
+<input
+type="radio"
+name="sceneDuration"
+value="9"
+checked>
 9 sec
 </label>
 
 <label>
-<input type="radio" name="sceneDuration" value="12">
+<input
+type="radio"
+name="sceneDuration"
+value="12">
 12 sec
 </label>
 
 </div>
 
+
 <label>🎞️ Total Video Length</label>
 
 <select id="totalLength">
 
-<option value="60">1 Minute</option>
-<option value="300">5 Minutes</option>
-<option value="600">10 Minutes</option>
-<option value="900">15 Minutes</option>
+<option value="60">
+1 Minute
+</option>
+
+<option value="300">
+5 Minutes
+</option>
+
+<option value="600">
+10 Minutes
+</option>
+
+<option value="900">
+15 Minutes
+</option>
 
 </select>
+
 
 <label>🎥 Video Type</label>
 
 <div class="options">
 
 <label>
-<input type="radio" name="videoType" value="normal" checked>
+<input
+type="radio"
+name="videoType"
+value="normal"
+checked>
 🎬 Normal Documentary
 </label>
 
 <label>
-<input type="radio" name="videoType" value="2d">
+<input
+type="radio"
+name="videoType"
+value="2d">
 🎨 2D Animation
 </label>
 
 </div>
 
+
 <button id="generateBtn">
 🚀 Generate Documentary
 </button>
+
 
 <div id="status" class="status">
 Ready
@@ -296,6 +351,10 @@ Ready
 
 </div>
 
+
+<!-- =========================
+     SCENES
+========================= -->
 
 <div class="card">
 
@@ -305,6 +364,10 @@ Ready
 
 </div>
 
+
+<!-- =========================
+     VOICE
+========================= -->
 
 <div class="card">
 
@@ -318,10 +381,17 @@ Ready
 Voice not generated
 </div>
 
-<audio id="audioPlayer" controls style="width:100%;margin-top:15px;"></audio>
+<audio
+id="audioPlayer"
+controls
+></audio>
 
 </div>
 
+
+<!-- =========================
+     FINAL VIDEO
+========================= -->
 
 <div class="card">
 
@@ -335,18 +405,30 @@ Voice not generated
 Video not created
 </div>
 
-<video id="videoPlayer" controls></video>
+<video
+id="videoPlayer"
+controls
+></video>
 
 <div id="downloadArea"></div>
 
 </div>
 
-<canvas id="renderCanvas" width="1280" height="720"></canvas>
+
+<canvas
+id="renderCanvas"
+width="1280"
+height="720">
+</canvas>
 
 </div>
 
 
 <script>
+
+/* =========================
+   GLOBAL VARIABLES
+========================= */
 
 let scenes=[];
 let audioBlob=null;
@@ -357,17 +439,32 @@ let audioUrl=null;
    ELEMENTS
 ========================= */
 
-const scriptEl=document.getElementById("script");
-const scenesEl=document.getElementById("scenes");
-const statusEl=document.getElementById("status");
-const voiceStatus=document.getElementById("voiceStatus");
-const videoStatus=document.getElementById("videoStatus");
+const scriptEl=
+document.getElementById("script");
 
-const audioPlayer=document.getElementById("audioPlayer");
-const videoPlayer=document.getElementById("videoPlayer");
+const scenesEl=
+document.getElementById("scenes");
 
-const canvas=document.getElementById("renderCanvas");
-const ctx=canvas.getContext("2d");
+const statusEl=
+document.getElementById("status");
+
+const voiceStatus=
+document.getElementById("voiceStatus");
+
+const videoStatus=
+document.getElementById("videoStatus");
+
+const audioPlayer=
+document.getElementById("audioPlayer");
+
+const videoPlayer=
+document.getElementById("videoPlayer");
+
+const canvas=
+document.getElementById("renderCanvas");
+
+const ctx=
+canvas.getContext("2d");
 
 
 /* =========================
@@ -376,27 +473,42 @@ const ctx=canvas.getContext("2d");
 
 function createScenes(){
 
-  const text=scriptEl.value.trim();
+  const text=
+  scriptEl.value.trim();
 
   if(!text){
+
     alert("Script लिखो");
+
     return;
   }
 
-  const sentences=text
-    .split(/[।!?]+/)
-    .map(x=>x.trim())
-    .filter(x=>x.length>10);
 
-  scenes=sentences.map((text,index)=>{
+  const sentences=
+  text
+  .split(/[।!?]+/)
+  .map(x=>x.trim())
+  .filter(x=>x.length>10);
+
+
+  scenes=
+  sentences.map((text,index)=>{
 
     return {
+
       number:index+1,
+
       text:text,
-      prompt:createPrompt(text,index)
+
+      prompt:createPrompt(
+        text,
+        index
+      )
+
     };
 
   });
+
 
   renderScenes();
 
@@ -406,13 +518,25 @@ function createScenes(){
 function createPrompt(text,index){
 
   const styles={
-    mystery:"mysterious ancient Indian temple, dramatic fog, cinematic lighting, dark atmosphere, ultra realistic",
-    history:"ancient Indian architecture, historical atmosphere, cinematic documentary lighting, ultra realistic",
-    dark:"dark mysterious ancient temple, deep shadows, dramatic cinematic lighting, ultra realistic",
-    nature:"ancient stone temple surrounded by natural landscape, cinematic sunlight, ultra realistic"
+
+    mystery:
+    "mysterious ancient Indian temple, dramatic fog, cinematic lighting, dark atmosphere, ultra realistic",
+
+    history:
+    "ancient Indian architecture, historical atmosphere, cinematic documentary lighting, ultra realistic",
+
+    dark:
+    "dark mysterious ancient temple, deep shadows, dramatic cinematic lighting, ultra realistic",
+
+    nature:
+    "ancient stone temple surrounded by natural landscape, cinematic sunlight, ultra realistic"
+
   };
 
-  const style=document.getElementById("style").value;
+
+  const style=
+  document.getElementById("style").value;
+
 
   return styles[style]+
   ", scene "+(index+1)+
@@ -426,31 +550,49 @@ function renderScenes(){
 
   scenesEl.innerHTML="";
 
+
   scenes.forEach(scene=>{
 
-    const div=document.createElement("div");
+    const div=
+    document.createElement("div");
+
 
     div.className="scene";
 
+
     div.innerHTML=`
 
-      <h3>Scene ${scene.number}</h3>
+      <h3>
+      Scene ${scene.number}
+      </h3>
 
-      <p>${escapeHtml(scene.text)}</p>
+      <p>
+      ${escapeHtml(scene.text)}
+      </p>
 
       <div class="prompt">
-      <b>AI Image Prompt:</b><br>
+
+      <b>
+      AI Image Prompt:
+      </b>
+
+      <br>
+
       ${escapeHtml(scene.prompt)}
+
       </div>
 
     `;
+
 
     scenesEl.appendChild(div);
 
   });
 
+
   statusEl.innerText=
-    "✅ "+scenes.length+" scenes generated";
+  "✅ "+scenes.length+
+  " scenes generated";
 
 }
 
@@ -458,114 +600,177 @@ function renderScenes(){
 function escapeHtml(text){
 
   return text
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;");
+
+  .replaceAll("&","&amp;")
+
+  .replaceAll("<","&lt;")
+
+  .replaceAll(">","&gt;")
+
+  .replaceAll(
+    '"',
+    "&quot;"
+  );
 
 }
 
 
 /* =========================
-   DOCUMENTARY
+   GENERATE DOCUMENTARY
 ========================= */
 
-document.getElementById("generateBtn")
-.addEventListener("click",()=>{
+document
+.getElementById("generateBtn")
+.addEventListener(
+  "click",
+  function(){
 
-  createScenes();
+    createScenes();
 
-});
+  }
+);
 
 
 /* =========================
-   VOICE
+   VOICE GENERATION
 ========================= */
 
-document.getElementById("voiceBtn")
-.addEventListener("click",async()=>{
+document
+.getElementById("voiceBtn")
+.addEventListener(
+  "click",
+  async function(){
 
-  const text=scriptEl.value.trim();
+    const text=
+    scriptEl.value.trim();
 
-  if(!text){
-    alert("Script खाली है");
-    return;
-  }
 
-  voiceStatus.innerText=
+    if(!text){
+
+      alert(
+        "Script खाली है"
+      );
+
+      return;
+    }
+
+
+    voiceStatus.innerText=
     "⏳ ElevenLabs voice generate हो रही है...";
 
-  try{
 
-    const voiceId=
-      document.getElementById("voice").value;
+    try{
 
-    const response=await fetch(
-      "/api/generate-voice",
-      {
-        method:"POST",
+      const voiceId=
+      document
+      .getElementById("voice")
+      .value;
 
-        headers:{
-          "Content-Type":"application/json"
-        },
 
-        body:JSON.stringify({
-          text:text,
-          voiceId:voiceId
-        })
-      }
-    );
+      const response=
+      await fetch(
+        "/api/generate-voice",
+        {
 
-    if(!response.ok){
+          method:"POST",
 
-      let errorText="Voice generation failed";
+          headers:{
+            "Content-Type":
+            "application/json"
+          },
 
-      try{
+          body:
+          JSON.stringify({
 
-        const data=await response.json();
+            text:text,
 
-        errorText=
+            voiceId:voiceId
+
+          })
+
+        }
+      );
+
+
+      if(!response.ok){
+
+        let errorText=
+        "Voice generation failed";
+
+
+        try{
+
+          const data=
+          await response.json();
+
+
+          errorText=
           data.details ||
           data.message ||
           data.error ||
           errorText;
 
-      }catch(e){}
+        }
 
-      throw new Error(errorText);
+        catch(e){}
 
-    }
 
-    audioBlob=await response.blob();
+        throw new Error(
+          errorText
+        );
 
-    audioUrl=URL.createObjectURL(audioBlob);
+      }
 
-    audioPlayer.src=audioUrl;
 
-    audioPlayer.load();
+      audioBlob=
+      await response.blob();
 
-    audioPlayer.onloadedmetadata=()=>{
 
-      const duration=
+      audioUrl=
+      URL.createObjectURL(
+        audioBlob
+      );
+
+
+      audioPlayer.src=
+      audioUrl;
+
+
+      audioPlayer.load();
+
+
+      audioPlayer.onloadedmetadata=
+      function(){
+
+        const duration=
         audioPlayer.duration;
 
-      voiceStatus.innerText=
+
+        voiceStatus.innerText=
         "✅ Voice Ready — "+
         formatTime(duration);
 
-    };
+      };
 
-  }catch(error){
 
-    console.error(error);
+    }
 
-    voiceStatus.innerText=
+    catch(error){
+
+      console.error(error);
+
+
+      voiceStatus.innerText=
       "❌ Voice Error: "+
-      error.message;
+      (
+        error?.message ||
+        String(error)
+      );
+
+    }
 
   }
-
-});
+);
 
 
 /* =========================
@@ -575,111 +780,197 @@ document.getElementById("voiceBtn")
 function formatTime(seconds){
 
   if(!isFinite(seconds)){
+
     return "Unknown";
+
   }
 
-  const min=Math.floor(seconds/60);
 
-  const sec=Math.floor(seconds%60);
+  const min=
+  Math.floor(
+    seconds/60
+  );
 
-  return min+":"+
-    String(sec).padStart(2,"0");
+
+  const sec=
+  Math.floor(
+    seconds%60
+  );
+
+
+  return min+
+  ":"+
+  String(sec)
+  .padStart(2,"0");
 
 }
 
 
 /* =========================
-   DIFFERENT BACKGROUNDS
+   BACKGROUND
 ========================= */
 
-function drawBackground(sceneIndex,time,mode){
+function drawBackground(
+  sceneIndex,
+  time,
+  mode
+){
 
-  const w=canvas.width;
-  const h=canvas.height;
+  const w=
+  canvas.width;
 
-  /*
-    हर scene का अलग visual
-  */
+  const h=
+  canvas.height;
+
 
   const type=
-    sceneIndex % 8;
+  sceneIndex%8;
 
-  /* SKY */
 
-  const sky=ctx.createLinearGradient(
+  const sky=
+  ctx.createLinearGradient(
     0,0,0,h
   );
 
+
   if(type===0){
 
-    sky.addColorStop(0,"#050518");
-    sky.addColorStop(1,"#321f45");
+    sky.addColorStop(
+      0,
+      "#050518"
+    );
+
+    sky.addColorStop(
+      1,
+      "#321f45"
+    );
 
   }
 
   else if(type===1){
 
-    sky.addColorStop(0,"#071b32");
-    sky.addColorStop(1,"#73422b");
+    sky.addColorStop(
+      0,
+      "#071b32"
+    );
+
+    sky.addColorStop(
+      1,
+      "#73422b"
+    );
 
   }
 
   else if(type===2){
 
-    sky.addColorStop(0,"#020202");
-    sky.addColorStop(1,"#421313");
+    sky.addColorStop(
+      0,
+      "#020202"
+    );
+
+    sky.addColorStop(
+      1,
+      "#421313"
+    );
 
   }
 
   else if(type===3){
 
-    sky.addColorStop(0,"#172e45");
-    sky.addColorStop(1,"#b46a37");
+    sky.addColorStop(
+      0,
+      "#172e45"
+    );
+
+    sky.addColorStop(
+      1,
+      "#b46a37"
+    );
 
   }
 
   else if(type===4){
 
-    sky.addColorStop(0,"#081018");
-    sky.addColorStop(1,"#214b53");
+    sky.addColorStop(
+      0,
+      "#081018"
+    );
+
+    sky.addColorStop(
+      1,
+      "#214b53"
+    );
 
   }
 
   else if(type===5){
 
-    sky.addColorStop(0,"#190b2b");
-    sky.addColorStop(1,"#6d2c58");
+    sky.addColorStop(
+      0,
+      "#190b2b"
+    );
+
+    sky.addColorStop(
+      1,
+      "#6d2c58"
+    );
 
   }
 
   else if(type===6){
 
-    sky.addColorStop(0,"#101010");
-    sky.addColorStop(1,"#55502d");
+    sky.addColorStop(
+      0,
+      "#101010"
+    );
+
+    sky.addColorStop(
+      1,
+      "#55502d"
+    );
 
   }
 
   else{
 
-    sky.addColorStop(0,"#02030a");
-    sky.addColorStop(1,"#1f314d");
+    sky.addColorStop(
+      0,
+      "#02030a"
+    );
+
+    sky.addColorStop(
+      1,
+      "#1f314d"
+    );
 
   }
 
-  ctx.fillStyle=sky;
 
-  ctx.fillRect(0,0,w,h);
+  ctx.fillStyle=
+  sky;
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
+  );
 
 
   /* MOON */
 
   const moonX=
-    180+(sceneIndex%5)*230;
+  180+
+  (sceneIndex%5)*230;
+
 
   const moonY=
-    130+(sceneIndex%3)*35;
+  130+
+  (sceneIndex%3)*35;
+
 
   ctx.beginPath();
+
 
   ctx.arc(
     moonX,
@@ -689,35 +980,53 @@ function drawBackground(sceneIndex,time,mode){
     Math.PI*2
   );
 
-  ctx.fillStyle=
-    "rgba(255,245,190,.9)";
 
-  ctx.shadowBlur=35;
+  ctx.fillStyle=
+  "rgba(255,245,190,.9)";
+
+
+  ctx.shadowBlur=
+  35;
+
 
   ctx.shadowColor=
-    "rgba(255,240,180,.8)";
+  "rgba(255,240,180,.8)";
+
 
   ctx.fill();
+
 
   ctx.shadowBlur=0;
 
 
   /* STARS */
 
-  for(let i=0;i<90;i++){
+  for(
+    let i=0;
+    i<90;
+    i++
+  ){
 
     const x=
-      (i*137+
-      sceneIndex*97)%w;
+    (
+      i*137+
+      sceneIndex*97
+    )%w;
+
 
     const y=
-      (i*71+
-      sceneIndex*43)%300;
+    (
+      i*71+
+      sceneIndex*43
+    )%300;
+
 
     const size=
-      1+(i%3);
+    1+(i%3);
+
 
     ctx.beginPath();
+
 
     ctx.arc(
       x,
@@ -727,9 +1036,15 @@ function drawBackground(sceneIndex,time,mode){
       Math.PI*2
     );
 
+
     ctx.fillStyle=
-      "rgba(255,255,255,"+
-      (0.25+(i%5)/10)+")";
+    "rgba(255,255,255,"+
+    (
+      0.25+
+      (i%5)/10
+    )+
+    ")";
+
 
     ctx.fill();
 
@@ -740,27 +1055,51 @@ function drawBackground(sceneIndex,time,mode){
 
   ctx.beginPath();
 
-  ctx.moveTo(0,h);
+  ctx.moveTo(
+    0,
+    h
+  );
 
-  for(let x=0;x<=w;x+=100){
+
+  for(
+    let x=0;
+    x<=w;
+    x+=100
+  ){
 
     const peak=
-      h-
-      170-
-      ((x*7+
-      sceneIndex*91)%180);
+    h-
+    170-
+    (
+      (
+        x*7+
+        sceneIndex*91
+      )%180
+    );
 
-    ctx.lineTo(x,peak);
+
+    ctx.lineTo(
+      x,
+      peak
+    );
 
   }
 
-  ctx.lineTo(w,h);
+
+  ctx.lineTo(
+    w,
+    h
+  );
+
+
   ctx.closePath();
 
+
   ctx.fillStyle=
-    type%2===0 ?
-    "#090909" :
-    "#14100d";
+  type%2===0
+  ? "#090909"
+  : "#14100d";
+
 
   ctx.fill();
 
@@ -769,40 +1108,67 @@ function drawBackground(sceneIndex,time,mode){
 
   ctx.beginPath();
 
-  ctx.moveTo(0,h);
+  ctx.moveTo(
+    0,
+    h
+  );
 
-  for(let x=0;x<=w;x+=80){
+
+  for(
+    let x=0;
+    x<=w;
+    x+=80
+  ){
 
     const peak=
-      h-
-      90-
-      ((x*11+
-      sceneIndex*51)%100);
+    h-
+    90-
+    (
+      (
+        x*11+
+        sceneIndex*51
+      )%100
+    );
 
-    ctx.lineTo(x,peak);
+
+    ctx.lineTo(
+      x,
+      peak
+    );
 
   }
 
-  ctx.lineTo(w,h);
+
+  ctx.lineTo(
+    w,
+    h
+  );
+
 
   ctx.closePath();
 
-  ctx.fillStyle="#050505";
+
+  ctx.fillStyle=
+  "#050505";
+
 
   ctx.fill();
 
 
-  /* TEMPLE SILHOUETTE */
+  /* TEMPLE */
 
   const templeX=
-    420+
-    (sceneIndex%4)*80;
+  420+
+  (sceneIndex%4)*80;
+
 
   const templeY=
-    390;
+  390;
+
 
   ctx.fillStyle=
-    "#080808";
+  "#080808";
+
 
   ctx.fillRect(
     templeX,
@@ -816,29 +1182,38 @@ function drawBackground(sceneIndex,time,mode){
 
   ctx.beginPath();
 
+
   ctx.moveTo(
     templeX+80,
     templeY
   );
+
 
   ctx.lineTo(
     templeX+200,
     templeY-180
   );
 
+
   ctx.lineTo(
     templeX+320,
     templeY
   );
 
+
   ctx.closePath();
+
 
   ctx.fill();
 
 
   /* COLUMNS */
 
-  for(let i=0;i<6;i++){
+  for(
+    let i=0;
+    i<6;
+    i++
+  ){
 
     ctx.fillRect(
       templeX+35+i*65,
@@ -853,30 +1228,38 @@ function drawBackground(sceneIndex,time,mode){
   /* MOVING LIGHT */
 
   const lightX=
-    (time*0.08+
-    sceneIndex*160)%w;
+  (
+    time*0.08+
+    sceneIndex*160
+  )%w;
+
 
   const glow=
-    ctx.createRadialGradient(
-      lightX,
-      430,
-      10,
-      lightX,
-      430,
-      220
-    );
+  ctx.createRadialGradient(
+    lightX,
+    430,
+    10,
+    lightX,
+    430,
+    220
+  );
+
 
   glow.addColorStop(
     0,
     "rgba(255,190,80,.25)"
   );
 
+
   glow.addColorStop(
     1,
     "rgba(255,190,80,0)"
   );
 
-  ctx.fillStyle=glow;
+
+  ctx.fillStyle=
+  glow;
+
 
   ctx.fillRect(
     0,
@@ -889,28 +1272,38 @@ function drawBackground(sceneIndex,time,mode){
   /* VIGNETTE */
 
   const vignette=
-    ctx.createRadialGradient(
-      w/2,
-      h/2,
-      150,
-      w/2,
-      h/2,
-      700
-    );
+  ctx.createRadialGradient(
+    w/2,
+    h/2,
+    150,
+    w/2,
+    h/2,
+    700
+  );
+
 
   vignette.addColorStop(
     0,
     "rgba(0,0,0,0)"
   );
 
+
   vignette.addColorStop(
     1,
     "rgba(0,0,0,.7)"
   );
 
-  ctx.fillStyle=vignette;
 
-  ctx.fillRect(0,0,w,h);
+  ctx.fillStyle=
+  vignette;
+
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
+  );
 
 }
 
@@ -919,18 +1312,33 @@ function drawBackground(sceneIndex,time,mode){
    SCENE TEXT
 ========================= */
 
-function drawSceneText(sceneIndex){
+function drawSceneText(
+  sceneIndex
+){
 
-  if(!scenes[sceneIndex]) return;
+  if(
+    !scenes[sceneIndex]
+  ){
+
+    return;
+
+  }
+
 
   const text=
-    scenes[sceneIndex].text;
+  scenes[sceneIndex].text;
 
-  const w=canvas.width;
-  const h=canvas.height;
+
+  const w=
+  canvas.width;
+
+  const h=
+  canvas.height;
+
 
   ctx.fillStyle=
-    "rgba(0,0,0,.48)";
+  "rgba(0,0,0,.48)";
+
 
   ctx.fillRect(
     50,
@@ -939,10 +1347,14 @@ function drawSceneText(sceneIndex){
     105
   );
 
-  ctx.fillStyle="#fff";
+
+  ctx.fillStyle=
+  "#fff";
+
 
   ctx.font=
-    "bold 27px Arial";
+  "bold 27px Arial";
+
 
   wrapText(
     text,
@@ -964,18 +1376,29 @@ function wrapText(
 ){
 
   const words=
-    text.split(" ");
+  text.split(" ");
+
 
   let line="";
 
-  for(let n=0;n<words.length;n++){
+
+  for(
+    let n=0;
+    n<words.length;
+    n++
+  ){
 
     const testLine=
-      line+
-      words[n]+" ";
+    line+
+    words[n]+
+    " ";
+
 
     const metrics=
-      ctx.measureText(testLine);
+    ctx.measureText(
+      testLine
+    );
+
 
     if(
       metrics.width>
@@ -989,18 +1412,25 @@ function wrapText(
         y
       );
 
+
       line=
-        words[n]+" ";
+      words[n]+
+      " ";
+
 
       y+=lineHeight;
 
-    }else{
+    }
 
-      line=testLine;
+    else{
+
+      line=
+      testLine;
 
     }
 
   }
+
 
   ctx.fillText(
     line,
@@ -1015,424 +1445,306 @@ function wrapText(
    FINAL VIDEO
 ========================= */
 
-document.getElementById("videoBtn")
-.addEventListener("click",async()=>{
+document
+.getElementById("videoBtn")
+.addEventListener(
+  "click",
+  async function(){
 
-  if(!audioBlob || !audioUrl){
+    if(
+      !audioBlob ||
+      !audioUrl
+    ){
 
-    alert(
-      "पहले Generate AI Voice करो"
-    );
+      alert(
+        "पहले Generate AI Voice करो"
+      );
 
-    return;
+      return;
 
-  }
-
-  if(!scenes.length){
-
-    createScenes();
-
-  }
-
-  if(!scenes.length){
-
-    alert(
-      "पहले Documentary generate करो"
-    );
-
-    return;
-
-  }
+    }
 
 
-  videoStatus.innerText=
+    if(!scenes.length){
+
+      createScenes();
+
+    }
+
+
+    if(!scenes.length){
+
+      alert(
+        "पहले Documentary generate करो"
+      );
+
+      return;
+
+    }
+
+
+    videoStatus.innerText=
     "⏳ Final video तैयार हो रहा है...";
 
 
-  try{
+    try{
 
-    /*
-      Audio को पूरा load करो
-    */
+      /* AUDIO */
 
-    const audio=
-      new Audio(audioUrl);
-
-    audio.preload="auto";
-
-    await new Promise(
-      (resolve,reject)=>{
-
-        audio.onloadedmetadata=
-          resolve;
-
-        audio.onerror=
-          reject;
-
-      }
-    );
-
-
-    const audioDuration=
-      audio.duration;
-
-
-    /*
-      User selected duration
-    */
-
-    const requestedDuration=
-      Number(
-        document.getElementById(
-          "totalLength"
-        ).value
+      const audio=
+      new Audio(
+        audioUrl
       );
 
 
-    /*
-      IMPORTANT:
+      audio.preload=
+      "auto";
 
-      अगर audio छोटा है,
-      video audio से आगे नहीं जाएगा।
 
-      अगर audio बड़ा है,
-      requested duration तक चलेगा।
+      await new Promise(
+        function(resolve,reject){
 
-      1 minute test के लिए:
-      min(60, audio duration)
-    */
+          audio.onloadedmetadata=
+          resolve;
 
-    const finalDuration=
+
+          audio.onerror=
+          reject;
+
+        }
+      );
+
+
+      const audioDuration=
+      audio.duration;
+
+
+      /* SELECTED DURATION */
+
+      const requestedDuration=
+      Number(
+        document
+        .getElementById(
+          "totalLength"
+        )
+        .value
+      );
+
+
+      const finalDuration=
       Math.min(
         requestedDuration,
         audioDuration
       );
 
 
-    const sceneDuration=
+      /* SCENE DURATION */
+
+      const sceneDuration=
       Number(
-        document.querySelector(
+        document
+        .querySelector(
           'input[name="sceneDuration"]:checked'
         ).value
       );
 
 
-    const videoType=
-      document.querySelector(
+      const videoType=
+      document
+      .querySelector(
         'input[name="videoType"]:checked'
       ).value;
 
 
-    /*
-      Canvas stream
-    */
+      /* CANVAS */
 
-    const canvasStream=
-      canvas.captureStream(30);
+      const canvasStream=
+      canvas.captureStream(
+        30
+      );
 
 
-    /*
-      AudioContext
-    */
+      /* AUDIO CONTEXT */
 
-    const AudioContext=
+      const AudioContext=
       window.AudioContext ||
       window.webkitAudioContext;
 
-    const audioContext=
+
+      const audioContext=
       new AudioContext();
 
-    await audioContext.resume();
+
+      await audioContext.resume();
 
 
-    const source=
-      audioContext.createMediaElementSource(
+      const source=
+      audioContext
+      .createMediaElementSource(
         audio
       );
 
 
-    const destination=
-      audioContext.createMediaStreamDestination();
+      const destination=
+      audioContext
+      .createMediaStreamDestination();
 
 
-    source.connect(destination);
-
-    source.connect(
-      audioContext.destination
-    );
+      source.connect(
+        destination
+      );
 
 
-    /*
-      Merge video + audio
-    */
+      source.connect(
+        audioContext.destination
+      );
 
-    const combinedStream=
+
+      /* COMBINED STREAM */
+
+      const combinedStream=
       new MediaStream();
 
-    canvasStream
+
+      canvasStream
       .getVideoTracks()
-      .forEach(track=>{
-        combinedStream.addTrack(track);
-      });
+      .forEach(
+        function(track){
 
-    destination
-      .stream
-      .getAudioTracks()
-      .forEach(track=>{
-        combinedStream.addTrack(track);
-      });
+          combinedStream
+          .addTrack(track);
 
-
-    /*
-      MediaRecorder
-    */
-
-    let mimeType=
-      "video/webm;codecs=vp9,opus";
-
-    if(
-      !MediaRecorder.isTypeSupported(
-        mimeType
-      )
-    ){
-
-      mimeType=
-        "video/webm;codecs=vp8,opus";
-
-    }
-
-    if(
-      !MediaRecorder.isTypeSupported(
-        mimeType
-      )
-    ){
-
-      mimeType="video/webm";
-
-    }
-
-
-    const recorder=
-      new MediaRecorder(
-        combinedStream,
-        {
-          mimeType:mimeType,
-          videoBitsPerSecond:
-            5000000
         }
       );
 
 
-    const chunks=[];
+      destination
+      .stream
+      .getAudioTracks()
+      .forEach(
+        function(track){
+
+          combinedStream
+          .addTrack(track);
+
+        }
+      );
 
 
-    recorder.ondataavailable=
-      e=>{
+      /* MEDIA RECORDER */
 
-        if(e.data.size>0){
+      let mimeType=
+      "video/webm;codecs=vp9,opus";
 
-          chunks.push(e.data);
+
+      if(
+        !MediaRecorder
+        .isTypeSupported(
+          mimeType
+        )
+      ){
+
+        mimeType=
+        "video/webm;codecs=vp8,opus";
+
+      }
+
+
+      if(
+        !MediaRecorder
+        .isTypeSupported(
+          mimeType
+        )
+      ){
+
+        mimeType=
+        "video/webm";
+
+      }
+
+
+      const recorder=
+      new MediaRecorder(
+        combinedStream,
+        {
+          mimeType:
+          mimeType,
+
+          videoBitsPerSecond:
+          5000000
+        }
+      );
+
+
+      const chunks=[];
+
+
+      recorder.ondataavailable=
+      function(e){
+
+        if(
+          e.data.size>0
+        ){
+
+          chunks.push(
+            e.data
+          );
 
         }
 
       };
 
 
-    const finished=
-      new Promise(resolve=>{
+      const finished=
+      new Promise(
+        function(resolve){
 
-        recorder.onstop=
+          recorder.onstop=
           resolve;
 
-      });
+        }
+      );
 
 
-    recorder.start(1000);
+      recorder.start(
+        1000
+      );
 
 
-    audio.currentTime=0;
+      audio.currentTime=
+      0;
 
-    await audio.play();
+
+      await audio.play();
 
 
-    /*
-      Render loop
-    */
+      /* RENDER */
 
-    const start=
+      const start=
       performance.now();
 
 
-    let lastScene=-1;
+      await new Promise(
+        function(resolve){
+
+          function render(){
+
+            const elapsed=
+            (
+              performance.now()-
+              start
+            )/1000;
 
 
-    await new Promise(resolve=>{
-
-      function render(){
-
-        const elapsed=
-          (performance.now()-
-          start)/1000;
+            const sceneIndex=
+            Math.floor(
+              elapsed/
+              sceneDuration
+            )%scenes.length;
 
 
-        /*
-          Scene changes according
-          to selected duration
-        */
-
-        const sceneIndex=
-          Math.floor(
-            elapsed/
-            sceneDuration
-          )%scenes.length;
-
-
-        /*
-          IMPORTANT:
-
-          Background हर scene
-          बदलता है
-        */
-
-        if(sceneIndex!==lastScene){
-
-          lastScene=
-            sceneIndex;
-
-        }
-
-
-        drawBackground(
-          sceneIndex,
-          elapsed*1000,
-          videoType
-        );
-
-
-        drawSceneText(
-          sceneIndex
-        );
-
-
-        videoStatus.innerText=
-          "🎬 Rendering: "+
-          formatTime(elapsed)+
-          " / "+
-          formatTime(finalDuration)+
-          " — Scene "+
-          (sceneIndex+1);
-
-
-        if(
-          elapsed>=finalDuration
-        ){
-
-          resolve();
-          return;
-
-        }
-
-
-        requestAnimationFrame(
-          render
-        );
-
-      }
-
-
-      render();
-
-    });
-
-
-    audio.pause();
-
-    recorder.stop();
-
-    await finished;
-
-
-    /*
-      Cleanup
-    */
-
-    canvasStream
-      .getTracks()
-      .forEach(
-        track=>track.stop()
-      );
-
-    combinedStream
-      .getTracks()
-      .forEach(
-        track=>track.stop()
-      );
-
-    source.disconnect();
-
-    audioContext.close();
-
-
-    /*
-      Final blob
-    */
-
-    const videoBlob=
-      new Blob(
-        chunks,
-        {
-          type:"video/webm"
-        }
-      );
-
-
-    const finalUrl=
-      URL.createObjectURL(
-        videoBlob
-      );
-
-
-    videoPlayer.src=
-      finalUrl;
-
-    videoPlayer.load();
-
-
-    const sizeMB=
-      (
-        videoBlob.size/
-        1024/
-        1024
-      ).toFixed(1);
-
-
-    videoStatus.innerText=
-      "✅ Video Ready — "+
-      formatTime(finalDuration)+
-      " — "+
-      sizeMB+
-      " MB";
-
-
-    document.getElementById(
-      "downloadArea"
-    ).innerHTML=`
-
-      <a
-        class="download"
-        href="${finalUrl}"
-        download="gupt-bharatvarsh-documentary.webm"
-      >
-        ⬇️ Download Final Video
-      </a>
-
-    `;
-
-
-  }catch(error){
-
-    console.error(error);
-
-    videoStatus.innerText=
-      "❌ Video Error: "+
-      er
+            drawBackground(
+              sceneIndex,
+              elapsed*1000,
+              videoType
+     
