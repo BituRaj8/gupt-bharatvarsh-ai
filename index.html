@@ -1747,4 +1747,172 @@ document
               sceneIndex,
               elapsed*1000,
               videoType
-     
+            );
+
+
+            drawSceneText(
+              sceneIndex
+            );
+
+
+            videoStatus.innerText=
+            "🎬 Rendering: "+
+            formatTime(elapsed)+
+            " / "+
+            formatTime(finalDuration)+
+            " — Scene "+
+            (sceneIndex+1);
+
+
+            if(
+              elapsed>=
+              finalDuration
+            ){
+
+              resolve();
+
+              return;
+
+            }
+
+
+            requestAnimationFrame(
+              render
+            );
+
+          }
+
+
+          render();
+
+        }
+      );
+
+
+      /* STOP */
+
+      audio.pause();
+
+
+      recorder.stop();
+
+
+      await finished;
+
+
+      /* CLEANUP */
+
+      canvasStream
+      .getTracks()
+      .forEach(
+        function(track){
+
+          track.stop();
+
+        }
+      );
+
+
+      combinedStream
+      .getTracks()
+      .forEach(
+        function(track){
+
+          track.stop();
+
+        }
+      );
+
+
+      source.disconnect();
+
+
+      await audioContext.close();
+
+
+      /* VIDEO BLOB */
+
+      const videoBlob=
+      new Blob(
+        chunks,
+        {
+          type:
+          "video/webm"
+        }
+      );
+
+
+      const finalUrl=
+      URL.createObjectURL(
+        videoBlob
+      );
+
+
+      videoPlayer.src=
+      finalUrl;
+
+
+      videoPlayer.load();
+
+
+      const sizeMB=
+      (
+        videoBlob.size/
+        1024/
+        1024
+      ).toFixed(1);
+
+
+      videoStatus.innerText=
+      "✅ Video Ready — "+
+      formatTime(
+        finalDuration
+      )+
+      " — "+
+      sizeMB+
+      " MB";
+
+
+      document
+      .getElementById(
+        "downloadArea"
+      )
+      .innerHTML=`
+
+        <a
+          class="download"
+          href="${finalUrl}"
+          download="gupt-bharatvarsh-documentary.webm"
+        >
+          ⬇️ Download Final Video
+        </a>
+
+      `;
+
+    }
+
+
+    catch(error){
+
+      console.error(
+        "Video error:",
+        error
+      );
+
+
+      videoStatus.innerText=
+      "❌ Video Error: "+
+      (
+        error?.message ||
+        String(error)
+      );
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
