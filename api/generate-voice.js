@@ -67,12 +67,27 @@ export default async function handler(req, res) {
         errorDetails = errorText;
       }
 
-      return res.status(response.status).json({
-        error: "ElevenLabs API Error",
-        status: response.status,
-        details: errorDetails
-      });
+      let readableDetails = errorDetails;
+
+if (errorDetails && typeof errorDetails === "object") {
+  if (errorDetails.detail) {
+    if (typeof errorDetails.detail === "string") {
+      readableDetails = errorDetails.detail;
+    } else if (errorDetails.detail.message) {
+      readableDetails = errorDetails.detail.message;
+    } else {
+      readableDetails = JSON.stringify(errorDetails.detail);
     }
+  } else {
+    readableDetails = JSON.stringify(errorDetails);
+  }
+}
+
+return res.status(response.status).json({
+  error: "ElevenLabs API Error",
+  status: response.status,
+  details: readableDetails
+});
 
     const audioBuffer = Buffer.from(await response.arrayBuffer());
 
