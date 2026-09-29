@@ -2,15 +2,12 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>GUPT BHARATVARSH AI</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -49,9 +46,7 @@ header{
   box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
 
-h2{
-  margin-top:0;
-}
+h2{margin-top:0}
 
 label{
   display:block;
@@ -59,9 +54,7 @@ label{
   font-weight:bold;
 }
 
-input,
-textarea,
-select{
+input,textarea,select{
   width:100%;
   background:#080d16;
   color:#fff;
@@ -74,12 +67,6 @@ select{
 textarea{
   min-height:250px;
   resize:vertical;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  border-color:#6c8cff;
 }
 
 .radio-group{
@@ -147,18 +134,12 @@ button{
   color:#000;
 }
 
-.primary:hover{
-  opacity:.9;
-}
-
 .primary:disabled{
   opacity:.5;
   cursor:not-allowed;
 }
 
-.hidden{
-  display:none;
-}
+.hidden{display:none}
 
 .notice{
   background:#0b111d;
@@ -176,14 +157,6 @@ button{
   padding:16px;
   border-radius:12px;
   line-height:1.6;
-  word-break:break-word;
-}
-
-.success-box{
-  background:#0c2115;
-  border:1px solid #286b3e;
-  padding:16px;
-  border-radius:12px;
 }
 
 .scene{
@@ -194,9 +167,7 @@ button{
   margin:12px 0;
 }
 
-.scene h3{
-  margin-top:0;
-}
+.scene h3{margin-top:0}
 
 .prompt{
   color:#cbd4e6;
@@ -268,11 +239,6 @@ audio{
   flex-wrap:wrap;
 }
 
-.video-controls button{
-  background:#202b3f;
-  color:#fff;
-}
-
 footer{
   text-align:center;
   padding:30px;
@@ -284,8 +250,11 @@ footer{
   font-size:13px;
 }
 
-@media(max-width:650px){
+canvas{
+  display:none;
+}
 
+@media(max-width:650px){
   .video-style-group{
     grid-template-columns:1fr;
   }
@@ -293,9 +262,7 @@ footer{
   .logo{
     font-size:24px;
   }
-
 }
-
 </style>
 </head>
 
@@ -304,44 +271,26 @@ footer{
 <div class="container">
 
 <header>
-
-  <div class="logo">
-    GUPT BHARATVARSH AI
-  </div>
-
+  <div class="logo">GUPT BHARATVARSH AI</div>
   <div class="subtitle">
     AI Documentary Script → Scenes → Voice → Video
   </div>
-
 </header>
-
-
-<!-- PROJECT -->
 
 <section class="card">
 
-  <h2>🎬 Documentary Project</h2>
+<h2>🎬 Documentary Project</h2>
 
-  <label for="title">
-    Documentary Title
-  </label>
+<label>Documentary Title</label>
 
-  <input
-    id="title"
-    type="text"
-    value="कैलाश मंदिर का रहस्य"
-    placeholder="Documentary title"
-  >
+<input
+  id="title"
+  value="कैलाश मंदिर का रहस्य"
+>
 
+<label>Documentary Script</label>
 
-  <label for="script">
-    Documentary Script
-  </label>
-
-  <textarea
-    id="script"
-    placeholder="अपनी documentary script यहाँ डालें..."
-  >महाराष्ट्र की एलोरा गुफाओं में मौजूद कैलाश मंदिर को देखकर आज भी लोग हैरान रह जाते हैं।
+<textarea id="script">महाराष्ट्र की एलोरा गुफाओं में मौजूद कैलाश मंदिर को देखकर आज भी लोग हैरान रह जाते हैं।
 
 क्योंकि यह मंदिर अलग-अलग पत्थरों को जोड़कर नहीं बनाया गया था। इसे एक विशाल चट्टान को काटकर तैयार किया गया था।
 
@@ -359,712 +308,388 @@ footer{
 
 अगर आपको भारत के ऐसे ही रहस्यमयी इतिहास पसंद हैं, तो GUPT BHARATVARSH को Subscribe जरूर करें।</textarea>
 
+<label>🎙️ AI Voice</label>
 
-  <label for="voice">
-    🎙️ AI Voice
-  </label>
+<select id="voice">
+<option value="george">George — Natural Documentary</option>
+<option value="roger">Roger — Deep Documentary</option>
+</select>
 
-  <select id="voice">
+<label>🎥 Documentary Style</label>
 
-    <option value="george">
-      George — Natural Documentary
-    </option>
+<select id="style">
+<option value="mystery">Cinematic Mystery</option>
+<option value="history">Historical Documentary</option>
+<option value="dark">Dark Mystery</option>
+<option value="nature">Nature Documentary</option>
+</select>
 
-    <option value="roger">
-      Roger — Deep Documentary
-    </option>
+<label>⏱️ Scene Duration</label>
 
-  </select>
+<div class="radio-group">
 
+<label>
+<input type="radio" name="duration" value="5" checked>
+5 sec
+</label>
 
-  <label for="style">
-    🎥 Documentary Style
-  </label>
+<label>
+<input type="radio" name="duration" value="7">
+7 sec
+</label>
 
-  <select id="style">
+<label>
+<input type="radio" name="duration" value="9">
+9 sec
+</label>
 
-    <option value="mystery">
-      Cinematic Mystery
-    </option>
+<label>
+<input type="radio" name="duration" value="12">
+12 sec
+</label>
 
-    <option value="history">
-      Historical Documentary
-    </option>
+</div>
 
-    <option value="dark">
-      Dark Mystery
-    </option>
+<label>🎞️ Total Video Length</label>
 
-    <option value="nature">
-      Nature Documentary
-    </option>
+<select id="videoLength">
+<option value="1">1 Minute</option>
+<option value="5">5 Minutes</option>
+<option value="10">10 Minutes</option>
+<option value="15">15 Minutes</option>
+</select>
 
-  </select>
+<label>🎨 Video Type</label>
 
+<div class="video-style-group">
 
-  <label>
-    ⏱️ Scene Duration
-  </label>
+<label class="video-style-option">
+<input type="radio" name="videoStyle" value="normal" checked>
+<strong>🎬 Normal Documentary</strong>
+<span>Cinematic camera movement, zoom and documentary presentation.</span>
+</label>
 
-  <div class="radio-group">
+<label class="video-style-option">
+<input type="radio" name="videoStyle" value="2d">
+<strong>🎨 2D Animation</strong>
+<span>Animated shapes, movement, camera effects and documentary style.</span>
+</label>
 
-    <label>
-      <input
-        type="radio"
-        name="duration"
-        value="5"
-        checked
-      >
-      5 sec
-    </label>
+</div>
 
-    <label>
-      <input
-        type="radio"
-        name="duration"
-        value="7"
-      >
-      7 sec
-    </label>
+<button class="primary" id="generateBtn">
+🚀 Generate Documentary
+</button>
 
-    <label>
-      <input
-        type="radio"
-        name="duration"
-        value="9"
-      >
-      9 sec
-    </label>
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
 
-    <label>
-      <input
-        type="radio"
-        name="duration"
-        value="12"
-      >
-      12 sec
-    </label>
-
-  </div>
-
-
-  <label for="videoLength">
-    🎞️ Total Video Length
-  </label>
-
-  <select id="videoLength">
-
-    <option value="1">
-      1 Minute
-    </option>
-
-    <option value="5">
-      5 Minutes
-    </option>
-
-    <option value="10">
-      10 Minutes
-    </option>
-
-    <option value="15">
-      15 Minutes
-    </option>
-
-  </select>
-
-
-  <!-- VIDEO STYLE -->
-
-  <label>
-    🎨 Video Type
-  </label>
-
-  <div class="video-style-group">
-
-    <label class="video-style-option">
-
-      <input
-        type="radio"
-        name="videoStyle"
-        value="normal"
-        checked
-      >
-
-      <strong>
-        🎬 Normal Documentary
-      </strong>
-
-      <span>
-        Cinematic camera movement,
-        zoom and documentary presentation.
-      </span>
-
-    </label>
-
-
-    <label class="video-style-option">
-
-      <input
-        type="radio"
-        name="videoStyle"
-        value="2d"
-      >
-
-      <strong>
-        🎨 2D Animation
-      </strong>
-
-      <span>
-        Animated shapes, movement,
-        camera effects and documentary style.
-      </span>
-
-    </label>
-
-  </div>
-
-
-  <button
-    class="primary"
-    id="generateBtn"
-  >
-    🚀 Generate Documentary
-  </button>
-
-
-  <div class="progress">
-
-    <div
-      class="progress-bar"
-      id="progressBar"
-    ></div>
-
-  </div>
-
-  <div
-    class="status"
-    id="status"
-  >
-    Ready — documentary बनाने के लिए Generate दबाएँ।
-  </div>
+<div class="status" id="status">
+Ready — documentary बनाने के लिए Generate दबाएँ।
+</div>
 
 </section>
 
 
+<section class="card hidden" id="scenesCard">
 
-<!-- SCENES -->
+<h2>🎞️ Generated Scenes</h2>
 
-<section
-  class="card hidden"
-  id="scenesCard"
+<button class="copy-btn" id="copyBtn">
+📋 Copy All Prompts
+</button>
+
+<div id="scenesResult"></div>
+
+</section>
+
+
+<section class="card hidden" id="audioCard">
+
+<h2>🎙️ AI Voice</h2>
+
+<div id="audioResult" class="notice">
+ElevenLabs AI voice generation तैयार है।
+</div>
+
+<button class="primary" id="audioBtn">
+🎙️ Generate AI Voice
+</button>
+
+</section>
+
+
+<section class="card hidden" id="videoCard">
+
+<h2>🎥 Final Documentary Video</h2>
+
+<div class="notice">
+
+<strong>Video Type:</strong>
+<span id="selectedVideoType">Normal Documentary</span>
+
+<br>
+
+<strong>Format:</strong>
+16:9 YouTube
+
+<br>
+
+<strong>Renderer:</strong>
+Browser Video Renderer
+
+</div>
+
+<button class="primary" id="videoBtn">
+🎬 Create Final Video
+</button>
+
+<div id="videoStatus" class="status"></div>
+
+<div id="videoResult" class="hidden">
+
+<video
+id="videoPreview"
+class="video-preview"
+controls
+playsinline
+></video>
+
+<a
+id="videoDownload"
+class="download"
+download="gupt-bharatvarsh-documentary.webm"
 >
+⬇️ Download Video
+</a>
 
-  <h2>
-    🎞️ Generated Scenes
-  </h2>
-
-  <button
-    class="copy-btn"
-    id="copyBtn"
-  >
-    📋 Copy All Prompts
-  </button>
-
-  <div id="scenesResult"></div>
+</div>
 
 </section>
-
-
-
-<!-- AUDIO -->
-
-<section
-  class="card hidden"
-  id="audioCard"
->
-
-  <h2>
-    🎙️ AI Voice
-  </h2>
-
-  <div
-    id="audioResult"
-    class="notice"
-  >
-    ElevenLabs AI voice generation तैयार है।
-  </div>
-
-  <button
-    class="primary"
-    id="audioBtn"
-  >
-    🎙️ Generate AI Voice
-  </button>
-
-</section>
-
-
-
-<!-- VIDEO -->
-
-<section
-  class="card hidden"
-  id="videoCard"
->
-
-  <h2>
-    🎥 Final Documentary Video
-  </h2>
-
-  <div class="notice">
-
-    <strong>
-      Video Type:
-    </strong>
-
-    <span id="selectedVideoType">
-      Normal Documentary
-    </span>
-
-    <br>
-
-    <strong>
-      Format:
-    </strong>
-
-    16:9 YouTube
-
-    <br>
-
-    <strong>
-      Renderer:
-    </strong>
-
-    Browser Video Renderer
-
-  </div>
-
-
-  <button
-    class="primary"
-    id="videoBtn"
-  >
-    🎬 Create Final Video
-  </button>
-
-
-  <div
-    id="videoStatus"
-    class="status"
-  ></div>
-
-
-  <div
-    id="videoResult"
-    class="hidden"
-  >
-
-    <video
-      id="videoPreview"
-      class="video-preview"
-      controls
-    ></video>
-
-    <div class="video-controls">
-
-      <a
-        id="videoDownload"
-        class="download"
-        download="gupt-bharatvarsh-documentary.webm"
-      >
-        ⬇️ Download Video
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
 
 <footer>
-  GUPT BHARATVARSH AI
+GUPT BHARATVARSH AI
 </footer>
 
 </div>
 
+<canvas id="renderCanvas" width="1280" height="720"></canvas>
 
 
 <script>
 
-/* ==========================================
-   ELEMENTS
-========================================== */
+const $ = id => document.getElementById(id);
 
-const $ = id =>
-  document.getElementById(id);
+const titleEl = $("title");
+const scriptEl = $("script");
+const voiceEl = $("voice");
+const styleEl = $("style");
+const videoLengthEl = $("videoLength");
 
+const generateBtn = $("generateBtn");
+const scenesCard = $("scenesCard");
+const scenesResult = $("scenesResult");
 
-const titleEl =
-  $("title");
+const audioCard = $("audioCard");
+const audioBtn = $("audioBtn");
+const audioResult = $("audioResult");
 
-const scriptEl =
-  $("script");
+const videoCard = $("videoCard");
+const videoBtn = $("videoBtn");
+const videoStatus = $("videoStatus");
+const videoResult = $("videoResult");
 
-const voiceEl =
-  $("voice");
+const videoPreview = $("videoPreview");
+const videoDownload = $("videoDownload");
 
-const styleEl =
-  $("style");
+const selectedVideoType = $("selectedVideoType");
+const progressBar = $("progressBar");
+const statusEl = $("status");
+const copyBtn = $("copyBtn");
 
-const videoLengthEl =
-  $("videoLength");
-
-const generateBtn =
-  $("generateBtn");
-
-const scenesCard =
-  $("scenesCard");
-
-const scenesResult =
-  $("scenesResult");
-
-const audioCard =
-  $("audioCard");
-
-const audioBtn =
-  $("audioBtn");
-
-const audioResult =
-  $("audioResult");
-
-const videoCard =
-  $("videoCard");
-
-const videoBtn =
-  $("videoBtn");
-
-const videoStatus =
-  $("videoStatus");
-
-const videoResult =
-  $("videoResult");
-
-const videoPreview =
-  $("videoPreview");
-
-const videoDownload =
-  $("videoDownload");
-
-const selectedVideoType =
-  $("selectedVideoType");
-
-const progressBar =
-  $("progressBar");
-
-const statusEl =
-  $("status");
-
-const copyBtn =
-  $("copyBtn");
-
-
-
-/* ==========================================
-   VOICES
-========================================== */
+const canvas = $("renderCanvas");
+const ctx = canvas.getContext("2d");
 
 const VOICES = {
-
-  george:
-    "JBFqnCBsd6RMkjVDRZzb",
-
-  roger:
-    "CwhRBWXzGAHq8TQ4Fs17"
-
+  george:"JBFqnCBsd6RMkjVDRZzb",
+  roger:"CwhRBWXzGAHq8TQ4Fs17"
 };
-
-
-
-/* ==========================================
-   PROJECT DATA
-========================================== */
 
 const projectData = {
-
   audioUrl:null,
-
   audioBlob:null,
-
   scenes:[]
-
 };
 
 
-
-/* ==========================================
-   HELPERS
-========================================== */
-
 function cleanText(text){
-
   return String(text || "")
     .replace(/\r/g,"")
     .replace(/\n{3,}/g,"\n\n")
     .trim();
-
 }
 
 
 function escapeHtml(text){
-
   return String(text || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
 }
 
 
 function setProgress(value){
-
   progressBar.style.width =
-    Math.max(
-      0,
-      Math.min(100,value)
-    ) + "%";
-
+    Math.max(0,Math.min(100,value)) + "%";
 }
 
 
 function setStatus(text){
-
-  statusEl.textContent =
-    text;
-
+  statusEl.textContent = text;
 }
 
-
-function sleep(ms){
-
-  return new Promise(
-    resolve =>
-      setTimeout(resolve,ms)
-  );
-
-}
-
-
-
-/* ==========================================
-   TOPIC
-========================================== */
 
 function detectTopic(text){
 
-  const t =
-    text.toLowerCase();
+  const t = text.toLowerCase();
 
   if(
     t.includes("कैलाश") ||
     t.includes("एलोरा") ||
     t.includes("ellora")
-  ){
-
-    return "kailash";
-
-  }
+  ) return "kailash";
 
   if(
     t.includes("अंटार्कटिका") ||
     t.includes("antarctica")
-  ){
-
-    return "antarctica";
-
-  }
+  ) return "antarctica";
 
   if(
     t.includes("बरमूडा") ||
     t.includes("bermuda")
-  ){
-
-    return "bermuda";
-
-  }
+  ) return "bermuda";
 
   return "generic";
-
 }
 
 
+function makeImagePrompt(narration,topic,style){
 
-/* ==========================================
-   IMAGE PROMPT
-========================================== */
-
-function makeImagePrompt(
-  narration,
-  topic,
-  style
-){
-
-  let base = "";
-
+  let base;
 
   if(topic === "kailash"){
-
     base =
-      "Ancient Kailasa Temple at Ellora, Maharashtra, India, enormous monolithic rock-cut temple, ancient Indian architecture, detailed stone carvings, archaeological atmosphere";
-
+      "Ancient Kailasa Temple at Ellora Maharashtra India, enormous monolithic rock-cut temple, ancient Indian architecture, detailed stone carvings";
   }
-
   else if(topic === "antarctica"){
-
     base =
-      "vast mysterious Antarctica ice landscape, enormous glaciers, hidden secrets beneath the ice, cinematic documentary atmosphere";
-
+      "vast mysterious Antarctica ice landscape, enormous glaciers, cinematic documentary atmosphere";
   }
-
   else if(topic === "bermuda"){
-
     base =
-      "mysterious Bermuda Triangle in the Atlantic Ocean, dramatic storm clouds, enormous waves, cinematic documentary atmosphere";
-
+      "mysterious Bermuda Triangle Atlantic Ocean, dramatic storm clouds and enormous waves";
   }
-
   else{
-
     base =
-      "cinematic historical documentary scene related to the narration";
-
+      "cinematic historical documentary scene";
   }
 
-
-  return (
-    base +
+  return base +
     ", " +
     narration +
     ", " +
     style +
-    ", ultra realistic, cinematic lighting, dramatic composition, highly detailed, 8K, 16:9, no text, no watermark"
-  );
-
+    ", ultra realistic, cinematic lighting, dramatic composition, highly detailed, 8K, 16:9, no text, no watermark";
 }
 
 
-
-/* ==========================================
-   SCENES
-========================================== */
-
-function createSceneTexts(
-  script,
-  duration
-){
+function createSceneTexts(script,duration){
 
   const sentences =
     script
       .split(/(?<=[।!?])\s+/)
-      .map(x => x.trim())
+      .map(x=>x.trim())
       .filter(Boolean);
 
-
   let scenes =
-    sentences.map(
-      sentence => ({
-        narration:sentence
-      })
-    );
-
+    sentences.map(sentence=>({
+      narration:sentence
+    }));
 
   const targetSeconds =
     Number(videoLengthEl.value) * 60;
 
   const targetScenes =
     Math.ceil(
-      targetSeconds /
-      Number(duration)
+      targetSeconds / Number(duration)
     );
 
-
-  if(
-    scenes.length >
-    targetScenes
-  ){
-
-    scenes =
-      scenes.slice(
-        0,
-        targetScenes
-      );
-
+  if(scenes.length > targetScenes){
+    scenes = scenes.slice(0,targetScenes);
   }
 
-
-  /*
-    Empty visual scenes जोड़ने के बजाय
-    existing scenes को cycle किया जाता है।
-    इससे renderer को हमेशा visual content मिलेगा।
-  */
-
-  let original =
-    [...scenes];
-
+  const original = [...scenes];
 
   if(original.length === 0){
-
-    original = [
-      {
-        narration:"Documentary opening scene"
-      }
-    ];
-
+    original.push({
+      narration:"Documentary opening scene"
+    });
   }
 
-
-  while(
-    scenes.length <
-    targetScenes
-  ){
+  while(scenes.length < targetScenes){
 
     const source =
       original[
-        scenes.length %
-        original.length
+        scenes.length % original.length
       ];
 
     scenes.push({
-
-      narration:
-        source.narration,
-
+      narration:source.narration,
       visualOnly:true
-
     });
-
   }
 
-
   return scenes;
-
 }
 
 
+function updateSelectedVideoType(){
 
-/* ==========================================
-   GENERATE PROJECT
-========================================== */
+  const selected =
+    document.querySelector(
+      'input[name="videoStyle"]:checked'
+    );
+
+  if(!selected) return;
+
+  selectedVideoType.textContent =
+    selected.value === "2d"
+      ? "2D Animation"
+      : "Normal Documentary";
+}
+
+
+document.querySelectorAll(
+  'input[name="videoStyle"]'
+).forEach(input=>{
+  input.addEventListener(
+    "change",
+    updateSelectedVideoType
+  );
+});
+
 
 async function generateProject(){
 
-  const script =
-    cleanText(
-      scriptEl.value
-    );
+  const script = cleanText(scriptEl.value);
 
+  if(!script){
+    alert("पहले documentary script डालें।");
+    return;
+  }
 
   const duration =
     Number(
@@ -1073,28 +698,12 @@ async function generateProject(){
       ).value
     );
 
+  const style = styleEl.value;
 
-  const style =
-    styleEl.value;
-
-
-  if(!script){
-
-    alert(
-      "पहले documentary script डालें।"
-    );
-
-    return;
-
-  }
-
-
-  generateBtn.disabled =
-    true;
+  generateBtn.disabled = true;
 
   generateBtn.textContent =
     "⏳ Documentary तैयार हो रही है...";
-
 
   setProgress(10);
 
@@ -1102,13 +711,9 @@ async function generateProject(){
     "Script को scenes में बदला जा रहा है..."
   );
 
+  await new Promise(r=>setTimeout(r,300));
 
-  await sleep(300);
-
-
-  const topic =
-    detectTopic(script);
-
+  const topic = detectTopic(script);
 
   const scenes =
     createSceneTexts(
@@ -1116,96 +721,54 @@ async function generateProject(){
       duration
     );
 
-
-  projectData.scenes =
-    scenes;
-
-
-  setProgress(40);
-
-  setStatus(
-    "AI documentary scenes तैयार किए जा रहे हैं..."
-  );
-
+  projectData.scenes = scenes;
 
   let html = "";
 
+  scenes.forEach((scene,index)=>{
 
-  scenes.forEach(
-    (scene,index) => {
+    const narration =
+      scene.narration ||
+      "Visual transition scene";
 
-      const narration =
-        scene.narration ||
-        "Visual transition scene";
+    const prompt =
+      makeImagePrompt(
+        narration,
+        topic,
+        style
+      );
 
+    html += `
+      <div class="scene">
 
-      const prompt =
-        makeImagePrompt(
-          narration,
-          topic,
-          style
-        );
+        <h3>Scene ${index + 1}</h3>
 
+        <p>
+          <strong>🎙️ Narration:</strong>
+          ${escapeHtml(narration)}
+        </p>
 
-      html += `
+        <p class="prompt">
+          <strong>🖼️ AI Image Prompt:</strong>
+          <br>
+          ${escapeHtml(prompt)}
+        </p>
 
-        <div class="scene">
+        <p class="small">
+          Duration: ${duration} seconds
+        </p>
 
-          <h3>
-            Scene ${index + 1}
-          </h3>
+      </div>
+    `;
+  });
 
-          <p>
-            <strong>🎙️ Narration:</strong>
-            ${escapeHtml(narration)}
-          </p>
+  scenesResult.innerHTML = html;
 
-          <p class="prompt">
-
-            <strong>
-              🖼️ AI Image Prompt:
-            </strong>
-
-            <br>
-
-            ${escapeHtml(prompt)}
-
-          </p>
-
-          <p class="small">
-
-            Duration:
-            ${duration} seconds
-
-          </p>
-
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  scenesResult.innerHTML =
-    html;
-
-
-  scenesCard.classList.remove(
-    "hidden"
-  );
-
-  audioCard.classList.remove(
-    "hidden"
-  );
-
-  videoCard.classList.remove(
-    "hidden"
-  );
-
+  scenesCard.classList.remove("hidden");
+  audioCard.classList.remove("hidden");
+  videoCard.classList.remove("hidden");
 
   updateSelectedVideoType();
-
 
   setProgress(70);
 
@@ -1213,173 +776,105 @@ async function generateProject(){
     "Scenes तैयार हैं। अब AI Voice generate करें।"
   );
 
-
-  generateBtn.disabled =
-    false;
+  generateBtn.disabled = false;
 
   generateBtn.textContent =
     "✅ Documentary Generated";
-
 }
 
 
+generateBtn.addEventListener(
+  "click",
+  generateProject
+);
 
-/* ==========================================
-   COPY
-========================================== */
 
 copyBtn.addEventListener(
   "click",
-  async function(){
+  async()=>{
 
     const text =
       Array.from(
-        document.querySelectorAll(
-          ".scene"
-        )
+        document.querySelectorAll(".scene")
       )
-      .map(
-        scene =>
-          scene.innerText
-      )
+      .map(scene=>scene.innerText)
       .join("\n\n");
-
 
     try{
 
-      await navigator.clipboard.writeText(
-        text
-      );
+      await navigator.clipboard.writeText(text);
 
-      copyBtn.textContent =
-        "✅ Copied";
+      copyBtn.textContent = "✅ Copied";
 
-      setTimeout(
-        () => {
+      setTimeout(()=>{
+        copyBtn.textContent =
+          "📋 Copy All Prompts";
+      },1500);
 
-          copyBtn.textContent =
-            "📋 Copy All Prompts";
+    }catch(error){
 
-        },
-        1500
-      );
-
+      alert("Copy नहीं हो पाया।");
     }
-
-    catch(error){
-
-      alert(
-        "Copy नहीं हो पाया।"
-      );
-
-    }
-
   }
 );
 
 
-
-/* ==========================================
-   AI VOICE
-========================================== */
-
 audioBtn.addEventListener(
   "click",
-  async function(){
+  async()=>{
 
-    const text =
-      cleanText(
-        scriptEl.value
-      );
-
+    const text = cleanText(scriptEl.value);
 
     if(!text){
-
-      alert(
-        "पहले documentary script डालें।"
-      );
-
+      alert("पहले documentary script डालें।");
       return;
-
     }
 
-
-    audioBtn.disabled =
-      true;
+    audioBtn.disabled = true;
 
     audioBtn.textContent =
       "⏳ AI Voice बन रही है...";
 
-
     audioResult.innerHTML = `
-
       <div class="notice">
-
-        🎙️ ElevenLabs से narration
-        generate हो रहा है...
-
+        🎙️ ElevenLabs से narration generate हो रहा है...
       </div>
-
     `;
-
 
     try{
 
       const selectedVoice =
-        VOICES[
-          voiceEl.value
-        ] ||
+        VOICES[voiceEl.value] ||
         VOICES.george;
-
 
       const response =
         await fetch(
           "/api/generate-voice",
           {
-
             method:"POST",
-
             headers:{
-
-              "Content-Type":
-                "application/json",
-
-              "Accept":
-                "audio/mpeg, application/json"
-
+              "Content-Type":"application/json",
+              "Accept":"audio/mpeg, application/json"
             },
-
-            body:
-              JSON.stringify({
-
-                text:text,
-
-                voiceId:
-                  selectedVoice
-
-              })
-
+            body:JSON.stringify({
+              text:text,
+              voiceId:selectedVoice
+            })
           }
         );
-
 
       if(!response.ok){
 
         const rawError =
           await response.text();
 
-
         let message =
           "Voice generation failed";
-
 
         try{
 
           const data =
-            JSON.parse(
-              rawError
-            );
-
+            JSON.parse(rawError);
 
           message =
             data.details ||
@@ -1387,19 +882,12 @@ audioBtn.addEventListener(
             data.message ||
             JSON.stringify(data);
 
-        }
-
-        catch(parseError){
+        }catch(e){
 
           if(rawError){
-
-            message =
-              rawError;
-
+            message = rawError;
           }
-
         }
-
 
         throw new Error(
           "HTTP " +
@@ -1407,56 +895,41 @@ audioBtn.addEventListener(
           ": " +
           message
         );
-
       }
-
 
       const blob =
         await response.blob();
 
-
-      if(
-        !blob ||
-        blob.size === 0
-      ){
-
+      if(!blob || blob.size === 0){
         throw new Error(
           "Empty audio received from server"
         );
-
       }
 
+      if(projectData.audioUrl){
+        URL.revokeObjectURL(
+          projectData.audioUrl
+        );
+      }
 
       const audioUrl =
-        URL.createObjectURL(
-          blob
-        );
+        URL.createObjectURL(blob);
 
-
-      projectData.audioUrl =
-        audioUrl;
-
-      projectData.audioBlob =
-        blob;
-
+      projectData.audioUrl = audioUrl;
+      projectData.audioBlob = blob;
 
       audioResult.innerHTML = `
-
         <div class="audio-box">
 
-          <h3>
-            ✅ AI Voice Ready
-          </h3>
+          <h3>✅ AI Voice Ready</h3>
 
           <p>
-
             Voice:
             ${escapeHtml(
               voiceEl.options[
                 voiceEl.selectedIndex
               ].text
             )}
-
           </p>
 
           <audio
@@ -1470,4 +943,780 @@ audioBtn.addEventListener(
           <a
             class="download"
             href="${audioUrl}"
-            download="g
+            download="gupt-bharatvarsh-voice.mp3"
+          >
+            ⬇️ Download Voice
+          </a>
+
+        </div>
+      `;
+
+      setStatus(
+        "AI Voice तैयार है। अब Create Final Video दबाएँ।"
+      );
+
+      videoCard.classList.remove("hidden");
+
+    }catch(error){
+
+      console.error(error);
+
+      audioResult.innerHTML = `
+        <div class="error-box">
+          ❌ Voice Error
+          <br><br>
+          ${escapeHtml(error.message)}
+        </div>
+      `;
+
+    }finally{
+
+      audioBtn.disabled = false;
+
+      audioBtn.textContent =
+        "🎙️ Generate AI Voice";
+    }
+  }
+);
+
+
+/* =====================================================
+   VIDEO RENDERER
+===================================================== */
+
+
+function drawBackground(type,time){
+
+  const w = canvas.width;
+  const h = canvas.height;
+
+  const move =
+    (time % 10000) / 10000;
+
+  if(type === "2d"){
+
+    const gradient =
+      ctx.createLinearGradient(
+        0,0,w,h
+      );
+
+    gradient.addColorStop(
+      0,
+      "#101d42"
+    );
+
+    gradient.addColorStop(
+      1,
+      "#29120f"
+    );
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,w,h);
+
+    /* moon */
+
+    ctx.beginPath();
+
+    ctx.arc(
+      w*0.78,
+      h*0.22,
+      65,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle = "#fff3c4";
+    ctx.fill();
+
+    /* mountains */
+
+    ctx.fillStyle = "#17243c";
+
+    ctx.beginPath();
+
+    ctx.moveTo(0,h);
+    ctx.lineTo(w*.25,h*.45);
+    ctx.lineTo(w*.48,h);
+    ctx.lineTo(w*.68,h*.38);
+    ctx.lineTo(w,h*.78);
+    ctx.lineTo(w,h);
+    ctx.closePath();
+
+    ctx.fill();
+
+    /* moving stars */
+
+    for(let i=0;i<35;i++){
+
+      const x =
+        ((i*173)+(time*0.02)) % w;
+
+      const y =
+        50 + ((i*83)%300);
+
+      ctx.beginPath();
+
+      ctx.arc(
+        x,
+        y,
+        2,
+        0,
+        Math.PI*2
+      );
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fill();
+    }
+
+  }else{
+
+    const gradient =
+      ctx.createLinearGradient(
+        0,0,w,h
+      );
+
+    gradient.addColorStop(
+      0,
+      "#080b14"
+    );
+
+    gradient.addColorStop(
+      .5,
+      "#1d2639"
+    );
+
+    gradient.addColorStop(
+      1,
+      "#050609"
+    );
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0,0,w,h);
+
+    /* cinematic light */
+
+    const x =
+      w * (0.2 + move*0.6);
+
+    const light =
+      ctx.createRadialGradient(
+        x,
+        h*.35,
+        20,
+        x,
+        h*.35,
+        450
+      );
+
+    light.addColorStop(
+      0,
+      "rgba(255,220,150,.18)"
+    );
+
+    light.addColorStop(
+      1,
+      "rgba(0,0,0,0)"
+    );
+
+    ctx.fillStyle = light;
+
+    ctx.fillRect(
+      0,0,w,h
+    );
+
+    /* temple silhouette */
+
+    ctx.fillStyle =
+      "rgba(0,0,0,.55)";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      w*.20,h
+    );
+
+    ctx.lineTo(
+      w*.20,h*.58
+    );
+
+    ctx.lineTo(
+      w*.30,h*.42
+    );
+
+    ctx.lineTo(
+      w*.40,h*.58
+    );
+
+    ctx.lineTo(
+      w*.50,h*.35
+    );
+
+    ctx.lineTo(
+      w*.60,h*.58
+    );
+
+    ctx.lineTo(
+      w*.80,h*.50
+    );
+
+    ctx.lineTo(
+      w*.80,h
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+  }
+}
+
+
+function drawText(scene,index,total){
+
+  const w = canvas.width;
+  const h = canvas.height;
+
+  /* dark cinematic overlay */
+
+  const overlay =
+    ctx.createLinearGradient(
+      0,h*.55,
+      0,h
+    );
+
+  overlay.addColorStop(
+    0,
+    "rgba(0,0,0,0)"
+  );
+
+  overlay.addColorStop(
+    1,
+    "rgba(0,0,0,.88)"
+  );
+
+  ctx.fillStyle = overlay;
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+  /* scene number */
+
+  ctx.font =
+    "bold 26px Arial";
+
+  ctx.fillStyle =
+    "rgba(255,255,255,.75)";
+
+  ctx.fillText(
+    "GUPT BHARATVARSH  •  SCENE " +
+    (index+1) +
+    "/" +
+    total,
+    45,
+    55
+  );
+
+  /* narration */
+
+  let text =
+    scene.narration ||
+    "Documentary scene";
+
+  if(text.length > 150){
+    text =
+      text.substring(0,150) +
+      "...";
+  }
+
+  ctx.font =
+    "bold 42px Arial";
+
+  ctx.fillStyle =
+    "#ffffff";
+
+  const maxWidth = w - 100;
+
+  const words =
+    text.split(" ");
+
+  let lines = [];
+  let line = "";
+
+  for(const word of words){
+
+    const test =
+      line
+        ? line+" "+word
+        : word;
+
+    if(
+      ctx.measureText(test).width >
+      maxWidth
+    ){
+
+      lines.push(line);
+      line = word;
+
+    }else{
+
+      line = test;
+    }
+  }
+
+  if(line){
+    lines.push(line);
+  }
+
+  lines =
+    lines.slice(-4);
+
+  const lineHeight = 55;
+
+  let y =
+    h -
+    lines.length*lineHeight -
+    65;
+
+  for(const l of lines){
+
+    ctx.fillText(
+      l,
+      50,
+      y
+    );
+
+    y += lineHeight;
+  }
+}
+
+
+function drawFrame(
+  type,
+  scene,
+  index,
+  total,
+  time
+){
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  drawBackground(
+    type,
+    time
+  );
+
+  drawText(
+    scene,
+    index,
+    total
+  );
+}
+
+
+function wait(ms){
+
+  return new Promise(
+    resolve=>setTimeout(resolve,ms)
+  );
+}
+
+
+async function createVideo(){
+
+  if(!projectData.audioBlob){
+
+    videoStatus.innerHTML =
+      "❌ पहले <b>Generate AI Voice</b> दबाकर voice तैयार करें।";
+
+    return;
+  }
+
+  if(
+    !projectData.scenes ||
+    projectData.scenes.length === 0
+  ){
+
+    videoStatus.textContent =
+      "❌ पहले Generate Documentary दबाएँ।";
+
+    return;
+  }
+
+  if(
+    typeof MediaRecorder === "undefined"
+  ){
+
+    videoStatus.innerHTML =
+      "❌ इस browser में video recording support उपलब्ध नहीं है। Chrome में कोशिश करें।";
+
+    return;
+  }
+
+  videoBtn.disabled = true;
+
+  videoBtn.textContent =
+    "⏳ Video बन रही है...";
+
+  videoResult.classList.add(
+    "hidden"
+  );
+
+  videoStatus.textContent =
+    "🎬 Video renderer शुरू हो रहा है...";
+
+  try{
+
+    const type =
+      document.querySelector(
+        'input[name="videoStyle"]:checked'
+      ).value;
+
+    const audio =
+      new Audio();
+
+    audio.src =
+      projectData.audioUrl;
+
+    audio.preload =
+      "auto";
+
+    audio.crossOrigin =
+      "anonymous";
+
+    await new Promise(
+      (resolve,reject)=>{
+
+        audio.onloadedmetadata =
+          resolve;
+
+        audio.onerror =
+          ()=>reject(
+            new Error(
+              "Audio load नहीं हो पाया"
+            )
+          );
+      }
+    );
+
+    const audioDuration =
+      audio.duration;
+
+    if(
+      !isFinite(audioDuration) ||
+      audioDuration <= 0
+    ){
+
+      throw new Error(
+        "Audio duration नहीं मिल रही"
+      );
+    }
+
+    /*
+      Browser में बहुत लंबे video से
+      mobile memory समस्या हो सकती है।
+      इसलिए selected duration और audio duration
+      में से छोटा समय इस्तेमाल किया जाता है।
+    */
+
+    const requestedDuration =
+      Number(videoLengthEl.value) * 60;
+
+    const renderDuration =
+      Math.min(
+        requestedDuration,
+        audioDuration
+      );
+
+    const stream =
+      canvas.captureStream(30);
+
+    const audioContext =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+    const source =
+      audioContext.createMediaElementSource(
+        audio
+      );
+
+    const destination =
+      audioContext.createMediaStreamDestination();
+
+    source.connect(destination);
+
+    /*
+      Audio को speakers पर नहीं भेजते,
+      ताकि feedback समस्या न हो।
+    */
+
+    const combinedStream =
+      new MediaStream();
+
+    stream.getVideoTracks()
+      .forEach(track=>{
+        combinedStream.addTrack(track);
+      });
+
+    destination.stream
+      .getAudioTracks()
+      .forEach(track=>{
+        combinedStream.addTrack(track);
+      });
+
+    let mimeType =
+      "video/webm;codecs=vp9,opus";
+
+    if(
+      !MediaRecorder.isTypeSupported(
+        mimeType
+      )
+    ){
+
+      mimeType =
+        "video/webm;codecs=vp8,opus";
+    }
+
+    if(
+      !MediaRecorder.isTypeSupported(
+        mimeType
+      )
+    ){
+
+      mimeType =
+        "video/webm";
+    }
+
+    const recorder =
+      new MediaRecorder(
+        combinedStream,
+        {
+          mimeType,
+          videoBitsPerSecond:5000000
+        }
+      );
+
+    const chunks = [];
+
+    recorder.ondataavailable =
+      event=>{
+
+        if(
+          event.data &&
+          event.data.size > 0
+        ){
+
+          chunks.push(
+            event.data
+          );
+        }
+      };
+
+    const recorderFinished =
+      new Promise(
+        (resolve,reject)=>{
+
+          recorder.onstop =
+            resolve;
+
+          recorder.onerror =
+            event=>reject(
+              event.error ||
+              new Error(
+                "MediaRecorder error"
+              )
+            );
+        }
+      );
+
+    recorder.start(1000);
+
+    await audioContext.resume();
+
+    /*
+      User button click के कारण
+      browser audio playback अनुमति मिलती है।
+    */
+
+    await audio.play();
+
+    const start =
+      performance.now();
+
+    let lastProgress =
+      -1;
+
+    while(true){
+
+      const elapsed =
+        (performance.now()-start)/1000;
+
+      if(
+        elapsed >= renderDuration ||
+        audio.ended
+      ){
+
+        break;
+      }
+
+      const sceneDuration =
+        Number(
+          document.querySelector(
+            'input[name="duration"]:checked'
+          ).value
+        );
+
+      const sceneIndex =
+        Math.floor(
+          elapsed / sceneDuration
+        ) %
+        projectData.scenes.length;
+
+      const sceneTime =
+        elapsed % sceneDuration;
+
+      drawFrame(
+        type,
+        projectData.scenes[sceneIndex],
+        sceneIndex,
+        projectData.scenes.length,
+        sceneTime*1000
+      );
+
+      const percent =
+        Math.floor(
+          (elapsed/renderDuration)*100
+        );
+
+      if(percent !== lastProgress){
+
+        lastProgress =
+          percent;
+
+        videoStatus.textContent =
+          "🎬 Video rendering: " +
+          percent +
+          "%";
+
+        setProgress(
+          percent
+        );
+      }
+
+      await wait(33);
+    }
+
+    audio.pause();
+
+    recorder.stop();
+
+    await recorderFinished;
+
+    combinedStream
+      .getTracks()
+      .forEach(track=>{
+        track.stop();
+      });
+
+    stream.getTracks()
+      .forEach(track=>{
+        track.stop();
+      });
+
+    source.disconnect();
+    audioContext.close();
+
+    const videoBlob =
+      new Blob(
+        chunks,
+        {
+          type:mimeType
+        }
+      );
+
+    if(
+      !videoBlob ||
+      videoBlob.size === 0
+    ){
+
+      throw new Error(
+        "Video file empty है"
+      );
+    }
+
+    const videoUrl =
+      URL.createObjectURL(
+        videoBlob
+      );
+
+    videoPreview.src =
+      videoUrl;
+
+    videoDownload.href =
+      videoUrl;
+
+    videoDownload.download =
+      "gupt-bharatvarsh-documentary.webm";
+
+    videoResult.classList.remove(
+      "hidden"
+    );
+
+    videoStatus.innerHTML =
+      "✅ Video तैयार है! नीचे Preview या Download करें।";
+
+    setProgress(100);
+
+  }catch(error){
+
+    console.error(
+      "VIDEO ERROR:",
+      error
+    );
+
+    videoStatus.innerHTML =
+      `
+      <div class="error-box">
+        ❌ Video Error
+        <br><br>
+        ${escapeHtml(
+          error.message ||
+          String(error)
+        )}
+      </div>
+      `;
+
+  }finally{
+
+    videoBtn.disabled =
+      false;
+
+    videoBtn.textContent =
+      "🎬 Create Final Video";
+  }
+}
+
+
+videoBtn.addEventListener(
+  "click",
+  createVideo
+);
+
+
+/* Initial state */
+
+updateSelectedVideoType();
+
+</script>
+
+</body>
+</html>
