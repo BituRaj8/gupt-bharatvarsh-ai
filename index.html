@@ -14,7 +14,7 @@
 
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:#080b12;
   color:#fff;
 }
@@ -102,6 +102,35 @@ select:focus{
   margin-right:5px;
 }
 
+.video-style-group{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.video-style-option{
+  background:#0a101b;
+  border:1px solid #303b50;
+  border-radius:12px;
+  padding:15px;
+  cursor:pointer;
+}
+
+.video-style-option input{
+  width:auto;
+  margin-right:8px;
+}
+
+.video-style-option strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.video-style-option span{
+  color:#8f9aad;
+  font-size:13px;
+}
+
 button{
   border:0;
   border-radius:12px;
@@ -114,7 +143,7 @@ button{
 .primary{
   width:100%;
   margin-top:20px;
-  background:#ffffff;
+  background:#fff;
   color:#000;
 }
 
@@ -194,6 +223,7 @@ audio{
   padding:10px 14px;
   border-radius:8px;
   text-decoration:none;
+  margin-top:8px;
 }
 
 .copy-btn{
@@ -223,6 +253,26 @@ audio{
   font-size:14px;
 }
 
+.video-preview{
+  width:100%;
+  max-width:900px;
+  display:block;
+  margin:15px auto;
+  border-radius:12px;
+  background:#000;
+}
+
+.video-controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.video-controls button{
+  background:#202b3f;
+  color:#fff;
+}
+
 footer{
   text-align:center;
   padding:30px;
@@ -232,6 +282,18 @@ footer{
 .small{
   color:#8f9aad;
   font-size:13px;
+}
+
+@media(max-width:650px){
+
+  .video-style-group{
+    grid-template-columns:1fr;
+  }
+
+  .logo{
+    font-size:24px;
+  }
+
 }
 
 </style>
@@ -254,7 +316,7 @@ footer{
 </header>
 
 
-<!-- PROJECT INPUT -->
+<!-- PROJECT -->
 
 <section class="card">
 
@@ -411,6 +473,57 @@ footer{
   </select>
 
 
+  <!-- VIDEO STYLE -->
+
+  <label>
+    🎨 Video Type
+  </label>
+
+  <div class="video-style-group">
+
+    <label class="video-style-option">
+
+      <input
+        type="radio"
+        name="videoStyle"
+        value="normal"
+        checked
+      >
+
+      <strong>
+        🎬 Normal Documentary
+      </strong>
+
+      <span>
+        Cinematic camera movement,
+        zoom and documentary presentation.
+      </span>
+
+    </label>
+
+
+    <label class="video-style-option">
+
+      <input
+        type="radio"
+        name="videoStyle"
+        value="2d"
+      >
+
+      <strong>
+        🎨 2D Animation
+      </strong>
+
+      <span>
+        Animated shapes, movement,
+        camera effects and documentary style.
+      </span>
+
+    </label>
+
+  </div>
+
+
   <button
     class="primary"
     id="generateBtn"
@@ -505,10 +618,32 @@ footer{
 
   <div class="notice">
 
-    Scenes और voice तैयार होने के बाद यहाँ
-    final documentary video renderer connect किया जाएगा।
+    <strong>
+      Video Type:
+    </strong>
+
+    <span id="selectedVideoType">
+      Normal Documentary
+    </span>
+
+    <br>
+
+    <strong>
+      Format:
+    </strong>
+
+    16:9 YouTube
+
+    <br>
+
+    <strong>
+      Renderer:
+    </strong>
+
+    Browser Video Renderer
 
   </div>
+
 
   <button
     class="primary"
@@ -516,6 +651,38 @@ footer{
   >
     🎬 Create Final Video
   </button>
+
+
+  <div
+    id="videoStatus"
+    class="status"
+  ></div>
+
+
+  <div
+    id="videoResult"
+    class="hidden"
+  >
+
+    <video
+      id="videoPreview"
+      class="video-preview"
+      controls
+    ></video>
+
+    <div class="video-controls">
+
+      <a
+        id="videoDownload"
+        class="download"
+        download="gupt-bharatvarsh-documentary.webm"
+      >
+        ⬇️ Download Video
+      </a>
+
+    </div>
+
+  </div>
 
 </section>
 
@@ -574,6 +741,24 @@ const audioResult =
 const videoCard =
   $("videoCard");
 
+const videoBtn =
+  $("videoBtn");
+
+const videoStatus =
+  $("videoStatus");
+
+const videoResult =
+  $("videoResult");
+
+const videoPreview =
+  $("videoPreview");
+
+const videoDownload =
+  $("videoDownload");
+
+const selectedVideoType =
+  $("selectedVideoType");
+
 const progressBar =
   $("progressBar");
 
@@ -607,16 +792,18 @@ const VOICES = {
 
 const projectData = {
 
-  audioUrl: null,
+  audioUrl:null,
 
-  scenes: []
+  audioBlob:null,
+
+  scenes:[]
 
 };
 
 
 
 /* ==========================================
-   CLEAN TEXT
+   HELPERS
 ========================================== */
 
 function cleanText(text){
@@ -628,11 +815,6 @@ function cleanText(text){
 
 }
 
-
-
-/* ==========================================
-   ESCAPE HTML
-========================================== */
 
 function escapeHtml(text){
 
@@ -646,11 +828,6 @@ function escapeHtml(text){
 }
 
 
-
-/* ==========================================
-   PROGRESS
-========================================== */
-
 function setProgress(value){
 
   progressBar.style.width =
@@ -662,11 +839,6 @@ function setProgress(value){
 }
 
 
-
-/* ==========================================
-   STATUS
-========================================== */
-
 function setStatus(text){
 
   statusEl.textContent =
@@ -675,9 +847,19 @@ function setStatus(text){
 }
 
 
+function sleep(ms){
+
+  return new Promise(
+    resolve =>
+      setTimeout(resolve,ms)
+  );
+
+}
+
+
 
 /* ==========================================
-   TOPIC DETECTION
+   TOPIC
 ========================================== */
 
 function detectTopic(text){
@@ -720,7 +902,7 @@ function detectTopic(text){
 
 
 /* ==========================================
-   IMAGE PROMPTS
+   IMAGE PROMPT
 ========================================== */
 
 function makeImagePrompt(
@@ -731,24 +913,28 @@ function makeImagePrompt(
 
   let base = "";
 
+
   if(topic === "kailash"){
 
     base =
-      "Ancient Kailasa Temple at Ellora, Maharashtra, India, enormous monolithic rock-cut temple, ancient Indian architecture, detailed stone carvings, mysterious archaeological atmosphere";
+      "Ancient Kailasa Temple at Ellora, Maharashtra, India, enormous monolithic rock-cut temple, ancient Indian architecture, detailed stone carvings, archaeological atmosphere";
 
   }
+
   else if(topic === "antarctica"){
 
     base =
-      "vast mysterious Antarctica ice landscape, enormous glaciers, ancient hidden secrets beneath the ice, cinematic documentary atmosphere";
+      "vast mysterious Antarctica ice landscape, enormous glaciers, hidden secrets beneath the ice, cinematic documentary atmosphere";
 
   }
+
   else if(topic === "bermuda"){
 
     base =
       "mysterious Bermuda Triangle in the Atlantic Ocean, dramatic storm clouds, enormous waves, cinematic documentary atmosphere";
 
   }
+
   else{
 
     base =
@@ -771,7 +957,7 @@ function makeImagePrompt(
 
 
 /* ==========================================
-   SCENE CREATION
+   SCENES
 ========================================== */
 
 function createSceneTexts(
@@ -786,39 +972,23 @@ function createSceneTexts(
       .filter(Boolean);
 
 
-  let scenes = [];
+  let scenes =
+    sentences.map(
+      sentence => ({
+        narration:sentence
+      })
+    );
 
-
-  sentences.forEach(
-    sentence => {
-
-      scenes.push({
-        narration: sentence
-      });
-
-    }
-  );
-
-
-  /*
-    अगर scenes बहुत कम हैं,
-    तो script को दोबारा duplicate
-    नहीं करेंगे।
-  */
 
   const targetSeconds =
     Number(videoLengthEl.value) * 60;
 
   const targetScenes =
     Math.ceil(
-      targetSeconds / Number(duration)
+      targetSeconds /
+      Number(duration)
     );
 
-
-  /*
-    Existing narration scenes
-    को पहले रखें।
-  */
 
   if(
     scenes.length >
@@ -835,17 +1005,44 @@ function createSceneTexts(
 
 
   /*
-    बाकी scenes visual-only
-    होंगे, duplicate narration नहीं।
+    Empty visual scenes जोड़ने के बजाय
+    existing scenes को cycle किया जाता है।
+    इससे renderer को हमेशा visual content मिलेगा।
   */
+
+  let original =
+    [...scenes];
+
+
+  if(original.length === 0){
+
+    original = [
+      {
+        narration:"Documentary opening scene"
+      }
+    ];
+
+  }
+
 
   while(
     scenes.length <
     targetScenes
   ){
 
+    const source =
+      original[
+        scenes.length %
+        original.length
+      ];
+
     scenes.push({
-      narration: ""
+
+      narration:
+        source.narration,
+
+      visualOnly:true
+
     });
 
   }
@@ -863,13 +1060,11 @@ function createSceneTexts(
 
 async function generateProject(){
 
-  const title =
-    titleEl.value.trim();
-
   const script =
     cleanText(
       scriptEl.value
     );
+
 
   const duration =
     Number(
@@ -877,6 +1072,7 @@ async function generateProject(){
         'input[name="duration"]:checked'
       ).value
     );
+
 
   const style =
     styleEl.value;
@@ -907,10 +1103,7 @@ async function generateProject(){
   );
 
 
-  await new Promise(
-    resolve =>
-      setTimeout(resolve,300)
-  );
+  await sleep(300);
 
 
   const topic =
@@ -1002,15 +1195,16 @@ async function generateProject(){
     "hidden"
   );
 
-
   audioCard.classList.remove(
     "hidden"
   );
 
-
   videoCard.classList.remove(
     "hidden"
   );
+
+
+  updateSelectedVideoType();
 
 
   setProgress(70);
@@ -1031,7 +1225,7 @@ async function generateProject(){
 
 
 /* ==========================================
-   COPY PROMPTS
+   COPY
 ========================================== */
 
 copyBtn.addEventListener(
@@ -1071,6 +1265,7 @@ copyBtn.addEventListener(
       );
 
     }
+
     catch(error){
 
       alert(
@@ -1085,7 +1280,7 @@ copyBtn.addEventListener(
 
 
 /* ==========================================
-   GENERATE AI VOICE
+   AI VOICE
 ========================================== */
 
 audioBtn.addEventListener(
@@ -1142,22 +1337,22 @@ audioBtn.addEventListener(
           "/api/generate-voice",
           {
 
-            method:
-              "POST",
+            method:"POST",
 
             headers:{
+
               "Content-Type":
                 "application/json",
 
               "Accept":
                 "audio/mpeg, application/json"
+
             },
 
             body:
               JSON.stringify({
 
-                text:
-                  text,
+                text:text,
 
                 voiceId:
                   selectedVoice
@@ -1167,11 +1362,6 @@ audioBtn.addEventListener(
           }
         );
 
-
-      /*
-        सबसे जरूरी बदलाव:
-        पहले response को text में पढ़ेंगे।
-      */
 
       if(!response.ok){
 
@@ -1195,11 +1385,10 @@ audioBtn.addEventListener(
             data.details ||
             data.error ||
             data.message ||
-            JSON.stringify(
-              data
-            );
+            JSON.stringify(data);
 
         }
+
         catch(parseError){
 
           if(rawError){
@@ -1222,11 +1411,6 @@ audioBtn.addEventListener(
       }
 
 
-      /*
-        Success:
-        audio blob प्राप्त करें।
-      */
-
       const blob =
         await response.blob();
 
@@ -1247,6 +1431,13 @@ audioBtn.addEventListener(
         URL.createObjectURL(
           blob
         );
+
+
+      projectData.audioUrl =
+        audioUrl;
+
+      projectData.audioBlob =
+        blob;
 
 
       audioResult.innerHTML = `
@@ -1279,129 +1470,4 @@ audioBtn.addEventListener(
           <a
             class="download"
             href="${audioUrl}"
-            download="gupt-bharatvarsh-narration.mp3"
-          >
-            ⬇️ Download MP3
-          </a>
-
-        </div>
-
-      `;
-
-
-      audioBtn.textContent =
-        "✅ Voice Generated";
-
-
-      projectData.audioUrl =
-        audioUrl;
-
-
-      setProgress(85);
-
-      setStatus(
-        "AI Voice successfully तैयार है।"
-      );
-
-
-    }
-    catch(error){
-
-      console.error(
-        "Voice Error:",
-        error
-      );
-
-
-      audioResult.innerHTML = `
-
-        <div class="error-box">
-
-          <strong>
-            ❌ Voice Error
-          </strong>
-
-          <br><br>
-
-          ${escapeHtml(
-            error?.message ||
-            "Unknown voice error"
-          )}
-
-          <br><br>
-
-          <span class="small">
-
-            ऊपर दिख रहा पूरा error
-            अगली troubleshooting के लिए
-            जरूरी है।
-
-          </span>
-
-        </div>
-
-      `;
-
-
-      audioBtn.disabled =
-        false;
-
-
-      audioBtn.textContent =
-        "🎙️ Generate AI Voice";
-
-
-      setStatus(
-        "Voice generation में error आया।"
-      );
-
-    }
-
-  }
-);
-
-
-
-/* ==========================================
-   VIDEO BUTTON
-========================================== */
-
-$("videoBtn").addEventListener(
-  "click",
-  function(){
-
-    alert(
-      "🎬 Video renderer अभी अगला module है.\n\n" +
-      "पहले Scenes और AI Voice तैयार होंगे।"
-    );
-
-  }
-);
-
-
-
-/* ==========================================
-   GENERATE BUTTON
-========================================== */
-
-generateBtn.addEventListener(
-  "click",
-  generateProject
-);
-
-
-
-/* ==========================================
-   STARTUP
-========================================== */
-
-setProgress(0);
-
-setStatus(
-  "Ready — documentary बनाने के लिए Generate दबाएँ।"
-);
-
-</script>
-
-</body>
-</html>
+            download="g
