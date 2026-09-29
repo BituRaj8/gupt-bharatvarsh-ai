@@ -46,7 +46,7 @@ export default async function handler(req, res) {
           "Accept": "audio/mpeg"
         },
         body: JSON.stringify({
-          text: text,
+          text,
           model_id: "eleven_multilingual_v2",
           voice_settings: {
             stability: 0.5,
@@ -60,7 +60,6 @@ export default async function handler(req, res) {
       const errorText = await response.text();
 
       let errorDetails;
-
       try {
         errorDetails = JSON.parse(errorText);
       } catch {
@@ -69,38 +68,41 @@ export default async function handler(req, res) {
 
       let readableDetails = errorDetails;
 
-if (errorDetails && typeof errorDetails === "object") {
-  if (errorDetails.detail) {
-    if (typeof errorDetails.detail === "string") {
-      readableDetails = errorDetails.detail;
-    } else if (errorDetails.detail.message) {
-      readableDetails = errorDetails.detail.message;
-    } else {
-      readableDetails = JSON.stringify(errorDetails.detail);
-    }
-  } else {
-    readableDetails = JSON.stringify(errorDetails);
-  }
-}
+      if (errorDetails && typeof errorDetails === "object") {
+        if (errorDetails.detail) {
+          if (typeof errorDetails.detail === "string") {
+            readableDetails = errorDetails.detail;
+          } else if (errorDetails.detail.message) {
+            readableDetails = errorDetails.detail.message;
+          } else {
+            readableDetails = JSON.stringify(errorDetails.detail);
+          }
+        } else {
+          readableDetails = JSON.stringify(errorDetails);
+        }
+      }
 
-return res.status(response.status).json({
-  error: "ElevenLabs API Error",
-  status: response.status,
-  details: readableDetails
-});
+      return res.status(response.status).json({
+        error: "ElevenLabs API Error",
+        status: response.status,
+        details: readableDetails
+      });
+    }
 
     const audioBuffer = Buffer.from(await response.arrayBuffer());
 
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Content-Length", audioBuffer.length);
+    res.setHeader("Cache-Control", "no-store");
 
     return res.status(200).send(audioBuffer);
 
   } catch (error) {
+    console.error("generate-voice error:", error);
+
     return res.status(500).json({
       error: "Server Error",
-      message: error?.message || String(error),
-      stack: error?.stack || null
+      message: error?.message || String(error)
     });
   }
 }
