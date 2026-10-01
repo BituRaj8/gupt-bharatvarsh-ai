@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>GUPT BHARATVARSH AI</title>
+  <title>GUPT BHARATVARSH AI — Free Voice</title>
 
   <style>
     * {
@@ -14,37 +14,33 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background:
-        radial-gradient(circle at top, #172033 0%, #080b12 45%, #030509 100%);
-      color: #fff;
-      min-height: 100vh;
+      background: #0b0b0f;
+      color: white;
     }
 
     .container {
-      width: min(1100px, 94%);
+      max-width: 900px;
       margin: auto;
-      padding: 30px 0 60px;
+      padding: 20px;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 8px;
-      font-size: 32px;
+      margin-bottom: 5px;
     }
 
     .subtitle {
       text-align: center;
-      color: #aab4c5;
-      margin-bottom: 30px;
+      color: #aaa;
+      margin-bottom: 25px;
     }
 
     .card {
-      background: rgba(17, 24, 39, 0.88);
-      border: 1px solid #263247;
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 20px;
-      box-shadow: 0 15px 45px rgba(0,0,0,.25);
+      background: #15151c;
+      border: 1px solid #292934;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
     }
 
     label {
@@ -53,17 +49,16 @@
       font-weight: bold;
     }
 
-    input,
     textarea,
     select {
       width: 100%;
-      border: 1px solid #344158;
-      background: #0b111d;
+      border: 1px solid #333;
+      background: #0d0d12;
       color: white;
       border-radius: 10px;
       padding: 13px;
+      font-size: 15px;
       outline: none;
-      margin-bottom: 18px;
     }
 
     textarea {
@@ -72,121 +67,85 @@
       line-height: 1.6;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
+    select {
+      margin-bottom: 15px;
     }
 
-    .options {
+    .buttons {
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .option {
-      background: #101827;
-      border: 1px solid #344158;
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .option input {
-      width: auto;
-      margin: 0 6px 0 0;
+      flex-wrap: wrap;
+      margin-top: 15px;
     }
 
     button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: #ff7a00;
-      color: white;
-      font-size: 16px;
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 18px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 8px;
     }
 
-    button:hover {
-      opacity: .9;
+    .preview {
+      background: #2d7df6;
+      color: white;
     }
 
-    button.secondary {
-      background: #273449;
+    .stop {
+      background: #d93636;
+      color: white;
     }
 
-    button.green {
-      background: #087f5b;
+    .download {
+      background: #279447;
+      color: white;
+    }
+
+    .info {
+      background: #101018;
+      border-radius: 10px;
+      padding: 12px;
+      color: #bbb;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .status {
-      background: #0b111d;
-      border: 1px solid #29364b;
+      margin-top: 15px;
+      padding: 12px;
       border-radius: 10px;
-      padding: 13px;
-      color: #b9c5d8;
-      margin-top: 15px;
-      white-space: pre-wrap;
+      background: #101018;
+      color: #ddd;
+      min-height: 45px;
     }
 
-    .scene {
-      border: 1px solid #29364b;
-      background: #0a101b;
-      border-radius: 12px;
-      padding: 15px;
-      margin-bottom: 12px;
+    .voice-list {
+      max-height: 300px;
+      overflow-y: auto;
+      background: #0d0d12;
+      border-radius: 10px;
+      padding: 10px;
     }
 
-    .scene-title {
-      font-weight: bold;
-      color: #ff9b42;
-      margin-bottom: 8px;
+    .voice-item {
+      padding: 10px;
+      border-bottom: 1px solid #25252d;
+      cursor: pointer;
     }
 
-    .prompt {
-      color: #b8c3d6;
-      line-height: 1.5;
-      font-size: 14px;
+    .voice-item:last-child {
+      border-bottom: 0;
     }
 
-    audio {
-      width: 100%;
-      margin-top: 10px;
+    .voice-item:hover {
+      background: #1b1b25;
     }
 
-    video {
-      width: 100%;
-      border-radius: 14px;
-      background: black;
-      margin-top: 15px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 5px 9px;
-      background: #172235;
-      border-radius: 8px;
-      color: #aebbd0;
+    .small {
+      color: #888;
       font-size: 12px;
-      margin-right: 5px;
-    }
-
-    @media (max-width: 700px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
+      margin-top: 5px;
     }
   </style>
 </head>
@@ -198,274 +157,174 @@
   <h1>GUPT BHARATVARSH AI</h1>
 
   <div class="subtitle">
-    AI Documentary Script → Scenes → Voice → Video
+    FREE AI VOICE SYSTEM — No ElevenLabs Credits
   </div>
 
-  <!-- PROJECT -->
   <div class="card">
 
-    <h2>🎬 Documentary Project</h2>
+    <label>🎙️ Voice Text</label>
 
-    <label>Documentary Title</label>
+    <textarea id="voiceText">नमस्कार दोस्तों।
 
-    <input
-      id="title"
-      type="text"
-      value="कैलाश मंदिर का रहस्य"
-    />
+गुप्त भारतवर्ष में आपका स्वागत है।
 
-    <label>Documentary Script</label>
+आज हम जानेंगे एक ऐसे रहस्य के बारे में, जिसने सदियों से इतिहासकारों और वैज्ञानिकों को हैरान किया हुआ है।</textarea>
 
-    <textarea id="script">महाराष्ट्र की एलोरा गुफाओं में मौजूद कैलाश मंदिर को देखकर आज भी लोग हैरान रह जाते हैं।
+  </div>
 
-क्योंकि यह मंदिर किसी पत्थर को जोड़कर नहीं बनाया गया था।
 
-बल्कि एक विशाल पहाड़ को ऊपर से नीचे तक काटकर इसे बनाया गया था।
+  <div class="card">
 
-इतिहासकारों के अनुसार इस विशाल मंदिर को बनाने में लाखों टन चट्टान हटाई गई होगी।
+    <label>🌎 Language / Region</label>
 
-सबसे रहस्यमयी बात यह है कि मंदिर की पूरी संरचना एक ही चट्टान से बनाई गई है।
+    <select id="languageSelect">
 
-आज भी यह सवाल रहस्य बना हुआ है कि इतने बड़े पत्थर के पहाड़ को उस समय के कारीगरों ने इतनी सटीकता से कैसे काटा।
+      <option value="all">All Available Voices</option>
 
-कैलाश मंदिर सिर्फ एक मंदिर नहीं बल्कि प्राचीन भारतीय वास्तुकला की एक अद्भुत मिसाल है।
+      <option value="hi">🇮🇳 Hindi</option>
 
-इसकी विशाल मूर्तियां, स्तंभ और बारीक नक्काशी आज भी लोगों को चौंका देती है।
+      <option value="en-IN">🇮🇳 Indian English</option>
 
-लेकिन इसके निर्माण की पूरी तकनीक आज भी इतिहास के सबसे बड़े रहस्यों में से एक है।
+      <option value="mr">🇮🇳 Marathi</option>
 
-क्या प्राचीन भारत के कारीगरों के पास ऐसी तकनीक थी जिसे हम आज पूरी तरह समझ नहीं पाए हैं?
+      <option value="bn">🇮🇳 Bengali</option>
 
-यही सवाल कैलाश मंदिर को भारत के सबसे रहस्यमयी ऐतिहासिक स्थलों में शामिल करता है।</textarea>
+      <option value="gu">🇮🇳 Gujarati</option>
 
-    <div class="grid">
+      <option value="pa">🇮🇳 Punjabi</option>
 
-      <div>
-        <label>Voice</label>
+      <option value="ta">🇮🇳 Tamil</option>
 
-        <select id="voice">
-          <option value="JBFqnCBsd6RMkjVDRZzb">
-            George — Natural Documentary
-          </option>
+      <option value="te">🇮🇳 Telugu</option>
 
-          <option value="CwhRBWXzGAHq8TQ4Fs17">
-            Roger — Deep Documentary
-          </option>
-        </select>
-      </div>
+      <option value="kn">🇮🇳 Kannada</option>
 
-      <div>
-        <label>Visual Style</label>
+      <option value="ml">🇮🇳 Malayalam</option>
 
-        <select id="visualStyle">
-          <option value="mystery">Cinematic Mystery</option>
-          <option value="history">Historical Documentary</option>
-          <option value="dark">Dark Mystery</option>
-          <option value="nature">Nature Documentary</option>
-        </select>
-      </div>
+      <option value="or">🇮🇳 Odia</option>
 
-    </div>
+      <option value="as">🇮🇳 Assamese</option>
 
-    <label>Scene Duration</label>
+      <option value="ne">🇮🇳 Nepali</option>
 
-    <div class="options">
+    </select>
 
-      <label class="option">
-        <input
-          type="radio"
-          name="sceneDuration"
-          value="5"
-          checked
-        />
-        5 sec
-      </label>
 
-      <label class="option">
-        <input
-          type="radio"
-          name="sceneDuration"
-          value="7"
-        />
-        7 sec
-      </label>
+    <label>🎤 Available Voice</label>
 
-      <label class="option">
-        <input
-          type="radio"
-          name="sceneDuration"
-          value="9"
-        />
-        9 sec
-      </label>
+    <select id="voiceSelect">
+      <option>Loading voices...</option>
+    </select>
 
-      <label class="option">
-        <input
-          type="radio"
-          name="sceneDuration"
-          value="12"
-        />
-        12 sec
-      </label>
-
-    </div>
-
-    <label>Total Video Length</label>
-
-    <div class="options">
-
-      <label class="option">
-        <input
-          type="radio"
-          name="totalDuration"
-          value="60"
-          checked
-        />
-        1 Minute
-      </label>
-
-      <label class="option">
-        <input
-          type="radio"
-          name="totalDuration"
-          value="300"
-        />
-        5 Minutes
-      </label>
-
-      <label class="option">
-        <input
-          type="radio"
-          name="totalDuration"
-          value="600"
-        />
-        10 Minutes
-      </label>
-
-      <label class="option">
-        <input
-          type="radio"
-          name="totalDuration"
-          value="900"
-        />
-        15 Minutes
-      </label>
-
-    </div>
-
-    <label>Video Type</label>
-
-    <div class="options">
-
-      <label class="option">
-        <input
-          type="radio"
-          name="videoType"
-          value="normal"
-          checked
-        />
-        🎥 Normal Cinematic
-      </label>
-
-      <label class="option">
-        <input
-          type="radio"
-          name="videoType"
-          value="2d"
-        />
-        🎨 2D Animation
-      </label>
-
-    </div>
-
-    <button id="generateBtn">
-      🚀 Generate Documentary
-    </button>
-
-    <div id="mainStatus" class="status">
-      Ready
+    <div class="small">
+      Available voices आपके phone/browser पर depend करती हैं।
     </div>
 
   </div>
 
 
-  <!-- SCENES -->
-
   <div class="card">
 
-    <h2>🎞️ Scenes</h2>
+    <label>🎬 Voice Style</label>
 
-    <div id="sceneInfo"></div>
+    <select id="styleSelect">
 
-    <div id="scenes"></div>
+      <option value="documentary">
+        Documentary — Natural
+      </option>
+
+      <option value="deep">
+        Deep Documentary
+      </option>
+
+      <option value="mystery">
+        Mystery
+      </option>
+
+      <option value="story">
+        Storytelling
+      </option>
+
+      <option value="news">
+        News
+      </option>
+
+      <option value="calm">
+        Calm
+      </option>
+
+    </select>
+
+
+    <div class="buttons">
+
+      <button class="preview" onclick="speakText()">
+        ▶ Preview Voice
+      </button>
+
+      <button class="stop" onclick="stopVoice()">
+        ■ Stop
+      </button>
+
+    </div>
+
+    <div id="status" class="status">
+      Voice system ready.
+    </div>
 
   </div>
 
 
-  <!-- VOICE -->
-
   <div class="card">
 
-    <h2>🎙️ ElevenLabs AI Voice</h2>
+    <h3>🇮🇳 Indian Voice Categories</h3>
 
-    <button
-      id="voiceBtn"
-      class="secondary"
-    >
-      🎙️ Generate AI Voice
-    </button>
+    <div class="info">
 
-    <div id="voiceStatus" class="status">
-      Voice not generated
+      Bihar — Hindi / Bhojpuri style<br>
+      Uttar Pradesh — Hindi<br>
+      Jharkhand — Hindi<br>
+      Madhya Pradesh — Hindi<br>
+      Rajasthan — Hindi<br>
+      Haryana — Hindi<br>
+      Delhi — Hindi / Indian English<br>
+      Punjab — Punjabi<br>
+      Gujarat — Gujarati<br>
+      Maharashtra — Marathi<br>
+      West Bengal — Bengali<br>
+      Odisha — Odia<br>
+      Assam — Assamese<br>
+      Tamil Nadu — Tamil<br>
+      Kerala — Malayalam<br>
+      Karnataka — Kannada<br>
+      Andhra Pradesh — Telugu<br>
+      Telangana — Telugu<br>
+      Goa — Konkani<br>
+      Uttarakhand — Hindi<br>
+      Chhattisgarh — Hindi
+
     </div>
-
-    <audio
-      id="audioPlayer"
-      controls
-      class="hidden"
-    ></audio>
 
   </div>
 
 
-  <!-- VIDEO -->
-
   <div class="card">
 
-    <h2>🎬 Final Video</h2>
+    <h3>ℹ️ Important</h3>
 
-    <div id="videoInfo">
+    <div class="info">
 
-      <span class="badge">
-        AI Video Pipeline
-      </span>
+      यह system ElevenLabs API को call नहीं करता।<br><br>
 
-      <span class="badge">
-        Normal / 2D
-      </span>
+      इसलिए ElevenLabs credits खर्च नहीं होंगे।<br><br>
 
-      <span class="badge">
-        5 / 7 / 9 / 12 sec
-      </span>
+      Voice quality और available languages आपके Android
+      device/browser में installed TTS engine पर depend करेंगी।<br><br>
+
+      बाद में इसी system में एक अलग high-quality
+      open-source Hindi TTS engine जोड़ सकते हैं।
 
     </div>
-
-    <button
-      id="videoBtn"
-      class="green"
-    >
-      🎬 Create Final Video
-    </button>
-
-    <div id="videoStatus" class="status">
-      Video not generated
-    </div>
-
-    <video
-      id="finalVideo"
-      controls
-      class="hidden"
-    ></video>
 
   </div>
 
@@ -474,520 +333,275 @@
 
 <script>
 
-  let generatedScenes = [];
-  let voiceBlob = null;
-  let videoScenes = [];
+let voices = [];
 
-  const $ = (id) =>
-    document.getElementById(id);
+const voiceSelect =
+  document.getElementById("voiceSelect");
 
+const languageSelect =
+  document.getElementById("languageSelect");
 
-  function getRadio(name) {
+const textBox =
+  document.getElementById("voiceText");
 
-    const element =
-      document.querySelector(
-        `input[name="${name}"]:checked`
-      );
+const styleSelect =
+  document.getElementById("styleSelect");
 
-    return element
-      ? element.value
-      : null;
-  }
+const statusBox =
+  document.getElementById("status");
 
 
-  function splitScript(text) {
+function loadVoices() {
 
-    return text
-      .replace(/\r/g, "")
-      .split(/(?<=[।!?])\s+|\n+/)
-      .map(x => x.trim())
-      .filter(Boolean);
+  voices = speechSynthesis.getVoices();
 
-  }
+  updateVoiceList();
+}
 
 
-  function getStylePrompt(style) {
+function updateVoiceList() {
 
-    const styles = {
+  const language =
+    languageSelect.value;
 
-      mystery:
-        "mysterious ancient Indian location, dramatic fog, cinematic lighting, dark atmospheric mood, ultra realistic",
+  voiceSelect.innerHTML = "";
 
-      history:
-        "ancient Indian architecture, historical atmosphere, cinematic documentary lighting, realistic details",
+  let filtered = voices;
 
-      dark:
-        "dark mysterious ancient Indian location, deep shadows, dramatic cinematic lighting, ultra realistic",
+  if (language !== "all") {
 
-      nature:
-        "ancient Indian monument surrounded by natural landscape, cinematic sunlight, realistic environment"
+    filtered = voices.filter(v => {
 
-    };
-
-    return styles[style] || styles.mystery;
-
-  }
-
-
-  function createScenes() {
-
-    const script =
-      $("script").value.trim();
-
-    const sceneDuration =
-      Number(getRadio("sceneDuration"));
-
-    const totalDuration =
-      Number(getRadio("totalDuration"));
-
-    const visualStyle =
-      $("visualStyle").value;
-
-    const videoType =
-      getRadio("videoType");
-
-    if (!script) {
-
-      throw new Error(
-        "Documentary script खाली है."
-      );
-
-    }
-
-
-    const sentences =
-      splitScript(script);
-
-
-    const requiredScenes =
-      Math.ceil(
-        totalDuration / sceneDuration
-      );
-
-
-    generatedScenes = [];
-
-
-    for (
-      let i = 0;
-      i < requiredScenes;
-      i++
-    ) {
-
-      const narration =
-        sentences[i % sentences.length];
-
-
-      let prompt;
-
-
-      if (videoType === "2d") {
-
-        prompt =
-          `High quality 2D animated documentary scene, ` +
-          `Indian historical storytelling, detailed characters, ` +
-          `detailed environment, smooth animation, cinematic composition, ` +
-          `dramatic lighting, rich colors, professional animation, ` +
-          `16:9, no text, no watermark. ` +
-          `${narration}`;
-
-      } else {
-
-        prompt =
-          `${getStylePrompt(visualStyle)}, ` +
-          `professional documentary cinematography, ` +
-          `realistic camera movement, atmospheric depth, ` +
-          `high detail, cinematic composition, ` +
-          `16:9, no text, no watermark. ` +
-          `${narration}`;
-
-      }
-
-
-      generatedScenes.push({
-
-        id: i + 1,
-
-        narration,
-
-        prompt,
-
-        duration: sceneDuration,
-
-        type: videoType
-
-      });
-
-    }
-
-
-    renderScenes();
-
-    return generatedScenes;
-
-  }
-
-
-  function renderScenes() {
-
-    const container =
-      $("scenes");
-
-    container.innerHTML = "";
-
-
-    $("sceneInfo").innerHTML =
-      `<span class="badge">
-        ${generatedScenes.length} Scenes
-      </span>
-      <span class="badge">
-        ${generatedScenes[0]?.duration || 0} sec each
-      </span>
-      <span class="badge">
-        ${generatedScenes[0]?.type === "2d"
-          ? "2D Animation"
-          : "Normal Cinematic"}
-      </span>`;
-
-
-    generatedScenes.forEach(scene => {
-
-      const div =
-        document.createElement("div");
-
-      div.className = "scene";
-
-
-      div.innerHTML = `
-
-        <div class="scene-title">
-          Scene ${scene.id}
-        </div>
-
-        <div>
-          <strong>Narration:</strong>
-          ${escapeHtml(scene.narration)}
-        </div>
-
-        <br>
-
-        <div class="prompt">
-          <strong>Visual Prompt:</strong><br>
-          ${escapeHtml(scene.prompt)}
-        </div>
-
-      `;
-
-
-      container.appendChild(div);
+      return v.lang
+        .toLowerCase()
+        .startsWith(language.toLowerCase());
 
     });
 
   }
 
 
-  function escapeHtml(text) {
+  if (filtered.length === 0) {
 
-    return String(text)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+    const option =
+      document.createElement("option");
+
+    option.textContent =
+      "इस language की voice device में उपलब्ध नहीं है";
+
+    option.value = "";
+
+    voiceSelect.appendChild(option);
+
+    statusBox.textContent =
+      "इस language की TTS voice आपके device/browser में नहीं मिली।";
+
+    return;
+  }
+
+
+  filtered.forEach((voice, index) => {
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      voices.indexOf(voice);
+
+    option.textContent =
+      `${voice.name} — ${voice.lang}`;
+
+    voiceSelect.appendChild(option);
+
+  });
+
+
+  statusBox.textContent =
+    `${filtered.length} voice available.`;
+
+}
+
+
+function getStyleSettings() {
+
+  const style =
+    styleSelect.value;
+
+  if (style === "deep") {
+
+    return {
+      rate: 0.88,
+      pitch: 0.78
+    };
+
+  }
+
+  if (style === "mystery") {
+
+    return {
+      rate: 0.82,
+      pitch: 0.72
+    };
+
+  }
+
+  if (style === "story") {
+
+    return {
+      rate: 0.94,
+      pitch: 0.92
+    };
+
+  }
+
+  if (style === "news") {
+
+    return {
+      rate: 0.98,
+      pitch: 0.95
+    };
+
+  }
+
+  if (style === "calm") {
+
+    return {
+      rate: 0.84,
+      pitch: 0.95
+    };
+
+  }
+
+  return {
+    rate: 0.90,
+    pitch: 0.90
+  };
+
+}
+
+
+function speakText() {
+
+  speechSynthesis.cancel();
+
+  const text =
+    textBox.value.trim();
+
+  if (!text) {
+
+    statusBox.textContent =
+      "पहले text लिखो।";
+
+    return;
 
   }
 
 
-  async function generateVoice() {
+  const selectedIndex =
+    Number(voiceSelect.value);
 
-    if (!generatedScenes.length) {
-
-      createScenes();
-
-    }
+  const selectedVoice =
+    voices[selectedIndex];
 
 
-    const voiceId =
-      $("voice").value;
+  const utterance =
+    new SpeechSynthesisUtterance(text);
 
 
-    const fullText =
-      generatedScenes
-        .map(scene => scene.narration)
-        .join(" ");
+  if (selectedVoice) {
 
+    utterance.voice =
+      selectedVoice;
 
-    if (!fullText) {
-
-      throw new Error(
-        "Voice के लिए narration नहीं मिला."
-      );
-
-    }
-
-
-    $("voiceStatus").textContent =
-      "🎙️ ElevenLabs voice generate हो रही है...";
-
-
-    const response =
-      await fetch(
-        "/api/generate-voice",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-
-            text: fullText,
-
-            voiceId
-
-          })
-
-        }
-      );
-
-
-    if (!response.ok) {
-
-      let errorText =
-        await response.text();
-
-      throw new Error(
-        errorText ||
-        `Voice error: HTTP ${response.status}`
-      );
-
-    }
-
-
-    voiceBlob =
-      await response.blob();
-
-
-    const audioUrl =
-      URL.createObjectURL(
-        voiceBlob
-      );
-
-
-    const player =
-      $("audioPlayer");
-
-
-    player.src =
-      audioUrl;
-
-
-    player.classList.remove(
-      "hidden"
-    );
-
-
-    $("voiceStatus").textContent =
-      "✅ AI Voice तैयार है.";
+    utterance.lang =
+      selectedVoice.lang;
 
   }
 
 
-  async function prepareVideo() {
+  const settings =
+    getStyleSettings();
 
-    if (!generatedScenes.length) {
+  utterance.rate =
+    settings.rate;
 
-      createScenes();
+  utterance.pitch =
+    settings.pitch;
 
-    }
-
-
-    const sceneDuration =
-      Number(
-        getRadio("sceneDuration")
-      );
+  utterance.volume =
+    1;
 
 
-    const videoType =
-      getRadio("videoType");
+  utterance.onstart = () => {
+
+    statusBox.textContent =
+      "🎙️ Voice बोल रही है...";
+
+  };
 
 
-    $("videoStatus").textContent =
-      "🎬 Video scenes prepare हो रहे हैं...";
+  utterance.onend = () => {
+
+    statusBox.textContent =
+      "✅ Voice complete.";
+
+  };
 
 
-    const response =
-      await fetch(
-        "/api/generate-video",
-        {
-          method: "POST",
+  utterance.onerror = (event) => {
 
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
+    statusBox.textContent =
+      "❌ Voice error: " + event.error;
 
-          body: JSON.stringify({
-
-            scenes:
-              generatedScenes,
-
-            duration:
-              sceneDuration,
-
-            style:
-              videoType
-
-          })
-
-        }
-      );
+  };
 
 
-    const data =
-      await response.json();
+  speechSynthesis.speak(utterance);
+
+}
 
 
-    if (!response.ok) {
+function stopVoice() {
 
-      throw new Error(
-        data?.error ||
-        data?.message ||
-        "Video generation error"
-      );
+  speechSynthesis.cancel();
 
-    }
+  statusBox.textContent =
+    "⏹️ Voice stopped.";
 
-
-    videoScenes =
-      data.scenes || [];
+}
 
 
-    $("videoStatus").textContent =
-      `✅ ${videoScenes.length} video scenes तैयार हैं.\n\n` +
-      `Mode: ${
-        videoType === "2d"
-          ? "2D Animation"
-          : "Normal Cinematic"
-      }\n` +
-      `Scene Duration: ${sceneDuration} sec\n\n` +
-      `Video rendering backend के लिए scenes तैयार हैं.`;
+languageSelect.addEventListener(
+  "change",
+  updateVoiceList
+);
+
+
+styleSelect.addEventListener(
+  "change",
+  () => {
+
+    statusBox.textContent =
+      "Voice style changed.";
 
   }
+);
 
 
-  async function generateDocumentary() {
+if ("speechSynthesis" in window) {
 
-    try {
+  speechSynthesis.onvoiceschanged =
+    loadVoices;
 
-      $("mainStatus").textContent =
-        "⏳ Documentary scenes generate हो रहे हैं...";
+  loadVoices();
 
+} else {
 
-      createScenes();
+  statusBox.textContent =
+    "❌ इस browser में Speech Synthesis उपलब्ध नहीं है.";
 
+}
 
-      $("mainStatus").textContent =
-        `✅ ${generatedScenes.length} scenes तैयार हैं.\n` +
-        `अब Voice और Video generate कर सकते हैं.`;
-
-    } catch (error) {
-
-      $("mainStatus").textContent =
-        "❌ " +
-        (error?.message ||
-        String(error));
-
-    }
-
-  }
-
-
-  $("generateBtn")
-    .addEventListener(
-      "click",
-      generateDocumentary
-    );
-
-
-  $("voiceBtn")
-    .addEventListener(
-      "click",
-      async () => {
-
-        try {
-
-          $("voiceBtn").disabled =
-            true;
-
-          await generateVoice();
-
-        } catch (error) {
-
-          $("voiceStatus").textContent =
-            "❌ " +
-            (error?.message ||
-            String(error));
-
-        } finally {
-
-          $("voiceBtn").disabled =
-            false;
-
-        }
-
-      }
-    );
-
-
-  $("videoBtn")
-    .addEventListener(
-      "click",
-      async () => {
-
-        try {
-
-          $("videoBtn").disabled =
-            true;
-
-          await prepareVideo();
-
-        } catch (error) {
-
-          $("videoStatus").textContent =
-            "❌ " +
-            (error?.message ||
-            String(error));
-
-        } finally {
-
-          $("videoBtn").disabled =
-            false;
-
-        }
-
-      }
-    );
-
-
-  /*
-    Automatic initial scene generation
-  */
-
-  try {
-
-    createScenes();
-
-  } catch (error) {
-
-    console.log(
-      "Initial scene generation skipped:",
-      error
-    );
-
-  }
 
 </script>
 
