@@ -15,10 +15,30 @@ const VOICES = [
 ];
 
 const STYLES = [
-  { id: "mystery", name: "Cinematic Mystery" },
-  { id: "history", name: "Historical Documentary" },
-  { id: "dark", name: "Dark Mystery" },
-  { id: "nature", name: "Nature Documentary" },
+  {
+    id: "mystery",
+    name: "Cinematic Mystery",
+    prompt:
+      "ancient Indian mystery, cinematic atmosphere, dramatic fog, realistic stone architecture, volumetric lighting, mysterious mood, highly detailed",
+  },
+  {
+    id: "history",
+    name: "Historical Documentary",
+    prompt:
+      "ancient Indian historical documentary, realistic architecture, archaeological atmosphere, natural cinematic lighting, highly detailed",
+  },
+  {
+    id: "dark",
+    name: "Dark Mystery",
+    prompt:
+      "dark ancient mystery, dramatic shadows, moody cinematic lighting, atmospheric fog, realistic textures, deep contrast",
+  },
+  {
+    id: "nature",
+    name: "Nature Documentary",
+    prompt:
+      "Indian landscape, mountains, ancient environment, cinematic natural lighting, realistic documentary photography, atmospheric depth",
+  },
 ];
 
 const DEFAULT_SCRIPT = `महाराष्ट्र की एलोरा गुफाओं में मौजूद कैलाश मंदिर को देखकर आज भी लोग हैरान रह जाते हैं।
@@ -43,29 +63,21 @@ function splitIntoScenes(script) {
     .filter(Boolean);
 }
 
-function getStylePrompt(style) {
-  const prompts = {
-    mystery:
-      "ancient Indian mystery, cinematic atmosphere, dramatic fog, realistic stone architecture, volumetric lighting, mysterious mood, highly detailed",
-    history:
-      "ancient Indian historical documentary, realistic architecture, archaeological atmosphere, natural cinematic lighting, highly detailed",
-    dark:
-      "dark ancient temple mystery, dramatic shadows, moody cinematic lighting, atmospheric fog, realistic stone textures",
-    nature:
-      "Indian landscape, mountains, ancient environment, cinematic natural lighting, realistic documentary photography",
-  };
+function createCinematicPrompt(text, style) {
+  const selectedStyle =
+    STYLES.find((item) => item.id === style) || STYLES[0];
 
-  return prompts[style] || prompts.mystery;
-}
+  return `${text}
 
-function createScenePrompt(text, style, mode) {
-  const base = getStylePrompt(style);
+Cinematic documentary visual.
+${selectedStyle.prompt}.
 
-  if (mode === "2d") {
-    return `${text}. 2D documentary animation, ${base}, illustrated cinematic movement, layered depth, parallax effect, smooth camera movement, 16:9, no text, no watermark`;
-  }
-
-  return `${text}. ${base}, cinematic documentary shot, realistic camera movement, depth of field, 16:9, no text, no watermark`;
+Photorealistic cinematic scene, realistic environment, natural human proportions,
+cinematic composition, dramatic lighting, volumetric light, atmospheric depth,
+realistic shadows, subtle film grain, depth of field, professional documentary
+cinematography, slow cinematic camera movement, establishing shot,
+smooth camera motion, realistic lens, high detail, 16:9 aspect ratio,
+no text, no subtitles, no logo, no watermark.`;
 }
 
 export default function App() {
@@ -77,7 +89,6 @@ export default function App() {
 
   const [sceneDuration, setSceneDuration] = useState(9);
   const [totalLength, setTotalLength] = useState(60);
-  const [videoType, setVideoType] = useState("normal");
 
   const [scenes, setScenes] = useState([]);
   const [audioUrl, setAudioUrl] = useState("");
@@ -89,13 +100,19 @@ export default function App() {
   const [generatingVoice, setGeneratingVoice] = useState(false);
 
   const selectedVoice = useMemo(
-    () => VOICES.find((v) => v.id === voiceId),
+    () => VOICES.find((voice) => voice.id === voiceId),
     [voiceId]
+  );
+
+  const selectedStyle = useMemo(
+    () => STYLES.find((item) => item.id === style),
+    [style]
   );
 
   function generateScenes() {
     setError("");
     setGeneratingScenes(true);
+    setStatus("Scenes generate हो रहे हैं...");
 
     try {
       const parts = splitIntoScenes(script);
@@ -104,26 +121,26 @@ export default function App() {
         throw new Error("Script खाली है।");
       }
 
-      const maxScenes = Math.max(
+      const sceneCount = Math.max(
         1,
         Math.ceil(Number(totalLength) / Number(sceneDuration))
       );
 
-      const selectedParts = [];
+      const generated = [];
 
-      for (let i = 0; i < maxScenes; i++) {
-        selectedParts.push(parts[i % parts.length]);
+      for (let i = 0; i < sceneCount; i++) {
+        const text = parts[i % parts.length];
+
+        generated.push({
+          id: i + 1,
+          text,
+          duration: Number(sceneDuration),
+          prompt: createCinematicPrompt(text, style),
+        });
       }
 
-      const generated = selectedParts.map((text, index) => ({
-        id: index + 1,
-        text,
-        duration: Number(sceneDuration),
-        prompt: createScenePrompt(text, style, videoType),
-      }));
-
       setScenes(generated);
-      setStatus(`${generated.length} scenes तैयार हैं`);
+      setStatus(`${generated.length} cinematic scenes तैयार हैं`);
     } catch (err) {
       setError(err.message || "Scenes generate नहीं हो पाए।");
       setStatus("Error");
@@ -135,7 +152,7 @@ export default function App() {
   async function generateVoice() {
     setError("");
     setGeneratingVoice(true);
-    setStatus("Voice generate हो रही है...");
+    setStatus("AI voice generate हो रही है...");
 
     try {
       if (!script.trim()) {
@@ -163,29 +180,33 @@ export default function App() {
           message = data.error || message;
         } else {
           const text = await response.text();
-          if (text) message = text;
+
+          if (text) {
+            message = text;
+          }
         }
 
         throw new Error(message);
       }
 
-      if (!contentType.includes("audio")) {
-        const data = await response.json().catch(() => null);
+      if (contentType.includes("audio")) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
 
-        if (data?.audioUrl) {
-          setAudioUrl(data.audioUrl);
-          setStatus("Voice तैयार है");
-          return;
-        }
-
-        throw new Error("API ने audio file नहीं भेजी।");
+        setAudioUrl(url);
+        setStatus("AI voice तैयार है");
+        return;
       }
 
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      const data = await response.json().catch(() => null);
 
-      setAudioUrl(url);
-      setStatus("Voice तैयार है");
+      if (data?.audioUrl) {
+        setAudioUrl(data.audioUrl);
+        setStatus("AI voice तैयार है");
+        return;
+      }
+
+      throw new Error("API ने audio file नहीं भेजी।");
     } catch (err) {
       setError(err.message || "Voice generation failed.");
       setStatus("Voice Error");
@@ -197,6 +218,11 @@ export default function App() {
   function generateDocumentary() {
     setError("");
 
+    if (!title.trim()) {
+      setError("Documentary title लिखें।");
+      return;
+    }
+
     if (!script.trim()) {
       setError("Script खाली है।");
       return;
@@ -207,17 +233,22 @@ export default function App() {
 
   function createFinalVideo() {
     setError(
-      "Scene और voice तैयार हैं। अगला step MP4 rendering engine जोड़ना है।"
+      "Cinematic scenes और voice तैयार हैं। MP4 rendering engine अभी connect करना बाकी है।"
     );
-    setStatus("Rendering engine waiting");
+    setStatus("MP4 Engine Waiting");
   }
+
+  const totalSceneSeconds = scenes.reduce(
+    (sum, scene) => sum + Number(scene.duration),
+    0
+  );
 
   return (
     <div className="app">
       <header className="header">
         <div>
           <h1>GUPT BHARATVARSH AI</h1>
-          <p>AI Documentary Script → Scenes → Voice → Video</p>
+          <p>AI Documentary Script → Cinematic Scenes → Voice → MP4</p>
         </div>
 
         <div className="status">
@@ -228,9 +259,10 @@ export default function App() {
 
       <main className="container">
         <section className="card">
-          <h2>🎬 Documentary Project</h2>
+          <h2>🎬 Cinematic Documentary</h2>
 
           <label>Documentary Title</label>
+
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -238,16 +270,18 @@ export default function App() {
           />
 
           <label>Documentary Script</label>
+
           <textarea
             value={script}
             onChange={(e) => setScript(e.target.value)}
-            rows={12}
+            rows={14}
             placeholder="अपनी Hindi documentary script यहाँ लिखें..."
           />
 
           <div className="grid">
             <div>
-              <label>Voice</label>
+              <label>🎙️ Documentary Voice</label>
+
               <select
                 value={voiceId}
                 onChange={(e) => setVoiceId(e.target.value)}
@@ -261,7 +295,8 @@ export default function App() {
             </div>
 
             <div>
-              <label>Visual Style</label>
+              <label>🎥 Cinematic Style</label>
+
               <select
                 value={style}
                 onChange={(e) => setStyle(e.target.value)}
@@ -275,7 +310,7 @@ export default function App() {
             </div>
           </div>
 
-          <label>Scene Duration</label>
+          <label>⏱️ Scene Duration</label>
 
           <div className="radio-row">
             {[5, 7, 9, 12].map((value) => (
@@ -286,12 +321,13 @@ export default function App() {
                   checked={sceneDuration === value}
                   onChange={() => setSceneDuration(value)}
                 />
+
                 <span>{value} sec</span>
               </label>
             ))}
           </div>
 
-          <label>Total Video Length</label>
+          <label>🕐 Total Video Length</label>
 
           <select
             value={totalLength}
@@ -303,28 +339,8 @@ export default function App() {
             <option value={900}>15 Minutes</option>
           </select>
 
-          <label>Video Type</label>
-
-          <div className="radio-row">
-            <label className="radio-card large">
-              <input
-                type="radio"
-                name="videoType"
-                checked={videoType === "normal"}
-                onChange={() => setVideoType("normal")}
-              />
-              <span>🎥 Normal Documentary</span>
-            </label>
-
-            <label className="radio-card large">
-              <input
-                type="radio"
-                name="videoType"
-                checked={videoType === "2d"}
-                onChange={() => setVideoType("2d")}
-              />
-              <span>🎨 2D Animation</span>
-            </label>
+          <div className="cinematic-badge">
+            🎬 CINEMATIC DOCUMENTARY MODE
           </div>
 
           <button
@@ -333,8 +349,8 @@ export default function App() {
             disabled={generatingScenes}
           >
             {generatingScenes
-              ? "Generating Scenes..."
-              : "✨ Generate Documentary"}
+              ? "🎬 Generating Cinematic Scenes..."
+              : "✨ Generate Cinematic Documentary"}
           </button>
         </section>
 
@@ -346,7 +362,7 @@ export default function App() {
 
         <section className="card">
           <div className="section-title">
-            <h2>🎞️ Scenes</h2>
+            <h2>🎞️ Cinematic Scenes</h2>
 
             <span>
               {scenes.length} scenes · {sceneDuration}s each
@@ -355,7 +371,8 @@ export default function App() {
 
           {scenes.length === 0 ? (
             <div className="empty">
-              Generate Documentary दबाने के बाद scenes यहाँ दिखाई देंगे।
+              Generate Cinematic Documentary दबाने के बाद scenes यहाँ
+              दिखाई देंगे।
             </div>
           ) : (
             <div className="scene-list">
@@ -372,15 +389,13 @@ export default function App() {
 
                     <div className="scene-meta">
                       <span>⏱ {scene.duration}s</span>
-                      <span>
-                        {videoType === "2d"
-                          ? "🎨 2D Animation"
-                          : "🎥 Normal"}
-                      </span>
+                      <span>🎬 Cinematic</span>
+                      <span>{selectedStyle?.name}</span>
                     </div>
 
                     <details>
-                      <summary>Visual Prompt</summary>
+                      <summary>🎥 Cinematic Visual Prompt</summary>
+
                       <p className="prompt">{scene.prompt}</p>
                     </details>
                   </div>
@@ -392,12 +407,13 @@ export default function App() {
 
         <section className="card">
           <div className="section-title">
-            <h2>🎙️ AI Voice</h2>
+            <h2>🎙️ AI Documentary Voice</h2>
+
             <span>{selectedVoice?.name}</span>
           </div>
 
           <p className="muted">
-            ElevenLabs API के जरिए selected documentary voice generate होगी।
+            Selected voice से पूरी documentary narration generate होगी।
           </p>
 
           <button
@@ -405,7 +421,9 @@ export default function App() {
             onClick={generateVoice}
             disabled={generatingVoice}
           >
-            {generatingVoice ? "Generating Voice..." : "🎙️ Generate AI Voice"}
+            {generatingVoice
+              ? "🎙️ Generating Voice..."
+              : "🎙️ Generate AI Voice"}
           </button>
 
           {audioUrl && (
@@ -424,22 +442,22 @@ export default function App() {
         </section>
 
         <section className="card final-card">
-          <h2>🎬 Final Video</h2>
+          <h2>🎬 Final Cinematic Video</h2>
 
           <div className="pipeline">
             <div className={scenes.length ? "done" : ""}>
               <b>1</b>
-              <span>Scenes</span>
+              <span>Cinematic Scenes</span>
             </div>
 
             <div className={audioUrl ? "done" : ""}>
               <b>2</b>
-              <span>Voice</span>
+              <span>AI Voice</span>
             </div>
 
-            <div>
+            <div className={scenes.length ? "done" : ""}>
               <b>3</b>
-              <span>Animation</span>
+              <span>Camera Animation</span>
             </div>
 
             <div>
@@ -448,20 +466,27 @@ export default function App() {
             </div>
           </div>
 
+          {scenes.length > 0 && (
+            <div className="video-info">
+              🎬 {scenes.length} cinematic scenes ·{" "}
+              {Math.round(totalSceneSeconds)} seconds planned
+            </div>
+          )}
+
           <button
             className="primary final-button"
             onClick={createFinalVideo}
             disabled={!scenes.length || !audioUrl}
           >
-            🎥 Create Final Video
+            🎥 Create Final Cinematic Video
           </button>
 
           <p className="muted center">
-            पहले Scenes और Voice तैयार करें। उसके बाद Final Video rendering
-            engine काम करेगा।
+            Scenes + AI Voice तैयार होने के बाद cinematic MP4 rendering शुरू
+            होगी।
           </p>
         </section>
       </main>
     </div>
   );
-                  }
+    }
