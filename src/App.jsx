@@ -47,9 +47,9 @@ const DEFAULT_SCRIPT = `महाराष्ट्र की एलोरा �
 
 इसे पहाड़ के ऊपर से नीचे की ओर काटकर तैयार किया गया था।
 
-इतने विशाल पत्थर को हटाकर एक पूरा मंदिर बनाया गया, लेकिन आज भी यह सवाल रहस्य बना हुआ है कि उस समय इतनी सटीक इंजीनियरिंग आखिर कैसे संभव हुई।
+इतने विशाल पत्थर को हटाकर एक पूरा मंदिर बनाया गया, लेकिन आज भी यह सवाल बना हुआ है कि प्राचीन भारतीय इंजीनियरिंग इतनी उन्नत कैसे थी।
 
-कैलाश मंदिर की विशालता, इसकी नक्काशी और इसकी संरचना आज भी इतिहासकारों और शोधकर्ताओं को आकर्षित करती है।
+कैलाश मंदिर की विशालता, इसकी नक्काशी और इसकी संरचना आज भी इतिहासकारों और स्थापत्यविदों के लिए एक रहस्य बनी हुई है।
 
 क्या प्राचीन भारतीय इंजीनियरिंग हमारी कल्पना से कहीं ज्यादा उन्नत थी?
 
@@ -64,8 +64,7 @@ function splitIntoScenes(script) {
 }
 
 function createCinematicPrompt(text, style) {
-  const selectedStyle =
-    STYLES.find((item) => item.id === style) || STYLES[0];
+  const selectedStyle = STYLES.find((item) => item.id === style) || STYLES[0];
 
   return `${text}
 
@@ -80,6 +79,16 @@ smooth camera motion, realistic lens, high detail, 16:9 aspect ratio,
 no text, no subtitles, no logo, no watermark.`;
 }
 
+function getVoiceConfig(voiceId) {
+  const normalized = String(voiceId || "").toLowerCase();
+
+  if (normalized.includes("cwh")) {
+    return { speaker: "male", label: "Roger" };
+  }
+
+  return { speaker: "male", label: "George" };
+}
+
 export default function App() {
   const [title, setTitle] = useState("कैलाश मंदिर का रहस्य");
   const [script, setScript] = useState(DEFAULT_SCRIPT);
@@ -92,6 +101,7 @@ export default function App() {
 
   const [scenes, setScenes] = useState([]);
   const [audioUrl, setAudioUrl] = useState("");
+  const [finalVideo, setFinalVideo] = useState(null);
 
   const [status, setStatus] = useState("Ready");
   const [error, setError] = useState("");
@@ -111,6 +121,7 @@ export default function App() {
 
   function generateScenes() {
     setError("");
+    setFinalVideo(null);
     setGeneratingScenes(true);
     setStatus("Scenes generate हो रहे हैं...");
 
@@ -159,6 +170,8 @@ export default function App() {
         throw new Error("पहले script लिखें।");
       }
 
+      const voiceConfig = getVoiceConfig(voiceId);
+
       const response = await fetch("/api/generate-voice", {
         method: "POST",
         headers: {
@@ -167,6 +180,8 @@ export default function App() {
         body: JSON.stringify({
           text: script,
           voiceId,
+          speaker: voiceConfig.speaker,
+          language: "hi",
         }),
       });
 
@@ -231,11 +246,51 @@ export default function App() {
     generateScenes();
   }
 
-  function createFinalVideo() {
-    setError(
-      "Cinematic scenes और voice तैयार हैं। MP4 rendering engine अभी connect करना बाकी है।"
-    );
-    setStatus("MP4 Engine Waiting");
+  async function createFinalVideo() {
+    setError("");
+
+    if (!scenes.length) {
+      setError("पहले cinematic scenes generate करें��");
+      return;
+    }
+
+    if (!audioUrl) {
+      setError("पहले AI voice generate करें।");
+      return;
+    }
+
+    setStatus("Final cinematic video तैयार किया जा रहा है...");
+
+    try {
+      const response = await fetch("/api/generate-video", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          style: selectedStyle?.id || style,
+          duration: sceneDuration,
+          scenes: scenes.map((scene) => ({
+            narration: scene.text,
+            text: scene.text,
+            prompt: scene.prompt,
+          })),
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json().catch(() => null);
+        throw new Error(data?.error || "Video generation failed.");
+      }
+
+      const data = await response.json();
+      setFinalVideo(data);
+      setStatus("Final cinematic video तैयार है");
+    } catch (err) {
+      setError(err.message || "Final video generation failed.");
+      setStatus("MP4 Engine Waiting");
+    }
   }
 
   const totalSceneSeconds = scenes.reduce(
@@ -468,8 +523,13 @@ export default function App() {
 
           {scenes.length > 0 && (
             <div className="video-info">
-              🎬 {scenes.length} cinematic scenes ·{" "}
-              {Math.round(totalSceneSeconds)} seconds planned
+              🎬 {scenes.length} cinematic scenes · {Math.round(totalSceneSeconds)} seconds planned
+            </div>
+          )}
+
+          {finalVideo && (
+            <div className="video-info">
+              ✅ API response: {finalVideo.status || "ready"} · {finalVideo.sceneCount || scenes.length} scenes prepared
             </div>
           )}
 
@@ -489,4 +549,4 @@ export default function App() {
       </main>
     </div>
   );
-    }
+}
