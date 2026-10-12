@@ -1,114 +1,112 @@
+
+import { EdgeTTS } from "edge-tts-universal";
+
+const VOICES = new Set([
+  "hi-IN-MadhurNeural",
+  "hi-IN-AaravNeural",
+  "hi-IN-KunalNeural",
+  "hi-IN-SwaraNeural",
+  "hi-IN-AnanyaNeural",
+  "hi-IN-AartiNeural",
+
+  "en-IN-PrabhatNeural",
+  "en-IN-NeerjaNeural",
+  "bn-IN-BashkarNeural",
+  "bn-IN-TanishaaNeural",
+  "ta-IN-ValluvarNeural",
+  "ta-IN-PallaviNeural",
+  "te-IN-MohanNeural",
+  "te-IN-ShrutiNeural",
+  "ur-IN-SalmanNeural",
+  "ur-IN-GulNeural",
+  "gu-IN-NiranjanNeural",
+  "gu-IN-DhwaniNeural",
+  "mr-IN-ManoharNeural",
+  "mr-IN-AarohiNeural",
+  "kn-IN-GaganNeural",
+  "kn-IN-SapnaNeural",
+  "ml-IN-MidhunNeural",
+  "ml-IN-SobhanaNeural",
+
+  "es-ES-AlvaroNeural",
+  "es-ES-ElviraNeural",
+  "fr-FR-HenriNeural",
+  "fr-FR-DeniseNeural",
+  "de-DE-ConradNeural",
+  "de-DE-KatjaNeural",
+  "ja-JP-KeitaNeural",
+  "ja-JP-NanamiNeural",
+  "zh-CN-YunxiNeural",
+  "zh-CN-XiaoxiaoNeural",
+  "pt-BR-AntonioNeural",
+  "pt-BR-FranciscaNeural"
+]);
+
 export default async function handler(req, res) {
+  if (req.method === "GET") {
+    return res.status(200).json({
+      ok: true,
+      provider: "Edge TTS",
+      configured: true
+    });
+  }
+
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "GET, POST");
+    return res.status(405).json({
+      error: "Method not allowed"
+    });
+  }
+
   try {
-    if (req.method === "GET") {
-      return res.status(200).json({
-        ok: true,
-        service: "free-voice",
-        provider: "AI4Bharat Indic-TTS"
-      });
-    }
+    const { text, voiceId } = req.body || {};
 
-    if (req.method !== "POST") {
-      return res.status(405).json({
-        error: "Method not allowed"
-      });
-    }
-
-    const {
-      text,
-      language = "hi",
-      speaker = "male"
-    } = req.body || {};
-
-    if (!text || !text.trim()) {
+    if (typeof text !== "string" || !text.trim()) {
       return res.status(400).json({
         error: "Text is required"
       });
     }
 
-    /*
-      IMPORTANT:
-      FREE_TTS_SERVER_URL will point to your
-      separate AI4Bharat TTS server.
-
-      Example:
-      https://your-free-tts-server.example.com
-    */
-
-    const serverUrl =
-      process.env.FREE_TTS_SERVER_URL;
-
-    if (!serverUrl) {
-      return res.status(500).json({
-        error: "FREE_TTS_SERVER_URL is not configured",
-        message:
-          "Free TTS server URL Vercel Environment Variables me add karo."
+    if (text.length > 5000) {
+      return res.status(413).json({
+        error: "Text too long. Maximum 5000 characters."
       });
     }
 
-    const response = await fetch(
-      `${serverUrl.replace(/\/$/, "")}/`,
+    const voice = VOICES.has(voiceId)
+      ? voiceId
+      : "hi-IN-MadhurNeural";
+
+    const tts = new EdgeTTS(
+      text.trim(),
+      voice,
       {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-          text: text.trim(),
-          language,
-          speaker
-        })
+        rate: "-5%",
+        volume: "+0%",
+        pitch: "+0Hz"
       }
     );
 
-    if (!response.ok) {
-      const errorText =
-        await response.text();
+    const result = await tts.synthesize();
+    const audio = Buffer.from(
+      await result.audio.arrayBuffer()
+    );
 
-      return res.status(response.status).json({
-        error: "Free TTS server error",
-        details: errorText
-      });
+    if (!audio.length) {
+      throw new Error("No audio was generated");
     }
 
-    const audioBuffer =
-      Buffer.from(
-        await response.arrayBuffer()
-      );
+    res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Content-Length", String(audio.length));
+    res.setHeader("Cache-Control", "no-store");
 
-    res.setHeader(
-      "Content-Type",
-      "audio/wav"
-    );
-
-    res.setHeader(
-      "Content-Length",
-      audioBuffer.length
-    );
-
-    res.setHeader(
-      "Cache-Control",
-      "no-store"
-    );
-
-    return res
-      .status(200)
-      .send(audioBuffer);
-
+    return res.status(200).send(audio);
   } catch (error) {
-
-    console.error(
-      "free-voice error:",
-      error
-    );
+    console.error("Edge TTS error:", error);
 
     return res.status(500).json({
-      error: "Free Voice Server Error",
-      message:
-        error?.message ||
-        String(error)
+      error: "Voice generation failed",
+      message: error?.message || String(error)
     });
   }
 }
